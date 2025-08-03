@@ -211,23 +211,29 @@ const Dashboard: React.FC = () => {
           {dataSource === 'demo' && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
               <p className="text-sm text-yellow-800">
-                📊 Currently showing demo data with 50,000 sample records. 
-                <button 
+                📊 Currently showing mock/demo data with {totalCrimes.toLocaleString()} sample records.
+                <button
+                  onClick={loadActualData}
+                  className="ml-1 underline hover:no-underline font-medium"
+                >
+                  Load real Indian crime dataset
+                </button> or
+                <button
                   onClick={() => setShowUpload(true)}
                   className="ml-1 underline hover:no-underline"
                 >
-                  Upload your own dataset
+                  upload your own dataset
                 </button> for real analysis.
               </p>
             </div>
           )}
-          
+
           {dataSource === 'uploaded' && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
                 <p className="text-sm text-green-800">
-                  Using your uploaded dataset with {totalCrimes.toLocaleString()} records.
+                  📈 Using real crime dataset from India with {totalCrimes.toLocaleString()} actual records. All analysis reflects genuine crime data.
                 </p>
               </div>
             </div>
