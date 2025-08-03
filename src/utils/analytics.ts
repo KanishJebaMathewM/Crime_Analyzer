@@ -97,8 +97,37 @@ export function analyzeTimePatterns(data: CrimeRecord[]): TimeAnalysis[] {
   const hourMap = new Map<number, number>();
   
   data.forEach(record => {
-    const hour = parseInt(record.timeOfOccurrence.split(':')[0]);
-    hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
+    try {
+      let hour = 0;
+      const timeStr = record.timeOfOccurrence;
+
+      // Handle different time formats
+      if (timeStr.includes(':')) {
+        // Format like "14:30" or "01-01-2020 14:30"
+        const timePart = timeStr.split(' ').pop() || timeStr; // Get last part if contains date
+        hour = parseInt(timePart.split(':')[0]);
+      } else if (timeStr.includes('-')) {
+        // Format like "01-01-2020 14:30" - extract time part
+        const parts = timeStr.split(' ');
+        if (parts.length > 1) {
+          const timePart = parts[parts.length - 1];
+          if (timePart.includes(':')) {
+            hour = parseInt(timePart.split(':')[0]);
+          }
+        }
+      } else {
+        // Try direct parsing
+        hour = parseInt(timeStr) || 0;
+      }
+
+      // Ensure hour is valid (0-23)
+      if (hour >= 0 && hour <= 23) {
+        hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
+      }
+    } catch (error) {
+      // Skip invalid time entries
+      console.warn('Invalid time format:', record.timeOfOccurrence);
+    }
   });
   
   // Calculate percentile-based thresholds
