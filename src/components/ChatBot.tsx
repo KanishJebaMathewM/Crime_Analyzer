@@ -145,13 +145,15 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     {
       id: '1',
       type: 'assistant',
-      content: 'Hello! I\'m your Crime Analysis AI Assistant. I can help you analyze crime data, provide safety recommendations, and answer questions about crime patterns. What would you like to know?',
+      content: '🤖 Hello! I\'m your **Enhanced Crime Analysis AI Assistant** powered by advanced data processing!\n\n✨ **New Capabilities:**\n🧠 AI-powered correlation analysis\n🔮 Predictive insights\n📊 Advanced comparative analysis\n🎯 Context-aware responses\n\nI can analyze patterns, predict trends, and provide deep insights from our crime database. What would you like to explore?',
       timestamp: new Date()
     }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isProcessingAI, setIsProcessingAI] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const crimeAI = useMemo(() => new CrimeDataAI(data, cityStats), [data, cityStats]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -335,7 +337,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           .slice(0, 3);
 
         return `🔍 **${mentionedCrime.toUpperCase()} Analysis:**\n\n📊 **Frequency:** ${crimeCount.toLocaleString()} cases (${crimePercentage}% of all crimes)\n\n🏙️ **Top affected cities:**\n${topCities.map((c, i) => `${i + 1}. ${c[0]} - ${c[1]} cases`).join('\n')}\n\n🛡️ **Prevention tips for ${mentionedCrime}:**\n${mentionedCrime === 'theft' ? '• Secure valuables\n• Avoid displaying expensive items\n• Stay alert in crowded places' :
-          mentionedCrime === 'assault' ? '• Travel in groups\n• Avoid isolated areas\n• Trust your instincts' :
+          mentionedCrime === 'assault' ? '• Travel in groups\n• Avoid isolated areas\n��� Trust your instincts' :
           mentionedCrime === 'fraud' ? '• Verify all transactions\n• Never share personal info\n• Use secure payment methods' :
           '• Stay vigilant\n• Report suspicious activity\n• Follow local safety guidelines'}`;
       }
