@@ -37,25 +37,25 @@ const Dashboard: React.FC = () => {
     return generateSafetyRecommendations(selectedCity, selectedTime, cityStats, timeAnalysis);
   }, [selectedCity, selectedTime, cityStats, timeAnalysis]);
 
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        // Simulate loading large dataset
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const mockData = generateMockData(50000);
-        setData(mockData);
-        setDataSource('demo');
-        if (mockData.length > 0) {
-          setSelectedCity(mockData[0].city);
-        }
-      } catch (error) {
-        console.error('Error loading data:', error);
-      } finally {
-        setLoading(false);
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      // Simulate loading large dataset
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const mockData = generateMockData(50000);
+      setData(mockData);
+      setDataSource('demo');
+      if (mockData.length > 0) {
+        setSelectedCity(mockData[0].city);
       }
-    };
-    
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     loadData();
   }, []);
 
