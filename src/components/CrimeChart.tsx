@@ -8,59 +8,33 @@ interface CrimeChartProps {
 }
 
 const CrimeChart: React.FC<CrimeChartProps> = ({ data, fullSize = false }) => {
-  const hourlyDataByCity = useMemo(() => {
-    const cityHourMap = new Map<string, Map<number, number>>();
+  const monthlyData = useMemo(() => {
+    const monthMap = new Map<string, number>();
 
     data.forEach(record => {
       try {
-        let hour = 12; // Default hour
-        const timeStr = record.timeOfOccurrence || '12:00';
-
-        // Extract hour from time string
-        if (timeStr.includes(':')) {
-          let timePart = timeStr;
-          if (timeStr.includes(' ')) {
-            const parts = timeStr.split(' ');
-            timePart = parts[parts.length - 1];
-          }
-
-          if (timePart.includes(':')) {
-            const hourStr = timePart.split(':')[0];
-            const parsedHour = parseInt(hourStr);
-            if (!isNaN(parsedHour) && parsedHour >= 0 && parsedHour <= 23) {
-              hour = parsedHour;
-            }
-          }
+        const date = record.dateOfOccurrence;
+        if (date && date instanceof Date && !isNaN(date.getTime())) {
+          const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+          monthMap.set(monthKey, (monthMap.get(monthKey) || 0) + 1);
         }
-
-        const city = record.city;
-        if (!cityHourMap.has(city)) {
-          cityHourMap.set(city, new Map<number, number>());
-        }
-
-        const hourMap = cityHourMap.get(city)!;
-        hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
       } catch (error) {
-        // Skip invalid records
+        // Skip records with invalid dates
       }
     });
 
-    // Convert to array format with top cities by crime count
-    const cityData = Array.from(cityHourMap.entries()).map(([city, hourMap]) => {
-      const totalCrimes = Array.from(hourMap.values()).reduce((sum, count) => sum + count, 0);
-      const peakHour = Array.from(hourMap.entries()).reduce((max, current) =>
-        current[1] > max[1] ? current : max, [0, 0]);
+    // If no valid data, create dummy data for current year
+    if (monthMap.size === 0) {
+      const currentYear = new Date().getFullYear();
+      for (let i = 1; i <= 12; i++) {
+        const monthKey = `${currentYear}-${String(i).padStart(2, '0')}`;
+        monthMap.set(monthKey, 0);
+      }
+    }
 
-      return {
-        city,
-        totalCrimes,
-        peakHour: peakHour[0],
-        peakCrimes: peakHour[1],
-        hourlyData: Array.from({ length: 24 }, (_, hour) => hourMap.get(hour) || 0)
-      };
-    }).sort((a, b) => b.totalCrimes - a.totalCrimes).slice(0, 6); // Top 6 cities
-
-    return cityData;
+    return Array.from(monthMap.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .slice(-12); // Last 12 months
   }, [data]);
 
   const crimeTypeData = useMemo(() => {
