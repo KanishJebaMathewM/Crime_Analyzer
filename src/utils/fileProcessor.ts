@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx';
+import Papa from 'papaparse';
 import { CrimeRecord } from '../types/crime';
 
 export interface ProcessingProgress {
