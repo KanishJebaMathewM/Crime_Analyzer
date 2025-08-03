@@ -40,11 +40,19 @@ const CrimeChart: React.FC<CrimeChartProps> = ({ data, fullSize = false }) => {
 
   const crimeTypeData = useMemo(() => {
     const typeMap = new Map<string, number>();
-    
+
     data.forEach(record => {
-      typeMap.set(record.crimeDescription, (typeMap.get(record.crimeDescription) || 0) + 1);
+      const crimeType = record.crimeDescription?.trim() || 'Unknown';
+      if (crimeType && crimeType !== '') {
+        typeMap.set(crimeType, (typeMap.get(crimeType) || 0) + 1);
+      }
     });
-    
+
+    // Ensure we have at least some data to display
+    if (typeMap.size === 0) {
+      typeMap.set('No data available', 0);
+    }
+
     return Array.from(typeMap.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, 8);
