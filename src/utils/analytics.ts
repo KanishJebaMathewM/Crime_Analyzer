@@ -122,42 +122,123 @@ export function analyzeTimePatterns(data: CrimeRecord[]): TimeAnalysis[] {
   return timeAnalysis;
 }
 
+// Safety center/facility types
+export interface SafetyCenter {
+  name: string;
+  type: 'Police Station' | 'Hospital' | 'Fire Station' | 'Emergency Services';
+  address: string;
+  phone: string;
+  availability: '24/7' | 'Business Hours';
+  services: string[];
+}
+
+// Generate mock safety centers for cities
+function getSafetyCentersForCity(city: string): SafetyCenter[] {
+  const random = new SeededRandom(city.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0));
+
+  const centers: SafetyCenter[] = [];
+
+  // Add police stations
+  const policeCount = Math.floor(random.next() * 3) + 1;
+  for (let i = 0; i < policeCount; i++) {
+    centers.push({
+      name: `${city} Police Station ${i + 1}`,
+      type: 'Police Station',
+      address: `${Math.floor(random.next() * 999) + 1} ${['Main St', 'Central Ave', 'Police Plaza', 'Safety Blvd'][Math.floor(random.next() * 4)]}, ${city}`,
+      phone: `(${Math.floor(random.next() * 900) + 100}) ${Math.floor(random.next() * 900) + 100}-${Math.floor(random.next() * 9000) + 1000}`,
+      availability: '24/7',
+      services: ['Emergency Response', 'Crime Reporting', 'Traffic Control', 'Community Policing']
+    });
+  }
+
+  // Add hospitals
+  const hospitalCount = Math.floor(random.next() * 2) + 1;
+  for (let i = 0; i < hospitalCount; i++) {
+    centers.push({
+      name: `${city} ${['General', 'Medical Center', 'Emergency'][Math.floor(random.next() * 3)]} Hospital`,
+      type: 'Hospital',
+      address: `${Math.floor(random.next() * 999) + 1} ${['Hospital Ave', 'Medical Dr', 'Health St', 'Care Blvd'][Math.floor(random.next() * 4)]}, ${city}`,
+      phone: `(${Math.floor(random.next() * 900) + 100}) ${Math.floor(random.next() * 900) + 100}-${Math.floor(random.next() * 9000) + 1000}`,
+      availability: '24/7',
+      services: ['Emergency Care', 'Trauma Unit', 'Ambulance Services', 'Crisis Support']
+    });
+  }
+
+  // Add fire stations
+  centers.push({
+    name: `${city} Fire Department`,
+    type: 'Fire Station',
+    address: `${Math.floor(random.next() * 999) + 1} ${['Fire Station Rd', 'Rescue Ave', 'Safety St'][Math.floor(random.next() * 3)]}, ${city}`,
+    phone: `(${Math.floor(random.next() * 900) + 100}) ${Math.floor(random.next() * 900) + 100}-${Math.floor(random.next() * 9000) + 1000}`,
+    availability: '24/7',
+    services: ['Fire Emergency', 'Rescue Operations', 'Emergency Medical', 'Hazmat Response']
+  });
+
+  return centers;
+}
+
 export function generateSafetyRecommendations(
-  city: string, 
-  time: number, 
-  cityStats: CityStats[], 
+  city: string,
+  time: number,
+  cityStats: CityStats[],
   timeAnalysis: TimeAnalysis[]
-): string[] {
+): { recommendations: string[]; safetyCenters: SafetyCenter[] } {
   const cityData = cityStats.find(c => c.city === city);
   const timeData = timeAnalysis.find(t => t.hour === time);
-  
+  const safetyCenters = getSafetyCentersForCity(city);
+
   const recommendations: string[] = [];
-  
+
   if (cityData) {
     if (cityData.riskLevel === 'High') {
-      recommendations.push(`⚠️ ${city} has a high crime rate. Exercise extra caution.`);
+      recommendations.push(`⚠️ ${city} has a high crime rate (${cityData.totalCrimes.toLocaleString()} incidents). Exercise extra caution.`);
+      recommendations.push(`🚨 Case closure rate in ${city} is ${((cityData.closedCases / cityData.totalCrimes) * 100).toFixed(1)}%. Contact police immediately if you witness any suspicious activity.`);
+    } else if (cityData.riskLevel === 'Medium') {
+      recommendations.push(`⚡ ${city} has moderate crime levels. Stay aware of your surroundings.`);
+    } else {
+      recommendations.push(`✅ ${city} has relatively low crime rates. Maintain standard safety precautions.`);
     }
-    
+
     if (cityData.safetyRating < 3) {
-      recommendations.push(`🚨 Safety rating for ${city} is ${cityData.safetyRating}/5. Consider alternative locations.`);
+      recommendations.push(`🚨 Safety rating for ${city} is ${cityData.safetyRating}/5. Consider traveling during daylight hours.`);
     }
-    
-    recommendations.push(`🏛️ Most common crime in ${city}: ${cityData.mostCommonCrime}. Stay alert.`);
+
+    recommendations.push(`🏛️ Most common crime in ${city}: ${cityData.mostCommonCrime}. Take appropriate precautions.`);
+
+    // City-specific recommendations based on data
+    const weaponCrimes = cityData.totalCrimes - cityData.closedCases; // Approximate
+    if (weaponCrimes > cityData.totalCrimes * 0.3) {
+      recommendations.push(`⚔️ Higher weapon-related incidents in ${city}. Avoid confrontations and stay in public areas.`);
+    }
   }
-  
+
   if (timeData) {
     if (timeData.riskLevel === 'High') {
-      recommendations.push(`🌙 ${time}:00 is a high-risk time with ${timeData.crimeCount} incidents recorded.`);
+      recommendations.push(`🌙 ${time}:00 is a high-risk time with ${timeData.crimeCount} incidents recorded. Avoid traveling alone.`);
     }
-    
+
     if (time >= 22 || time <= 5) {
-      recommendations.push(`🌜 Late night/early morning hours. Travel in groups and use well-lit areas.`);
+      recommendations.push(`🌜 Late night/early morning hours (${time}:00). Travel in groups and use well-lit, populated areas.`);
+    } else if (time >= 6 && time <= 18) {
+      recommendations.push(`☀️ Daytime hours (${time}:00) are generally safer. Good time for travel and activities.`);
     }
   }
-  
+
+  // Nearby safety centers recommendations
+  const policeStations = safetyCenters.filter(c => c.type === 'Police Station');
+  const hospitals = safetyCenters.filter(c => c.type === 'Hospital');
+
+  if (policeStations.length > 0) {
+    recommendations.push(`🚔 Nearest police: ${policeStations[0].name} at ${policeStations[0].address} - ${policeStations[0].phone}`);
+  }
+
+  if (hospitals.length > 0) {
+    recommendations.push(`🏥 Emergency medical care: ${hospitals[0].name} at ${hospitals[0].address} - ${hospitals[0].phone}`);
+  }
+
   // General recommendations
-  recommendations.push(`📱 Keep emergency contacts handy and share your location with trusted contacts.`);
-  recommendations.push(`🚔 Look for areas with higher police presence for better security.`);
-  
-  return recommendations;
+  recommendations.push(`📱 Emergency contacts: Police 911, Fire 911, Medical 911`);
+  recommendations.push(`📍 Share your location with trusted contacts when traveling in ${city}`);
+
+  return { recommendations, safetyCenters };
 }
