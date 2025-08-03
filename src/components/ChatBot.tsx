@@ -29,7 +29,12 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
   }, [messages]);
 
   const generateResponse = (userMessage: string): string => {
-    const message = userMessage.toLowerCase();
+    const message = userMessage.toLowerCase().trim();
+
+    // Handle empty or very short messages
+    if (message.length < 2) {
+      return "🤔 I didn't catch that! Could you ask me a more specific question about crime data, safety, or city statistics?";
+    }
 
     // Fun greeting responses
     if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
