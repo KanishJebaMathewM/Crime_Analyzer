@@ -200,28 +200,34 @@ const CrimeChart: React.FC<CrimeChartProps> = ({ data, fullSize = false }) => {
         </div>
       </div>
 
-      {fullSize && (
+      {fullSize && hourlyDataByCity.length > 0 && (
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
-            <h5 className="text-sm font-medium text-blue-600 mb-2">Peak Month</h5>
+            <h5 className="text-sm font-medium text-blue-600 mb-2">Most Active City</h5>
             <p className="text-lg font-bold text-blue-900 dark:text-blue-100">
-              {formatMonth(monthlyData.reduce((max, current) => 
-                current[1] > max[1] ? current : max, monthlyData[0])?.[0] || '')}
+              {hourlyDataByCity[0]?.city || 'N/A'}
             </p>
             <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
-              {monthlyData.reduce((max, current) => 
-                current[1] > max[1] ? current : max, monthlyData[0])?.[1].toLocaleString()} crimes
+              {hourlyDataByCity[0]?.totalCrimes.toLocaleString()} total crimes
             </p>
           </div>
           <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
-            <h5 className="text-sm font-medium text-green-600 mb-2">Lowest Month</h5>
+            <h5 className="text-sm font-medium text-green-600 mb-2">Global Peak Hour</h5>
             <p className="text-lg font-bold text-green-900 dark:text-green-100">
-              {formatMonth(monthlyData.reduce((min, current) => 
-                current[1] < min[1] ? current : min, monthlyData[0])?.[0] || '')}
+              {(() => {
+                const globalHourly = new Map<number, number>();
+                hourlyDataByCity.forEach(city => {
+                  city.hourlyData.forEach((count, hour) => {
+                    globalHourly.set(hour, (globalHourly.get(hour) || 0) + count);
+                  });
+                });
+                const peak = Array.from(globalHourly.entries()).reduce((max, curr) =>
+                  curr[1] > max[1] ? curr : max, [0, 0]);
+                return formatHour(peak[0]);
+              })()}
             </p>
             <p className="text-xs text-green-700 dark:text-green-300 mt-1">
-              {monthlyData.reduce((min, current) => 
-                current[1] < min[1] ? current : min, monthlyData[0])?.[1].toLocaleString()} crimes
+              Across all cities
             </p>
           </div>
           <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-6 rounded-xl border border-orange-200 dark:border-orange-800">
