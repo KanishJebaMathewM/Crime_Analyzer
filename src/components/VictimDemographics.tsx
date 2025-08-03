@@ -4,15 +4,26 @@ import { Users, User, Calendar } from 'lucide-react';
 
 interface VictimDemographicsProps {
   data: CrimeRecord[];
+  selectedCity?: string;
+  onCityChange?: (city: string) => void;
+  cities?: string[];
 }
 
-const VictimDemographics: React.FC<VictimDemographicsProps> = ({ data }) => {
+const VictimDemographics: React.FC<VictimDemographicsProps> = ({
+  data,
+  selectedCity,
+  onCityChange,
+  cities = []
+}) => {
   const demographics = useMemo(() => {
+    // Filter data by selected city if provided
+    const filteredData = selectedCity ? data.filter(record => record.city === selectedCity) : data;
+
     const genderMap = new Map<string, number>();
     const ageGroups = new Map<string, number>();
     const weaponByGender = new Map<string, Map<string, number>>();
-    
-    data.forEach(record => {
+
+    filteredData.forEach(record => {
       // Gender distribution
       genderMap.set(record.victimGender, (genderMap.get(record.victimGender) || 0) + 1);
       
@@ -40,10 +51,12 @@ const VictimDemographics: React.FC<VictimDemographicsProps> = ({ data }) => {
       }),
       weaponByGender
     };
-  }, [data]);
+  }, [data, selectedCity]);
 
-  const totalVictims = data.length;
-  const avgAge = Math.round(data.reduce((sum, record) => sum + record.victimAge, 0) / totalVictims);
+  // Use filtered data for calculations
+  const filteredData = selectedCity ? data.filter(record => record.city === selectedCity) : data;
+  const totalVictims = filteredData.length;
+  const avgAge = totalVictims > 0 ? Math.round(filteredData.reduce((sum, record) => sum + record.victimAge, 0) / totalVictims) : 0;
   const mostVulnerableAge = demographics.ageGroups.reduce((max, current) => 
     current[1] > max[1] ? current : max, demographics.ageGroups[0]);
 
