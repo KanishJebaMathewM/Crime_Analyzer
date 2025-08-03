@@ -72,13 +72,24 @@ const CrimeChart: React.FC<CrimeChartProps> = ({ data, fullSize = false }) => {
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 ${fullSize ? 'col-span-full' : ''}`}>
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Hourly Crime Activity by City
+          Crime Trends Analysis
         </h3>
         <div className="flex items-center space-x-2">
-          <Clock className="w-4 h-4 text-blue-500" />
-          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            Peak hours analysis across top cities
-          </span>
+          {trend > 0 ? (
+            <>
+              <TrendingUp className="w-4 h-4 text-red-500" />
+              <span className="text-sm font-medium text-red-500">
+                +{trend} from last month
+              </span>
+            </>
+          ) : (
+            <>
+              <TrendingDown className="w-4 h-4 text-green-500" />
+              <span className="text-sm font-medium text-green-500">
+                {trend} from last month
+              </span>
+            </>
+          )}
         </div>
       </div>
 
