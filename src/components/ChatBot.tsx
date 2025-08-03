@@ -224,6 +224,27 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       }
     }
 
+    // Handle "what is" or "what are" questions
+    if (message.startsWith('what is') || message.startsWith('what are') || message.startsWith('what')) {
+      if (message.includes('crime rate')) {
+        const avgCrimeRate = Math.round(data.length / cityStats.length);
+        return `📊 **Crime Rate Analysis:**\n\n🏙️ **Average:** ${avgCrimeRate.toLocaleString()} crimes per city\n📈 **Range:** ${Math.min(...cityStats.map(c => c.totalCrimes)).toLocaleString()} - ${Math.max(...cityStats.map(c => c.totalCrimes)).toLocaleString()} crimes\n⭐ **Best performing:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5 rating)\n⚠️ **Needs improvement:** ${cityStats[cityStats.length - 1].city} (${cityStats[cityStats.length - 1].safetyRating}/5 rating)\n\n💡 **Context:** Crime rates vary significantly based on city size, policing, and socioeconomic factors!`;
+      }
+
+      if (message.includes('safety rating') || message.includes('safety score')) {
+        const avgRating = (cityStats.reduce((sum, city) => sum + city.safetyRating, 0) / cityStats.length).toFixed(1);
+        return `⭐ **Safety Rating System Explained:**\n\n📊 **Scale:** 1-5 stars (5 being safest)\n📈 **National average:** ${avgRating}/5\n🏆 **Top rated:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5)\n\n🧮 **How it's calculated:**\n• Crime volume (lower = better)\n• Case closure rates (higher = better)\n• Violence severity (less = better)\n• Weapon usage (less = better)\n\n✨ **Pro tip:** Even low-rated cities have safe neighborhoods - timing and location matter!`;
+      }
+    }
+
+    // Handle "where is" questions
+    if (message.startsWith('where is') || message.startsWith('where are')) {
+      if (message.includes('safest') || message.includes('safe')) {
+        const safestCity = cityStats[0];
+        return `🏆 **Safest Location:** ${safestCity.city}\n\n⭐ **Why it's safe:**\n• ${safestCity.safetyRating}/5 safety rating\n• ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% case closure rate\n• Only ${safestCity.totalCrimes.toLocaleString()} total incidents\n• ${safestCity.riskLevel} risk classification\n\n🗺️ **Location matters:** Even in the safest cities, stick to main areas and follow standard precautions!`;
+      }
+    }
+
     // Creative time analysis
     if (message.includes('time') || message.includes('hour') || message.includes('when')) {
       const hourMap = new Map<number, number>();
