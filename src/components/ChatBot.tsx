@@ -201,7 +201,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           .sort((a, b) => b[1] - a[1])
           .slice(0, 3);
 
-        return `🔍 **${mentionedCrime.toUpperCase()} Analysis:**\n\n📊 **Frequency:** ${crimeCount.toLocaleString()} cases (${crimePercentage}% of all crimes)\n\n🏙️ **Top affected cities:**\n${topCities.map((c, i) => `${i + 1}. ${c[0]} - ${c[1]} cases`).join('\n')}\n\n🛡️ **Prevention tips for ${mentionedCrime}:**\n${mentionedCrime === 'theft' ? '• Secure valuables\n• Avoid displaying expensive items\n• Stay alert in crowded places' :
+        return `🔍 **${mentionedCrime.toUpperCase()} Analysis:**\n\n📊 **Frequency:** ${crimeCount.toLocaleString()} cases (${crimePercentage}% of all crimes)\n\n🏙️ **Top affected cities:**\n${topCities.map((c, i) => `${i + 1}. ${c[0]} - ${c[1]} cases`).join('\n')}\n\n🛡️ **Prevention tips for ${mentionedCrime}:**\n${mentionedCrime === 'theft' ? '• Secure valuables\n�� Avoid displaying expensive items\n• Stay alert in crowded places' :
           mentionedCrime === 'assault' ? '• Travel in groups\n• Avoid isolated areas\n• Trust your instincts' :
           mentionedCrime === 'fraud' ? '• Verify all transactions\n• Never share personal info\n• Use secure payment methods' :
           '• Stay vigilant\n• Report suspicious activity\n• Follow local safety guidelines'}`;
@@ -228,7 +228,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     if (message.startsWith('what is') || message.startsWith('what are') || message.startsWith('what')) {
       if (message.includes('crime rate')) {
         const avgCrimeRate = Math.round(data.length / cityStats.length);
-        return `📊 **Crime Rate Analysis:**\n\n🏙️ **Average:** ${avgCrimeRate.toLocaleString()} crimes per city\n📈 **Range:** ${Math.min(...cityStats.map(c => c.totalCrimes)).toLocaleString()} - ${Math.max(...cityStats.map(c => c.totalCrimes)).toLocaleString()} crimes\n⭐ **Best performing:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5 rating)\n⚠️ **Needs improvement:** ${cityStats[cityStats.length - 1].city} (${cityStats[cityStats.length - 1].safetyRating}/5 rating)\n\n💡 **Context:** Crime rates vary significantly based on city size, policing, and socioeconomic factors!`;
+        return `📊 **Crime Rate Analysis:**\n\n🏙️ **Average:** ${avgCrimeRate.toLocaleString()} crimes per city\n📈 **Range:** ${Math.min(...cityStats.map(c => c.totalCrimes)).toLocaleString()} - ${Math.max(...cityStats.map(c => c.totalCrimes)).toLocaleString()} crimes\n⭐ **Best performing:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5 rating)\n⚠�� **Needs improvement:** ${cityStats[cityStats.length - 1].city} (${cityStats[cityStats.length - 1].safetyRating}/5 rating)\n\n💡 **Context:** Crime rates vary significantly based on city size, policing, and socioeconomic factors!`;
       }
 
       if (message.includes('safety rating') || message.includes('safety score')) {
@@ -352,17 +352,36 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       return `🤔 **The Deep Question: Why Crime Happens**\n\nWhoa, getting philosophical! While I'm a data analyst, not a criminologist, the patterns tell interesting stories:\n\n🧠 **Data Patterns Suggest:**\n- Economic stress correlates with property crime\n- Social inequality creates tension\n- Opportunity + motive = risk\n- Community connection reduces crime\n\n📊 **What I DO know:** Prevention works better than reaction!\n\n💡 **Hope Factor:** Cities with strong communities, good policing, and economic opportunities show dramatic improvement over time!\n\n✨ **Plot Twist:** Humans are naturally cooperative! Crime is the exception, not the rule. Most people are good, and most places are safe most of the time.`;
     }
 
-    // Fun/creative default responses
-    const creativeResponses = [
-      "🔍 **Data Detective at your service!** I've got crime stats, safety tips, and city insights ready to roll! What mystery shall we solve? Try asking about specific cities, time patterns, or safety recommendations!",
-      "🎯 **Crime Analysis Command Center activated!** I can compare cities, predict patterns, analyze demographics, or just chat about staying safe. What's on your mind?",
-      "💡 **Your Personal Safety Guru here!** I speak fluent statistics and I'm fluent in 'staying alive 101.' Ask me anything - from 'which city is safest?' to 'what time should I avoid walking alone?'",
-      "🚨 **Plot twist:** I'm actually excited about crime data (in a completely non-creepy way)! I love finding patterns that keep people safe. What would you like to explore?",
-      "🧠 **Brain powered up and ready!** I've analyzed thousands of crime records and I'm ready to share insights, debunk fears, or help you make smarter safety choices. What's your question?",
-      "⚡ **Data Wizard at your command!** Whether you want hard numbers, practical advice, or just want to satisfy your curiosity about crime patterns, I'm here for it! What sparks your interest?"
+    // Analyze the user's question more intelligently
+    const questionWords = ['what', 'how', 'where', 'when', 'why', 'which', 'who'];
+    const hasQuestionWord = questionWords.some(word => message.includes(word));
+
+    if (hasQuestionWord) {
+      // Try to provide a helpful response based on keywords in their question
+      const keywords = message.split(' ').filter(word => word.length > 3);
+      const relevantKeywords = keywords.filter(keyword =>
+        ['crime', 'safety', 'city', 'police', 'danger', 'secure', 'risk', 'rate', 'data', 'analysis'].some(relevant =>
+          keyword.includes(relevant) || relevant.includes(keyword)
+        )
+      );
+
+      if (relevantKeywords.length > 0) {
+        return `🤔 I understand you're asking about **${relevantKeywords.join(', ')}**! \n\n💡 **Here are some ways I can help:**\n\n🏙️ **City-specific info:** "How safe is Mumbai?" or "Crime rate in Delhi"\n📊 **Statistics:** "Total crimes" or "Most common crime type"\n⏰ **Time patterns:** "Safest time to travel" or "Peak crime hours"\n🛡️ **Safety tips:** "Safety recommendations" or "How to stay safe"\n🔍 **Comparisons:** "Compare cities" or "Safest vs most dangerous"\n\n❓ **Try rephrasing your question with specific details - I have tons of data to share!**`;
+      }
+    }
+
+    // Fun/creative default responses with actionable suggestions
+    const smartResponses = [
+      `🔍 **Data Detective ready!** I've analyzed ${data.length.toLocaleString()} crime records across ${cityStats.length} cities!\n\n💡 **Try asking:**\n• "What's the safest city?"\n• "Crime trends by time"\n• "How safe is [city name]?"\n• "Most common crime types"\n\nWhat interests you most?`,
+
+      `🎯 **Crime Analysis Expert here!** I can dive deep into patterns, predict trends, and give you safety insights!\n\n🔥 **Popular questions:**\n• "Compare Mumbai vs Delhi safety"\n• "Best time to travel safely"\n• "Weapon crime statistics"\n• "Police effectiveness by city"\n\nWhat would you like to explore?`,
+
+      `💡 **Your Safety Data Guru!** I've got real insights from actual crime data to help you make informed decisions!\n\n✨ **I can help with:**\n• City safety ratings & comparisons\n• Time-based risk analysis\n• Crime type breakdowns\n• Prevention strategies\n\nWhat specific information do you need?`,
+
+      `🧠 **Pattern Recognition activated!** I love finding trends that keep people safe!\n\n📈 **Fun fact:** Did you know crime patterns vary by hour, season, and location? \n\n🤓 **Ask me about:**\n• Peak crime hours\n• Seasonal trends\n• City-specific risks\n• Demographics & safety\n\nWhat pattern should we discover?`
     ];
 
-    return creativeResponses[Math.floor(Math.random() * creativeResponses.length)];
+    return smartResponses[Math.floor(Math.random() * smartResponses.length)];
   };
 
   const handleSendMessage = async () => {
