@@ -254,7 +254,14 @@ const Dashboard: React.FC = () => {
             {activeTab === 'predictions' && <PredictionsPanel data={data} />}
             {activeTab === 'cities' && <CityRankings cityStats={cityStats} fullSize showSafetyDetails />}
             {activeTab === 'time' && <TimeHeatmap timeAnalysis={timeAnalysis} />}
-            {activeTab === 'demographics' && <VictimDemographics data={data} />}
+            {activeTab === 'demographics' && (
+              <VictimDemographics
+                data={data}
+                selectedCity={selectedCity}
+                onCityChange={setSelectedCity}
+                cities={cityStats.map(c => c.city)}
+              />
+            )}
             
             {activeTab === 'safety' && (
               <div className="space-y-6">
