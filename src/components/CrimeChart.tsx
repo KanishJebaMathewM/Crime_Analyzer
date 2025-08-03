@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { CrimeRecord } from '../types/crime';
-import { TrendingUp, TrendingDown, Calendar } from 'lucide-react';
+import { TrendingUp, TrendingDown, Calendar, Clock } from 'lucide-react';
 
 interface CrimeChartProps {
   data: CrimeRecord[];
