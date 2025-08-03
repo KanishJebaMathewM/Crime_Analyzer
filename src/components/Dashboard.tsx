@@ -136,7 +136,10 @@ const Dashboard: React.FC = () => {
   const closedCases = data.filter(record => record.caseClosed === 'Yes').length;
   const closureRate = totalCrimes > 0 ? (closedCases / totalCrimes * 100).toFixed(1) : '0';
   const averageAge = totalCrimes > 0 ? Math.round(data.reduce((sum, record) => sum + record.victimAge, 0) / totalCrimes) : 0;
-  const weaponCrimes = data.filter(record => record.weaponUsed !== 'None' && record.weaponUsed !== 'Unknown').length;
+  const weaponCrimes = data.filter(record => {
+    const weapon = record.weaponUsed?.toLowerCase() || '';
+    return weapon !== 'none' && weapon !== 'unknown' && weapon !== '' && weapon !== 'not specified';
+  }).length;
   const weaponRate = totalCrimes > 0 ? ((weaponCrimes / totalCrimes) * 100).toFixed(1) : '0';
 
   if (loading) {
