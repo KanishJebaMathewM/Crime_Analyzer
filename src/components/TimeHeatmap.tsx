@@ -92,8 +92,8 @@ const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) =>
     return `${hour - 12} PM`;
   };
 
-  const highRiskHours = timeAnalysis.filter(t => t.riskLevel === 'High');
-  const safeHours = timeAnalysis.filter(t => t.riskLevel === 'Low');
+  const highRiskHours = cityHourlyData.filter(t => t.riskLevel === 'High');
+  const safeHours = cityHourlyData.filter(t => t.riskLevel === 'Low');
 
   return (
     <div className="space-y-6">
