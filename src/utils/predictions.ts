@@ -43,11 +43,18 @@ export class CrimePredictionEngine {
 
     // Group data by month
     this.data.forEach(record => {
-      const month = record.dateOfOccurrence.getMonth();
-      if (!monthlyData.has(month)) {
-        monthlyData.set(month, []);
+      try {
+        const month = record.dateOfOccurrence.getMonth();
+        if (month >= 0 && month <= 11) {
+          if (!monthlyData.has(month)) {
+            monthlyData.set(month, []);
+          }
+          monthlyData.get(month)!.push(record);
+        }
+      } catch (error) {
+        // Skip records with invalid dates
+        console.warn('Invalid date in seasonal analysis:', record.dateOfOccurrence);
       }
-      monthlyData.get(month)!.push(record);
     });
 
     const trends: SeasonalTrend[] = [];
@@ -56,30 +63,38 @@ export class CrimePredictionEngine {
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
+    // Calculate overall average for better trend detection
+    const totalCrimes = this.data.length;
+    const monthlyAverage = totalCrimes / 12;
+
     for (let month = 0; month < 12; month++) {
       const monthRecords = monthlyData.get(month) || [];
       const averageCrimes = monthRecords.length;
 
-      // Calculate trend (simplified)
-      const prevMonth = month === 0 ? 11 : month - 1;
-      const nextMonth = month === 11 ? 0 : month + 1;
-      const prevMonthCrimes = (monthlyData.get(prevMonth) || []).length;
-      const nextMonthCrimes = (monthlyData.get(nextMonth) || []).length;
-
+      // Improved trend calculation
       let trend: 'Increasing' | 'Decreasing' | 'Stable' = 'Stable';
-      if (averageCrimes > prevMonthCrimes * 1.1) trend = 'Increasing';
-      else if (averageCrimes < prevMonthCrimes * 0.9) trend = 'Decreasing';
+      if (averageCrimes > monthlyAverage * 1.15) {
+        trend = 'Increasing';
+      } else if (averageCrimes < monthlyAverage * 0.85) {
+        trend = 'Decreasing';
+      }
 
       // Get top crime types for this month
       const crimeTypeMap = new Map<string, number>();
       monthRecords.forEach(record => {
-        crimeTypeMap.set(record.crimeDescription, (crimeTypeMap.get(record.crimeDescription) || 0) + 1);
+        const crimeType = record.crimeDescription?.trim() || 'Unknown';
+        crimeTypeMap.set(crimeType, (crimeTypeMap.get(crimeType) || 0) + 1);
       });
 
       const crimeTypes = Array.from(crimeTypeMap.entries())
         .map(([type, count]) => ({ type, count }))
         .sort((a, b) => b.count - a.count)
         .slice(0, 5);
+
+      // Ensure we have at least some data to show
+      if (crimeTypes.length === 0) {
+        crimeTypes.push({ type: 'No data available', count: 0 });
+      }
 
       trends.push({
         month,
@@ -90,7 +105,7 @@ export class CrimePredictionEngine {
       });
     }
 
-    return trends;
+    return trends.sort((a, b) => b.averageCrimes - a.averageCrimes);
   }
 
   predictHotspots(city: string, timeframe: 'week' | 'month' = 'month'): {
