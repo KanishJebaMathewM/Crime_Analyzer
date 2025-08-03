@@ -44,12 +44,15 @@ export class CrimePredictionEngine {
     // Group data by month
     this.data.forEach(record => {
       try {
-        const month = record.dateOfOccurrence.getMonth();
-        if (month >= 0 && month <= 11) {
-          if (!monthlyData.has(month)) {
-            monthlyData.set(month, []);
+        const date = record.dateOfOccurrence;
+        if (date && date instanceof Date && !isNaN(date.getTime())) {
+          const month = date.getMonth();
+          if (month >= 0 && month <= 11) {
+            if (!monthlyData.has(month)) {
+              monthlyData.set(month, []);
+            }
+            monthlyData.get(month)!.push(record);
           }
-          monthlyData.get(month)!.push(record);
         }
       } catch (error) {
         // Skip records with invalid dates
