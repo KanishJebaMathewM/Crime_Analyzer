@@ -118,13 +118,24 @@ const Dashboard: React.FC = () => {
                   <div className="text-xs text-gray-500">Armed</div>
                 </div>
               </div>
-              <button
-                onClick={() => setShowUpload(true)}
-                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Dataset
-              </button>
+              <div className="flex space-x-3">
+                {dataSource === 'demo' && (
+                  <button
+                    onClick={loadData}
+                    className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    Refresh Data
+                  </button>
+                )}
+                <button
+                  onClick={() => setShowUpload(true)}
+                  className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Dataset
+                </button>
+              </div>
             </div>
           </div>
           
