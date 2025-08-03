@@ -4,6 +4,7 @@ import { Clock, AlertTriangle, Info } from 'lucide-react';
 
 interface TimeHeatmapProps {
   timeAnalysis: TimeAnalysis[];
+  data?: any[];
 }
 
 const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis }) => {
