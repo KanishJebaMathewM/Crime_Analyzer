@@ -243,13 +243,22 @@ export class CrimePredictionEngine {
   }
 
   private predictForCity(city: string, records: CrimeRecord[], daysAhead: number): CrimePrediction {
-    // Simple linear regression for prediction
+    // Improved prediction calculation
     const dailyAverages = this.calculateDailyAverages(records);
     const trend = this.calculateTrend(dailyAverages);
-    
-    const currentAverage = dailyAverages[dailyAverages.length - 1] || 0;
-    const predictedDaily = Math.max(0, currentAverage + (trend * daysAhead));
-    const predictedCrimes = Math.round(predictedDaily * daysAhead);
+
+    // Calculate a more realistic baseline
+    const totalHistoricalCrimes = records.length;
+    const estimatedDaysInDataset = Math.max(1, this.getDatasetDuration());
+    const dailyAverage = totalHistoricalCrimes / estimatedDaysInDataset;
+
+    // Apply trend and seasonal factors
+    const trendAdjustment = trend * daysAhead * 0.1; // Moderate trend impact
+    const seasonalMultiplier = this.getSeasonalMultiplier();
+
+    const predictedCrimes = Math.round(
+      Math.max(0, (dailyAverage * daysAhead + trendAdjustment) * seasonalMultiplier)
+    );
     
     // Calculate confidence based on data consistency
     const confidence = this.calculateConfidence(dailyAverages);
