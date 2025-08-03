@@ -98,11 +98,26 @@ const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) =>
   return (
     <div className="space-y-6">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <div className="flex items-center mb-6">
-          <Clock className="w-5 h-5 text-blue-500 mr-2" />
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Crime Activity by Hour
-          </h3>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <Clock className="w-5 h-5 text-blue-500 mr-2" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Crime Activity by Hour - {selectedCity}
+            </h3>
+          </div>
+          <div className="flex items-center space-x-4">
+            <select
+              value={selectedCity}
+              onChange={(e) => setSelectedCity(e.target.value)}
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+            >
+              {cities.map(city => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* 24-Hour Heatmap Grid */}
