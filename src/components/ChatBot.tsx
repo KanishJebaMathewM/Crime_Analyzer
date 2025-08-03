@@ -152,8 +152,22 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isProcessingAI, setIsProcessingAI] = useState(false);
+  const [showQuickActions, setShowQuickActions] = useState(true);
+  const [conversationHistory, setConversationHistory] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const crimeAI = useMemo(() => new CrimeDataAI(data, cityStats), [data, cityStats]);
+
+  // Quick action suggestions
+  const quickActions = [
+    "🏆 Which city is safest?",
+    "📊 Show me crime statistics",
+    "⏰ When is it most dangerous?",
+    "🔍 Analyze weapon usage",
+    "📈 Predict crime trends",
+    "🏙️ Compare cities",
+    "💡 Give me safety tips",
+    "🎯 Correlation analysis"
+  ];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -232,7 +246,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
         prev.safetyRating < current.safetyRating ? prev : current
       );
 
-      return `🥊 **City Showdown - Safety Edition!**\n\n🏆 **Champion:** ${safestCity.city}\n- Safety Score: ${safestCity.safetyRating}/5 ⭐\n- Closure Rate: ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% 🎯\n- Risk Level: ${safestCity.riskLevel} ✅\n\n⚠️ **Challenger:** ${riskyCity.city}\n- Safety Score: ${riskyCity.safetyRating}/5 📉\n- Closure Rate: ${((riskyCity.closedCases / riskyCity.totalCrimes) * 100).toFixed(1)}% 🎯\n- Risk Level: ${riskyCity.riskLevel} ⚡\n\n🎭 **Plot twist:** Even "dangerous" cities have safe neighborhoods! Location and timing matter more than city labels.`;
+      return `🥊 **City Showdown - Safety Edition!**\n\n🏆 **Champion:** ${safestCity.city}\n- Safety Score: ${safestCity.safetyRating}/5 ⭐\n- Closure Rate: ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% ��\n- Risk Level: ${safestCity.riskLevel} ✅\n\n⚠️ **Challenger:** ${riskyCity.city}\n- Safety Score: ${riskyCity.safetyRating}/5 📉\n- Closure Rate: ${((riskyCity.closedCases / riskyCity.totalCrimes) * 100).toFixed(1)}% 🎯\n- Risk Level: ${riskyCity.riskLevel} ⚡\n\n🎭 **Plot twist:** Even "dangerous" cities have safe neighborhoods! Location and timing matter more than city labels.`;
     }
 
     // Weekend/night safety with personality
@@ -484,7 +498,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
 
     // Philosophical/deep questions
     if (message.includes('why') && (message.includes('crime') || message.includes('happen'))) {
-      return `🤔 **The Deep Question: Why Crime Happens**\n\nWhoa, getting philosophical! While I'm a data analyst, not a criminologist, the patterns tell interesting stories:\n\n🧠 **Data Patterns Suggest:**\n- Economic stress correlates with property crime\n- Social inequality creates tension\n- Opportunity + motive = risk\n- Community connection reduces crime\n\n��� **What I DO know:** Prevention works better than reaction!\n\n💡 **Hope Factor:** Cities with strong communities, good policing, and economic opportunities show dramatic improvement over time!\n\n✨ **Plot Twist:** Humans are naturally cooperative! Crime is the exception, not the rule. Most people are good, and most places are safe most of the time.`;
+      return `🤔 **The Deep Question: Why Crime Happens**\n\nWhoa, getting philosophical! While I'm a data analyst, not a criminologist, the patterns tell interesting stories:\n\n🧠 **Data Patterns Suggest:**\n- Economic stress correlates with property crime\n- Social inequality creates tension\n- Opportunity + motive = risk\n- Community connection reduces crime\n\n📊 **What I DO know:** Prevention works better than reaction!\n\n💡 **Hope Factor:** Cities with strong communities, good policing, and economic opportunities show dramatic improvement over time!\n\n✨ **Plot Twist:** Humans are naturally cooperative! Crime is the exception, not the rule. Most people are good, and most places are safe most of the time.`;
     }
 
     // Analyze the user's question more intelligently
