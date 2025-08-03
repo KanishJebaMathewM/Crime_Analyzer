@@ -56,26 +56,55 @@ const Dashboard: React.FC = () => {
 
       // Process the parsed data into CrimeRecord format
       const processedData: CrimeRecord[] = parseResult.data
-        .map((row: any) => {
+        .map((row: any, index: number) => {
           try {
+            // Skip empty rows
+            if (!row || !row['Report Number']) {
+              return null;
+            }
+
+            const parseDateSafe = (dateStr: string) => {
+              if (!dateStr) return new Date();
+              try {
+                // Handle various date formats
+                if (dateStr.includes('-')) {
+                  // Format like "01-01-2020 00:00" or "02-01-2020"
+                  const datePart = dateStr.split(' ')[0];
+                  const [day, month, year] = datePart.split('-');
+                  return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+                }
+                return new Date(dateStr);
+              } catch {
+                return new Date();
+              }
+            };
+
+            const parseGenderSafe = (gender: string): 'Male' | 'Female' | 'Other' => {
+              if (!gender) return 'Other';
+              const g = gender.toLowerCase();
+              if (g === 'male' || g === 'm') return 'Male';
+              if (g === 'female' || g === 'f') return 'Female';
+              return 'Other';
+            };
+
             return {
-              reportNumber: row['Report Number'] || '',
-              dateReported: new Date(row['Date Reported'] || ''),
-              dateOfOccurrence: new Date(row['Date of Occurrence'] || ''),
-              timeOfOccurrence: row['Time of Occurrence'] || '',
-              city: row['City'] || '',
-              crimeCode: row['Crime Code'] || '',
-              crimeDescription: row['Crime Description'] || '',
-              victimAge: parseInt(row['Victim Age']) || 0,
-              victimGender: row['Victim Gender'] as 'Male' | 'Female' | 'Other' || 'Other',
-              weaponUsed: row['Weapon Used'] || '',
-              crimeDomain: row['Crime Domain'] || '',
-              policeDeployed: row['Police Deployed'] === 'Yes' || row['Police Deployed'] === '1',
-              caseClosed: row['Case Closed'] as 'Yes' | 'No' || 'No',
-              dateCaseClosed: row['Date Case Closed'] ? new Date(row['Date Case Closed']) : undefined
+              reportNumber: String(row['Report Number'] || index),
+              dateReported: parseDateSafe(row['Date Reported']),
+              dateOfOccurrence: parseDateSafe(row['Date of Occurrence']),
+              timeOfOccurrence: String(row['Time of Occurrence'] || '12:00'),
+              city: String(row['City'] || 'Unknown'),
+              crimeCode: String(row['Crime Code'] || ''),
+              crimeDescription: String(row['Crime Description'] || 'Unknown'),
+              victimAge: Math.max(0, Math.min(120, parseInt(row['Victim Age']) || 25)),
+              victimGender: parseGenderSafe(row['Victim Gender']),
+              weaponUsed: String(row['Weapon Used'] || 'None'),
+              crimeDomain: String(row['Crime Domain'] || 'Other'),
+              policeDeployed: String(row['Police Deployed']).toLowerCase() === 'yes' || row['Police Deployed'] === '1' || row['Police Deployed'] === 1,
+              caseClosed: (String(row['Case Closed']).toLowerCase() === 'yes' ? 'Yes' : 'No') as 'Yes' | 'No',
+              dateCaseClosed: row['Date Case Closed'] ? parseDateSafe(row['Date Case Closed']) : undefined
             };
           } catch (error) {
-            console.warn('Error processing row:', row, error);
+            console.warn(`Error processing row ${index}:`, row, error);
             return null;
           }
         })
