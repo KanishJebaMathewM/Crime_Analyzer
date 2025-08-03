@@ -108,7 +108,15 @@ const Dashboard: React.FC = () => {
               reportNumber: String(row['Report Number'] || index),
               dateReported: parseDateSafe(row['Date Reported']),
               dateOfOccurrence: parseDateSafe(row['Date of Occurrence']),
-              timeOfOccurrence: String(row['Time of Occurrence'] || '12:00'),
+              timeOfOccurrence: (() => {
+                const timeStr = String(row['Time of Occurrence'] || '12:00');
+                // Extract time from formats like "01-01-2020 14:30" or just "14:30"
+                if (timeStr.includes(' ')) {
+                  const timePart = timeStr.split(' ')[1];
+                  return timePart || '12:00';
+                }
+                return timeStr;
+              })(),
               city: String(row['City'] || 'Unknown'),
               crimeCode: String(row['Crime Code'] || ''),
               crimeDescription: String(row['Crime Description'] || 'Unknown'),
