@@ -120,24 +120,38 @@ const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) =>
           </div>
         </div>
 
-        {/* 24-Hour Heatmap Grid */}
+        {/* 24-Hour Enhanced Heatmap Grid */}
         <div className="grid grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2 mb-6">
-          {timeAnalysis.map((time) => (
+          {cityHourlyData.map((time) => (
             <div
               key={time.hour}
-              className="aspect-square rounded-lg flex flex-col items-center justify-center p-2 text-white text-xs font-medium relative group cursor-pointer transition-transform hover:scale-105"
-              style={{ backgroundColor: getIntensityColor(time.crimeCount, time.riskLevel) }}
+              className={`aspect-square rounded-lg flex flex-col items-center justify-center p-2 text-white text-xs font-medium relative group cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-lg ${
+                time.riskLevel === 'High' ? 'ring-2 ring-red-400 ring-opacity-60' :
+                time.riskLevel === 'Low' ? 'ring-2 ring-green-400 ring-opacity-60' : ''
+              }`}
+              style={{
+                backgroundColor: getIntensityColor(time.crimeCount, time.riskLevel),
+                boxShadow: time.riskLevel === 'High' ? '0 0 15px rgba(239, 68, 68, 0.4)' :
+                          time.riskLevel === 'Low' ? '0 0 15px rgba(34, 197, 94, 0.3)' : ''
+              }}
             >
-              <div className="text-xs font-bold">
+              <div className="text-xs font-bold drop-shadow-sm">
                 {String(time.hour).padStart(2, '0')}
               </div>
-              <div className="text-xs opacity-90">
+              <div className="text-xs opacity-90 drop-shadow-sm">
                 {time.crimeCount}
               </div>
-              
-              {/* Tooltip */}
-              <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-nowrap">
-                {getTimeLabel(time.hour)}: {time.crimeCount} crimes ({time.riskLevel} risk)
+
+              {/* Enhanced Tooltip */}
+              <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 whitespace-nowrap shadow-lg">
+                <div className="font-semibold">{getTimeLabel(time.hour)}</div>
+                <div>{time.crimeCount} crimes</div>
+                <div className={`text-xs ${
+                  time.riskLevel === 'High' ? 'text-red-300' :
+                  time.riskLevel === 'Low' ? 'text-green-300' : 'text-yellow-300'
+                }`}>
+                  {time.riskLevel} Risk
+                </div>
               </div>
             </div>
           ))}
