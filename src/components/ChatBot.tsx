@@ -27,34 +27,28 @@ class CrimeDataAI {
     }
   }
 
-  private needsAIResponse(message: string): boolean {
-    const complexPatterns = [
-      'explain why', 'analyze the relationship', 'predict what will happen',
-      'compare the correlation', 'what factors influence', 'help me understand',
-      'give me insights about', 'what patterns do you see', 'how does this relate'
-    ];
-    return complexPatterns.some(pattern => message.toLowerCase().includes(pattern));
-  }
-
-  private generateAdvancedLocalResponse(userMessage: string, baseResponse: string): string {
+  private generateSafeResponse(userMessage: string): string {
     const message = userMessage.toLowerCase();
 
-    // Enhanced correlation analysis
-    if (message.includes('correlation') || message.includes('relationship') || message.includes('influence')) {
-      return this.generateCorrelationAnalysis(message);
+    if (!this.data || this.data.length === 0) {
+      return "📊 No data available for analysis. Please load a dataset first.";
     }
 
-    // Enhanced prediction insights
-    if (message.includes('predict') || message.includes('forecast') || message.includes('trend')) {
-      return this.generatePredictionInsights(message);
+    // Safe basic responses
+    if (message.includes('total') && message.includes('crime')) {
+      return `📊 **Total Crimes:** ${this.data.length.toLocaleString()} records across ${this.cityStats.length} cities`;
     }
 
-    // Enhanced comparative analysis
-    if (message.includes('compare') || message.includes('difference') || message.includes('better')) {
-      return this.generateComparativeAnalysis(message);
+    if (message.includes('safest') && message.includes('city')) {
+      const safest = this.cityStats[0];
+      return safest ? `🏆 **Safest City:** ${safest.city} with safety rating ${safest.safetyRating}/5` : "No city data available";
     }
 
-    return baseResponse;
+    return this.getFallbackResponse(message);
+  }
+
+  private getFallbackResponse(message: string): string {
+    return `🤖 I understand you're asking about "${message}". I can help with:\n\n📊 Crime statistics\n🏙️ City safety analysis\n⏰ Time patterns\n🔍 Data insights\n\nTry asking: "What's the safest city?" or "Show total crimes"`;
   }
 
   private generateCorrelationAnalysis(message: string): string {
