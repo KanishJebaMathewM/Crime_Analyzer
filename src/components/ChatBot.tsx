@@ -103,7 +103,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
       const greetings = [
         "Hello there! 👋 I'm your Crime Data Detective! Ready to dive into some fascinating (albeit concerning) statistics? What mystery shall we solve today?",
-        "Hey! 🕵️‍��️ Welcome to the world of crime analytics! I've got tons of data and even more insights. What would you like to explore?",
+        "Hey! 🕵️‍♂️ Welcome to the world of crime analytics! I've got tons of data and even more insights. What would you like to explore?",
         "Hi! 🔍 Think of me as your personal Sherlock Holmes for crime data. I can reveal patterns, trends, and safety insights faster than you can say 'elementary!' What's your question?"
       ];
       return greetings[Math.floor(Math.random() * greetings.length)];
@@ -461,14 +461,11 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     const currentInput = inputValue;
     setInputValue('');
     setIsTyping(true);
-    setIsProcessingAI(true);
 
     try {
-      // Use enhanced AI response system
-      const response = await crimeAI.generateEnhancedResponse(currentInput);
+      // Use simplified safe response system
+      const response = generateResponse(currentInput);
 
-      // Simulate realistic AI processing time
-      const processingTime = 1500 + Math.random() * 2000;
       setTimeout(() => {
         const assistantMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
@@ -479,22 +476,19 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
 
         setMessages(prev => [...prev, assistantMessage]);
         setIsTyping(false);
-        setIsProcessingAI(false);
-      }, processingTime);
+      }, 1000 + Math.random() * 1500);
     } catch (error) {
-      console.error('AI Response failed:', error);
-      // Fallback to basic response
+      console.error('Response generation failed:', error);
       setTimeout(() => {
         const fallbackMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
           type: 'assistant',
-          content: generateResponse(currentInput),
+          content: "🤖 I'm having trouble processing that request. Try asking about crime statistics or city safety!",
           timestamp: new Date()
         };
 
         setMessages(prev => [...prev, fallbackMessage]);
         setIsTyping(false);
-        setIsProcessingAI(false);
       }, 1000);
     }
   };
