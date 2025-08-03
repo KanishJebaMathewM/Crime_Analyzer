@@ -71,6 +71,36 @@ const VictimDemographics: React.FC<VictimDemographicsProps> = ({
 
   return (
     <div className="space-y-6">
+      {/* City Selector */}
+      {cities.length > 0 && onCityChange && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Demographics Analysis {selectedCity ? `- ${selectedCity}` : '- All Cities'}
+            </h3>
+            <select
+              value={selectedCity || ''}
+              onChange={(e) => onCityChange(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">All Cities</option>
+              {cities.map(city => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+          {selectedCity && totalVictims === 0 && (
+            <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p className="text-sm text-yellow-800">
+                No data available for {selectedCity}. Please select a different city or view all cities.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
