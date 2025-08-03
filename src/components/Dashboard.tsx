@@ -37,10 +37,74 @@ const Dashboard: React.FC = () => {
     return generateSafetyRecommendations(selectedCity, selectedTime, cityStats, timeAnalysis);
   }, [selectedCity, selectedTime, cityStats, timeAnalysis]);
 
-  const loadData = async () => {
+  const loadActualData = async () => {
     setLoading(true);
     try {
-      // Simulate loading large dataset
+      const response = await fetch('/crime_dataset_india.csv');
+      const csvText = await response.text();
+
+      // Parse CSV using Papa Parse (same as FileUpload component)
+      const Papa = await import('papaparse');
+      const parseResult = Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true
+      });
+
+      if (parseResult.errors.length > 0) {
+        console.warn('CSV parsing warnings:', parseResult.errors);
+      }
+
+      // Process the parsed data into CrimeRecord format
+      const processedData: CrimeRecord[] = parseResult.data
+        .map((row: any) => {
+          try {
+            return {
+              reportNumber: row['Report Number'] || '',
+              dateReported: new Date(row['Date Reported'] || ''),
+              dateOfOccurrence: new Date(row['Date of Occurrence'] || ''),
+              timeOfOccurrence: row['Time of Occurrence'] || '',
+              city: row['City'] || '',
+              crimeCode: row['Crime Code'] || '',
+              crimeDescription: row['Crime Description'] || '',
+              victimAge: parseInt(row['Victim Age']) || 0,
+              victimGender: row['Victim Gender'] as 'Male' | 'Female' | 'Other' || 'Other',
+              weaponUsed: row['Weapon Used'] || '',
+              crimeDomain: row['Crime Domain'] || '',
+              policeDeployed: row['Police Deployed'] === 'Yes' || row['Police Deployed'] === '1',
+              caseClosed: row['Case Closed'] as 'Yes' | 'No' || 'No',
+              dateCaseClosed: row['Date Case Closed'] ? new Date(row['Date Case Closed']) : undefined
+            };
+          } catch (error) {
+            console.warn('Error processing row:', row, error);
+            return null;
+          }
+        })
+        .filter((record): record is CrimeRecord => record !== null);
+
+      setData(processedData);
+      setDataSource('uploaded');
+      if (processedData.length > 0) {
+        // Find the most common city to set as default
+        const cityCount = new Map<string, number>();
+        processedData.forEach(record => {
+          cityCount.set(record.city, (cityCount.get(record.city) || 0) + 1);
+        });
+        const mostCommonCity = Array.from(cityCount.entries())
+          .sort((a, b) => b[1] - a[1])[0][0];
+        setSelectedCity(mostCommonCity);
+      }
+    } catch (error) {
+      console.error('Error loading actual dataset:', error);
+      // Fallback to mock data
+      loadMockData();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadMockData = async () => {
+    setLoading(true);
+    try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       const mockData = generateMockData(50000);
       setData(mockData);
