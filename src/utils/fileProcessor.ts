@@ -15,34 +15,73 @@ export class ExcelProcessor {
     this.onProgress = onProgress;
   }
 
+  async processFile(file: File): Promise<CrimeRecord[]> {
+    const fileName = file.name.toLowerCase();
+    if (fileName.endsWith('.csv')) {
+      return this.processCSVFile(file);
+    } else {
+      return this.processExcelFile(file);
+    }
+  }
+
+  async processCSVFile(file: File): Promise<CrimeRecord[]> {
+    return new Promise((resolve, reject) => {
+      this.updateProgress(0, 100, 'Reading CSV file...');
+
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: async (results) => {
+          try {
+            if (results.errors.length > 0) {
+              console.warn('CSV parsing warnings:', results.errors);
+            }
+
+            this.updateProgress(40, 100, 'Processing CSV records...');
+
+            const processedData = await this.processDataInChunks(results.data);
+
+            this.updateProgress(100, 100, 'Complete!');
+            resolve(processedData);
+          } catch (error) {
+            reject(error);
+          }
+        },
+        error: (error) => {
+          reject(new Error(`CSV parsing failed: ${error.message}`));
+        }
+      });
+    });
+  }
+
   async processExcelFile(file: File): Promise<CrimeRecord[]> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      
+
       reader.onload = async (e) => {
         try {
           this.updateProgress(0, 100, 'Reading file...');
-          
+
           const data = new Uint8Array(e.target?.result as ArrayBuffer);
           const workbook = XLSX.read(data, { type: 'array' });
-          
+
           this.updateProgress(20, 100, 'Parsing Excel data...');
-          
+
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(worksheet);
-          
+
           this.updateProgress(40, 100, 'Processing records...');
-          
+
           const processedData = await this.processDataInChunks(jsonData);
-          
+
           this.updateProgress(100, 100, 'Complete!');
           resolve(processedData);
         } catch (error) {
           reject(error);
         }
       };
-      
+
       reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsArrayBuffer(file);
     });
