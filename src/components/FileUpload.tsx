@@ -70,7 +70,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onDataLoaded, onClose }) => {
         setProgress(progress);
       });
       
-      const data = await processor.processExcelFile(file);
+      const data = await processor.processFile(file);
       
       if (data.length === 0) {
         setError('No valid data found in the file. Please check the file format.');
