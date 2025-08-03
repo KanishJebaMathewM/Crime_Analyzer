@@ -397,7 +397,7 @@ const Dashboard: React.FC = () => {
             {activeTab === 'trends' && <CrimeChart data={data} fullSize />}
             {activeTab === 'predictions' && <PredictionsPanel data={data} />}
             {activeTab === 'cities' && <CityRankings cityStats={cityStats} fullSize showSafetyDetails />}
-            {activeTab === 'time' && <TimeHeatmap timeAnalysis={timeAnalysis} />}
+            {activeTab === 'time' && <TimeHeatmap timeAnalysis={timeAnalysis} data={data} />}
             {activeTab === 'demographics' && (
               <VictimDemographics
                 data={data}
