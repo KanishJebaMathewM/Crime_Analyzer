@@ -120,7 +120,7 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    loadData();
+    loadActualData();
   }, []);
 
   const handleDataUpload = (uploadedData: CrimeRecord[]) => {
