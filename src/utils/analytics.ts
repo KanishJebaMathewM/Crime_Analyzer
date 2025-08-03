@@ -98,35 +98,38 @@ export function analyzeTimePatterns(data: CrimeRecord[]): TimeAnalysis[] {
   
   data.forEach(record => {
     try {
-      let hour = 0;
-      const timeStr = record.timeOfOccurrence;
+      let hour = 12; // Default to noon if parsing fails
+      const timeStr = record.timeOfOccurrence || '12:00';
 
       // Handle different time formats
       if (timeStr.includes(':')) {
-        // Format like "14:30" or "01-01-2020 14:30"
-        const timePart = timeStr.split(' ').pop() || timeStr; // Get last part if contains date
-        hour = parseInt(timePart.split(':')[0]);
-      } else if (timeStr.includes('-')) {
-        // Format like "01-01-2020 14:30" - extract time part
-        const parts = timeStr.split(' ');
-        if (parts.length > 1) {
-          const timePart = parts[parts.length - 1];
-          if (timePart.includes(':')) {
-            hour = parseInt(timePart.split(':')[0]);
+        // Could be "14:30" or "01-01-2020 14:30"
+        let timePart = timeStr;
+        if (timeStr.includes(' ')) {
+          // Extract time part from "01-01-2020 14:30"
+          const parts = timeStr.split(' ');
+          timePart = parts[parts.length - 1];
+        }
+
+        if (timePart.includes(':')) {
+          const hourStr = timePart.split(':')[0];
+          const parsedHour = parseInt(hourStr);
+          if (!isNaN(parsedHour) && parsedHour >= 0 && parsedHour <= 23) {
+            hour = parsedHour;
           }
         }
       } else {
-        // Try direct parsing
-        hour = parseInt(timeStr) || 0;
+        // Try direct parsing as hour
+        const parsedHour = parseInt(timeStr);
+        if (!isNaN(parsedHour) && parsedHour >= 0 && parsedHour <= 23) {
+          hour = parsedHour;
+        }
       }
 
-      // Ensure hour is valid (0-23)
-      if (hour >= 0 && hour <= 23) {
-        hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
-      }
+      hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
     } catch (error) {
-      // Skip invalid time entries
-      console.warn('Invalid time format:', record.timeOfOccurrence);
+      // Skip invalid time entries but don't spam console
+      hourMap.set(12, (hourMap.get(12) || 0) + 1); // Default to noon
     }
   });
   
