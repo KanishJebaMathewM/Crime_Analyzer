@@ -404,7 +404,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       const avgCrimesPerCity = Math.round(data.length / cityStats.length);
       const avgSafetyRating = (cityStats.reduce((sum, city) => sum + city.safetyRating, 0) / cityStats.length).toFixed(1);
 
-      return `📊 **Statistics Buffet - The Numbers Game:**\n\n🎂 **Average victim age:** ${avgAge} years (prime of life vulnerability!)\n🏙️ **Average crimes per city:** ${avgCrimesPerCity.toLocaleString()} (workload varies!)\n⭐ **Average safety rating:** ${avgSafetyRating}/5 (room for improvement!)\n📈 **Data span:** ${cityStats.length} cities analyzed\n\n🤓 **Nerd Alert:** Did you know the average hides fascinating extremes? Some cities have 10x more crimes than others!\n\n���� **The Real Insight:** Averages are starting points, not destinations. Your specific location, time, and behavior matter WAY more than these numbers!\n\n💡 **Stats Wisdom:** Use averages to understand trends, not to predict your personal risk!`;
+      return `📊 **Statistics Buffet - The Numbers Game:**\n\n🎂 **Average victim age:** ${avgAge} years (prime of life vulnerability!)\n🏙️ **Average crimes per city:** ${avgCrimesPerCity.toLocaleString()} (workload varies!)\n⭐ **Average safety rating:** ${avgSafetyRating}/5 (room for improvement!)\n📈 **Data span:** ${cityStats.length} cities analyzed\n\n🤓 **Nerd Alert:** Did you know the average hides fascinating extremes? Some cities have 10x more crimes than others!\n\n🎯 **The Real Insight:** Averages are starting points, not destinations. Your specific location, time, and behavior matter WAY more than these numbers!\n\n💡 **Stats Wisdom:** Use averages to understand trends, not to predict your personal risk!`;
     }
 
     // Philosophical/deep questions
@@ -655,8 +655,8 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
             <span>💡 Try: "Analyze correlations", "Predict trends for Mumbai", "Compare safety ratings"</span>
           </div>
           <div className="flex items-center space-x-2">
-            <span>🧠 AI-Enhanced</span>
-            <div className={`w-2 h-2 rounded-full ${isProcessingAI ? 'bg-blue-500 animate-pulse' : 'bg-green-500'}`}></div>
+            <span>🤖 Data Assistant</span>
+            <div className="w-2 h-2 rounded-full bg-green-500"></div>
           </div>
         </div>
       </div>
