@@ -246,7 +246,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
         prev.safetyRating < current.safetyRating ? prev : current
       );
 
-      return `🥊 **City Showdown - Safety Edition!**\n\n🏆 **Champion:** ${safestCity.city}\n- Safety Score: ${safestCity.safetyRating}/5 ⭐\n- Closure Rate: ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% ��\n- Risk Level: ${safestCity.riskLevel} ✅\n\n⚠️ **Challenger:** ${riskyCity.city}\n- Safety Score: ${riskyCity.safetyRating}/5 📉\n- Closure Rate: ${((riskyCity.closedCases / riskyCity.totalCrimes) * 100).toFixed(1)}% 🎯\n- Risk Level: ${riskyCity.riskLevel} ⚡\n\n🎭 **Plot twist:** Even "dangerous" cities have safe neighborhoods! Location and timing matter more than city labels.`;
+      return `🥊 **City Showdown - Safety Edition!**\n\n🏆 **Champion:** ${safestCity.city}\n- Safety Score: ${safestCity.safetyRating}/5 ⭐\n- Closure Rate: ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% 🎯\n- Risk Level: ${safestCity.riskLevel} ✅\n\n⚠️ **Challenger:** ${riskyCity.city}\n- Safety Score: ${riskyCity.safetyRating}/5 📉\n- Closure Rate: ${((riskyCity.closedCases / riskyCity.totalCrimes) * 100).toFixed(1)}% 🎯\n- Risk Level: ${riskyCity.riskLevel} ⚡\n\n🎭 **Plot twist:** Even "dangerous" cities have safe neighborhoods! Location and timing matter more than city labels.`;
     }
 
     // Weekend/night safety with personality
@@ -594,15 +594,41 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow h-[600px] flex flex-col">
-      <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
-        <Bot className="w-6 h-6 text-blue-500 mr-3" />
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Crime Analysis AI Assistant
-          </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Ask me anything about crime data and safety
-          </p>
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center">
+          <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
+            <Bot className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Enhanced AI Crime Assistant
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              🧠 AI-powered insights • 📊 {data.length.toLocaleString()} records • 🏙️ {cityStats.length} cities
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setShowQuickActions(!showQuickActions)}
+            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            title="Toggle quick actions"
+          >
+            <MessageCircle className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => {
+              const conversationText = messages.map(m =>
+                `${m.type === 'user' ? 'You' : 'AI'}: ${m.content}`
+              ).join('\n\n');
+              navigator.clipboard.writeText(conversationText);
+              alert('Conversation copied to clipboard!');
+            }}
+            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            title="Export conversation"
+          >
+            📋
+          </button>
         </div>
       </div>
 
