@@ -745,8 +745,14 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           </button>
         </div>
         
-        <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-          Try: "What's the safest city?", "Crime trends by time", "Safety recommendations"
+        <div className="mt-2 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex items-center space-x-4">
+            <span>💡 Try: "Analyze correlations", "Predict trends for Mumbai", "Compare safety ratings"</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span>🧠 AI-Enhanced</span>
+            <div className={`w-2 h-2 rounded-full ${isProcessingAI ? 'bg-blue-500 animate-pulse' : 'bg-green-500'}`}></div>
+          </div>
         </div>
       </div>
     </div>
