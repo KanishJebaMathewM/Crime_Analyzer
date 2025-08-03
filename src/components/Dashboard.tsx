@@ -135,7 +135,8 @@ const Dashboard: React.FC = () => {
     setLoading(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
-      const mockData = generateMockData(50000);
+      // Use the same count as real dataset for consistency
+      const mockData = generateMockData(40000);
       setData(mockData);
       setDataSource('demo');
       if (mockData.length > 0) {
