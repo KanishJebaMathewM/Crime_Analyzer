@@ -32,8 +32,8 @@ const Dashboard: React.FC = () => {
     return analyzeTimePatterns(data);
   }, [data]);
 
-  const recommendations = useMemo(() => {
-    if (!selectedCity || cityStats.length === 0) return [];
+  const safetyData = useMemo(() => {
+    if (!selectedCity || cityStats.length === 0) return { recommendations: [], safetyCenters: [] };
     return generateSafetyRecommendations(selectedCity, selectedTime, cityStats, timeAnalysis);
   }, [selectedCity, selectedTime, cityStats, timeAnalysis]);
 
