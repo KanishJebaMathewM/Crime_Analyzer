@@ -633,6 +633,35 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Quick Actions Panel */}
+        {showQuickActions && messages.length <= 1 && (
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+            <div className="flex items-center mb-3">
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-300">⚡ Quick Actions</span>
+              <button
+                onClick={() => setShowQuickActions(false)}
+                className="ml-auto text-xs text-gray-500 hover:text-gray-700"
+              >
+                Hide
+              </button>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {quickActions.map((action, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setInputValue(action.replace(/[🏆📊⏰🔍📈🏙️💡🎯]\s/, ''));
+                    setShowQuickActions(false);
+                  }}
+                  className="text-left text-xs p-2 bg-white dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 transition-colors"
+                >
+                  {action}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {messages.map((message) => (
           <div
             key={message.id}
