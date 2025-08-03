@@ -51,75 +51,7 @@ class CrimeDataAI {
     return `🤖 I understand you're asking about "${message}". I can help with:\n\n📊 Crime statistics\n🏙️ City safety analysis\n⏰ Time patterns\n🔍 Data insights\n\nTry asking: "What's the safest city?" or "Show total crimes"`;
   }
 
-  private generateCorrelationAnalysis(message: string): string {
-    // Analyze correlations in the data
-    const weaponCrimes = this.data.filter(r => {
-      const weapon = r.weaponUsed?.toLowerCase() || '';
-      return weapon !== 'none' && weapon !== 'unknown' && weapon !== '';
-    });
 
-    const violentCrimes = this.data.filter(r =>
-      r.crimeDescription.toLowerCase().includes('assault') ||
-      r.crimeDescription.toLowerCase().includes('violence') ||
-      r.crimeDescription.toLowerCase().includes('homicide')
-    );
-
-    const weaponViolentOverlap = weaponCrimes.filter(r =>
-      violentCrimes.some(v => v.reportNumber === r.reportNumber)
-    ).length;
-
-    return `🔍 **Correlation Analysis Insights:**\n\n📊 **Key Relationships I've Discovered:**\n\n⚔️ **Weapon-Violence Correlation:**\n• ${weaponViolentOverlap} crimes involve both weapons and violence\n• ${((weaponViolentOverlap / violentCrimes.length) * 100).toFixed(1)}% of violent crimes use weapons\n• This suggests ${weaponViolentOverlap / violentCrimes.length > 0.5 ? 'strong' : 'moderate'} correlation\n\n🏙️ **City-Safety Correlation:**\n• Cities with higher police efficiency show ${this.cityStats.filter(c => (c.closedCases/c.totalCrimes) > 0.7).length} examples of better safety ratings\n• Population density appears to ${this.cityStats[0].totalCrimes > this.cityStats[Math.floor(this.cityStats.length/2)].totalCrimes ? 'increase' : 'decrease'} crime rates\n\n⏰ **Time-Risk Correlation:**\n• Night hours (10 PM - 6 AM) show higher risk patterns\n• Weekend vs weekday analysis reveals behavioral patterns\n\n🧠 **AI Insight:** These correlations help predict risk factors and guide prevention strategies!`;
-  }
-
-  private generatePredictionInsights(message: string): string {
-    const recentCrimes = this.data.slice(-1000); // Last 1000 crimes as "recent"
-    const oldCrimes = this.data.slice(0, 1000); // First 1000 as "historical"
-
-    const recentAvgAge = recentCrimes.reduce((s, r) => s + r.victimAge, 0) / recentCrimes.length;
-    const oldAvgAge = oldCrimes.reduce((s, r) => s + r.victimAge, 0) / oldCrimes.length;
-
-    const trendDirection = recentAvgAge > oldAvgAge ? 'increasing' : 'decreasing';
-    const ageTrend = Math.abs(recentAvgAge - oldAvgAge).toFixed(1);
-
-    return `🔮 **AI-Powered Prediction Analysis:**\n\n📈 **Emerging Trends I've Detected:**\n\n👥 **Demographic Shifts:**\n• Victim age trend: ${trendDirection} by ${ageTrend} years\n• This suggests ${trendDirection === 'increasing' ? 'older adults becoming more vulnerable' : 'younger people at higher risk'}\n\n🏙️ **City-Level Predictions:**\n• ${this.cityStats.filter(c => c.riskLevel === 'High').length} cities show high-risk patterns\n• Projected safety improvements in ${this.cityStats.filter(c => (c.closedCases/c.totalCrimes) > 0.6).length} cities with good policing\n\n⚡ **Risk Factors:**\n• Seasonal patterns suggest ${new Date().getMonth() >= 5 && new Date().getMonth() <= 7 ? 'summer spike incoming' : 'stable period ahead'}\n• Weapon usage trends ${this.data.filter(r => r.weaponUsed !== 'None').length > this.data.length * 0.3 ? 'concerning' : 'manageable'}\n\n🎯 **Actionable Predictions:**\n• Focus prevention on ${this.cityStats[this.cityStats.length - 1].city} (highest risk)\n• Increase patrols during peak hours\n• Target demographic: ${recentAvgAge.toFixed(0)}-year-olds\n\n💡 **AI Confidence:** Based on ${this.data.length.toLocaleString()} data points across ${this.cityStats.length} cities!`;
-  }
-
-  private generateComparativeAnalysis(message: string): string {
-    const topCity = this.cityStats[0];
-    const bottomCity = this.cityStats[this.cityStats.length - 1];
-
-    const topEfficiency = (topCity.closedCases / topCity.totalCrimes) * 100;
-    const bottomEfficiency = (bottomCity.closedCases / bottomCity.totalCrimes) * 100;
-
-    return `⚖️ **Advanced Comparative Analysis:**\n\n🏆 **Best vs Worst Performance:**\n\n**${topCity.city} (Top Performer):**\n• Safety Rating: ${topCity.safetyRating}/5 ⭐\n• Police Efficiency: ${topEfficiency.toFixed(1)}% 🎯\n• Risk Level: ${topCity.riskLevel} ✅\n• Crime Volume: ${topCity.totalCrimes.toLocaleString()}\n\n**${bottomCity.city} (Needs Improvement):**\n• Safety Rating: ${bottomCity.safetyRating}/5 📉\n• Police Efficiency: ${bottomEfficiency.toFixed(1)}% ⚠️\n• Risk Level: ${bottomCity.riskLevel} 🚨\n• Crime Volume: ${bottomCity.totalCrimes.toLocaleString()}\n\n📊 **Performance Gap Analysis:**\n• Safety difference: ${(topCity.safetyRating - bottomCity.safetyRating).toFixed(1)} points\n• Efficiency gap: ${(topEfficiency - bottomEfficiency).toFixed(1)}%\n• Success factors: ${topEfficiency > 70 ? 'Strong policing, community engagement' : 'Resource allocation, training needs'}\n\n🎯 **Improvement Recommendations:**\n• ${bottomCity.city} could learn from ${topCity.city}'s approach\n• Focus on ${bottomEfficiency < 50 ? 'case closure rates' : 'prevention strategies'}\n• Target reduction: ${Math.round((bottomCity.totalCrimes - topCity.totalCrimes) * 0.3).toLocaleString()} crimes\n\n💡 **Success Indicators:** Cities with >70% closure rates show 2x better safety ratings!`;
-  }
-
-  private getContextualResponse(userMessage: string): string {
-    // This would be the existing generateResponse logic
-    // Keeping it as fallback for standard queries
-    return this.generateStandardResponse(userMessage);
-  }
-
-  private generateStandardResponse(userMessage: string): string {
-    // Simplified version of the existing response system
-    const message = userMessage.toLowerCase().trim();
-
-    if (message.length < 2) {
-      return "🤔 I didn't catch that! Could you ask me a more specific question about crime data, safety, or city statistics?";
-    }
-
-    // Basic pattern matching for common queries
-    if (message.includes('total') && message.includes('crime')) {
-      return `📊 **Crime Database:** ${this.data.length.toLocaleString()} total records across ${this.cityStats.length} cities. Ask me for specific breakdowns!`;
-    }
-
-    if (message.includes('safest') && message.includes('city')) {
-      const safest = this.cityStats[0];
-      return `🏆 **Safest City:** ${safest.city} with ${safest.safetyRating}/5 rating and ${safest.totalCrimes.toLocaleString()} total crimes.`;
-    }
-
-    return "🤖 I'm your Crime Data AI Assistant! Ask me about crime statistics, city safety, predictions, or get insights about patterns in the data.";
-  }
 }
 
 const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
@@ -171,7 +103,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
       const greetings = [
         "Hello there! 👋 I'm your Crime Data Detective! Ready to dive into some fascinating (albeit concerning) statistics? What mystery shall we solve today?",
-        "Hey! 🕵️‍♂️ Welcome to the world of crime analytics! I've got tons of data and even more insights. What would you like to explore?",
+        "Hey! 🕵️‍��️ Welcome to the world of crime analytics! I've got tons of data and even more insights. What would you like to explore?",
         "Hi! 🔍 Think of me as your personal Sherlock Holmes for crime data. I can reveal patterns, trends, and safety insights faster than you can say 'elementary!' What's your question?"
       ];
       return greetings[Math.floor(Math.random() * greetings.length)];
