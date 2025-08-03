@@ -65,11 +65,8 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isProcessingAI, setIsProcessingAI] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
-  const [conversationHistory, setConversationHistory] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const crimeAI = useMemo(() => new CrimeDataAI(data, cityStats), [data, cityStats]);
 
   // Quick action suggestions
   const quickActions = [
