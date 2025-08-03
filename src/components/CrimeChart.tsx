@@ -57,15 +57,16 @@ const CrimeChart: React.FC<CrimeChartProps> = ({ data, fullSize = false }) => {
       .slice(0, 8);
   }, [data]);
 
+  const maxValue = Math.max(...monthlyData.map(([, count]) => count));
   const maxCrimeValue = Math.max(...crimeTypeData.map(([, count]) => count));
-  const maxHourlyValue = hourlyDataByCity.length > 0 ?
-    Math.max(...hourlyDataByCity.flatMap(city => city.hourlyData)) : 1;
 
-  const formatHour = (hour: number) => {
-    if (hour === 0) return '12 AM';
-    if (hour === 12) return '12 PM';
-    if (hour < 12) return `${hour} AM`;
-    return `${hour - 12} PM`;
+  const trend = monthlyData.length >= 2 ?
+    monthlyData[monthlyData.length - 1][1] - monthlyData[monthlyData.length - 2][1] : 0;
+
+  const formatMonth = (monthKey: string) => {
+    const [year, month] = monthKey.split('-');
+    const date = new Date(parseInt(year), parseInt(month) - 1);
+    return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
   };
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow p-6 ${fullSize ? 'col-span-full' : ''}`}>
