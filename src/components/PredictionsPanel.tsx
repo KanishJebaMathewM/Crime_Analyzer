@@ -24,8 +24,9 @@ const PredictionsPanel: React.FC<PredictionsPanelProps> = ({ data }) => {
 
   const hotspots = useMemo(() => {
     if (!selectedCity) return [];
-    return predictionEngine.predictHotspots(selectedCity, 'month');
-  }, [predictionEngine, selectedCity]);
+    const timeframe = predictionDays <= 7 ? 'week' : 'month';
+    return predictionEngine.predictHotspots(selectedCity, timeframe);
+  }, [predictionEngine, selectedCity, predictionDays]);
 
   const cities = useMemo(() => {
     const citySet = new Set(data.map(record => record.city));
