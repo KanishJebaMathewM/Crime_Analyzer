@@ -157,24 +157,24 @@ const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) =>
           ))}
         </div>
 
-        {/* Legend */}
-        <div className="flex items-center justify-between text-sm">
-          <div className="flex items-center space-x-4">
+        {/* Enhanced Legend */}
+        <div className="flex items-center justify-between text-sm bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+          <div className="flex items-center space-x-6">
             <div className="flex items-center">
-              <div className="w-4 h-4 rounded bg-red-500 mr-2"></div>
-              <span className="text-gray-600 dark:text-gray-400">High Risk</span>
+              <div className="w-5 h-5 rounded-lg bg-red-500 mr-2 shadow-sm ring-2 ring-red-400 ring-opacity-60"></div>
+              <span className="text-gray-700 dark:text-gray-300 font-medium">High Risk</span>
             </div>
             <div className="flex items-center">
-              <div className="w-4 h-4 rounded bg-yellow-500 mr-2"></div>
-              <span className="text-gray-600 dark:text-gray-400">Medium Risk</span>
+              <div className="w-5 h-5 rounded-lg bg-yellow-500 mr-2 shadow-sm"></div>
+              <span className="text-gray-700 dark:text-gray-300 font-medium">Medium Risk</span>
             </div>
             <div className="flex items-center">
-              <div className="w-4 h-4 rounded bg-green-500 mr-2"></div>
-              <span className="text-gray-600 dark:text-gray-400">Low Risk</span>
+              <div className="w-5 h-5 rounded-lg bg-green-500 mr-2 shadow-sm ring-2 ring-green-400 ring-opacity-60"></div>
+              <span className="text-gray-700 dark:text-gray-300 font-medium">Low Risk (Safe)</span>
             </div>
           </div>
-          <div className="text-gray-500">
-            Darker = More Incidents
+          <div className="text-gray-600 dark:text-gray-400 text-xs">
+            📊 Intensity = Crime Frequency • 🔍 Hover for details
           </div>
         </div>
       </div>
@@ -228,7 +228,7 @@ const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) =>
           </div>
           <div className="mt-4 p-3 bg-green-100 dark:bg-green-800/30 rounded-md">
             <p className="text-sm text-green-700 dark:text-green-300">
-              ✅ These are the safest times for travel and outdoor activities.
+              ��� These are the safest times for travel and outdoor activities.
             </p>
           </div>
         </div>
