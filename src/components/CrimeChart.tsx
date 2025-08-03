@@ -10,12 +10,29 @@ interface CrimeChartProps {
 const CrimeChart: React.FC<CrimeChartProps> = ({ data, fullSize = false }) => {
   const monthlyData = useMemo(() => {
     const monthMap = new Map<string, number>();
-    
+
     data.forEach(record => {
-      const monthKey = `${record.dateOfOccurrence.getFullYear()}-${String(record.dateOfOccurrence.getMonth() + 1).padStart(2, '0')}`;
-      monthMap.set(monthKey, (monthMap.get(monthKey) || 0) + 1);
+      try {
+        const date = record.dateOfOccurrence;
+        if (date && date instanceof Date && !isNaN(date.getTime())) {
+          const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+          monthMap.set(monthKey, (monthMap.get(monthKey) || 0) + 1);
+        }
+      } catch (error) {
+        // Skip records with invalid dates
+        console.warn('Invalid date in monthly analysis:', record.dateOfOccurrence);
+      }
     });
-    
+
+    // If no valid data, create dummy data for current year
+    if (monthMap.size === 0) {
+      const currentYear = new Date().getFullYear();
+      for (let i = 1; i <= 12; i++) {
+        const monthKey = `${currentYear}-${String(i).padStart(2, '0')}`;
+        monthMap.set(monthKey, 0);
+      }
+    }
+
     return Array.from(monthMap.entries())
       .sort((a, b) => a[0].localeCompare(b[0]))
       .slice(-12); // Last 12 months
