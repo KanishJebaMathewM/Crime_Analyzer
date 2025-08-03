@@ -337,7 +337,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           .slice(0, 3);
 
         return `🔍 **${mentionedCrime.toUpperCase()} Analysis:**\n\n📊 **Frequency:** ${crimeCount.toLocaleString()} cases (${crimePercentage}% of all crimes)\n\n🏙️ **Top affected cities:**\n${topCities.map((c, i) => `${i + 1}. ${c[0]} - ${c[1]} cases`).join('\n')}\n\n🛡️ **Prevention tips for ${mentionedCrime}:**\n${mentionedCrime === 'theft' ? '• Secure valuables\n• Avoid displaying expensive items\n• Stay alert in crowded places' :
-          mentionedCrime === 'assault' ? '• Travel in groups\n• Avoid isolated areas\n��� Trust your instincts' :
+          mentionedCrime === 'assault' ? '• Travel in groups\n• Avoid isolated areas\n• Trust your instincts' :
           mentionedCrime === 'fraud' ? '• Verify all transactions\n• Never share personal info\n• Use secure payment methods' :
           '• Stay vigilant\n• Report suspicious activity\n• Follow local safety guidelines'}`;
       }
@@ -530,22 +530,45 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputValue;
     setInputValue('');
     setIsTyping(true);
+    setIsProcessingAI(true);
 
-    // Simulate AI thinking time
-    setTimeout(() => {
-      const response = generateResponse(inputValue);
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        type: 'assistant',
-        content: response,
-        timestamp: new Date()
-      };
+    try {
+      // Use enhanced AI response system
+      const response = await crimeAI.generateEnhancedResponse(currentInput);
 
-      setMessages(prev => [...prev, assistantMessage]);
-      setIsTyping(false);
-    }, 1000 + Math.random() * 2000);
+      // Simulate realistic AI processing time
+      const processingTime = 1500 + Math.random() * 2000;
+      setTimeout(() => {
+        const assistantMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'assistant',
+          content: response,
+          timestamp: new Date()
+        };
+
+        setMessages(prev => [...prev, assistantMessage]);
+        setIsTyping(false);
+        setIsProcessingAI(false);
+      }, processingTime);
+    } catch (error) {
+      console.error('AI Response failed:', error);
+      // Fallback to basic response
+      setTimeout(() => {
+        const fallbackMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'assistant',
+          content: generateResponse(currentInput),
+          timestamp: new Date()
+        };
+
+        setMessages(prev => [...prev, fallbackMessage]);
+        setIsTyping(false);
+        setIsProcessingAI(false);
+      }, 1000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
