@@ -7,17 +7,81 @@ interface TimeHeatmapProps {
   data?: any[];
 }
 
-const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis }) => {
-  const maxCrimeCount = Math.max(...timeAnalysis.map(t => t.crimeCount));
-  
+const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) => {
+  const [selectedCity, setSelectedCity] = React.useState<string>('All Cities');
+
+  // Get unique cities from data
+  const cities = React.useMemo(() => {
+    if (!data || data.length === 0) return ['All Cities'];
+    const citySet = new Set(data.map(record => record.city));
+    return ['All Cities', ...Array.from(citySet).sort()];
+  }, [data]);
+
+  // Calculate hourly data for selected city
+  const cityHourlyData = React.useMemo(() => {
+    if (!data || data.length === 0) return timeAnalysis;
+
+    const filteredData = selectedCity === 'All Cities' ? data : data.filter(record => record.city === selectedCity);
+    const hourMap = new Map<number, number>();
+
+    filteredData.forEach(record => {
+      try {
+        let hour = 12;
+        const timeStr = record.timeOfOccurrence || '12:00';
+
+        if (timeStr.includes(':')) {
+          let timePart = timeStr;
+          if (timeStr.includes(' ')) {
+            const parts = timeStr.split(' ');
+            timePart = parts[parts.length - 1];
+          }
+
+          if (timePart.includes(':')) {
+            const hourStr = timePart.split(':')[0];
+            const parsedHour = parseInt(hourStr);
+            if (!isNaN(parsedHour) && parsedHour >= 0 && parsedHour <= 23) {
+              hour = parsedHour;
+            }
+          }
+        }
+
+        hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
+      } catch (error) {
+        hourMap.set(12, (hourMap.get(12) || 0) + 1);
+      }
+    });
+
+    // Calculate percentile-based thresholds for this city
+    const crimeCounts = Array.from(hourMap.values()).sort((a, b) => b - a);
+    const highThreshold = crimeCounts[Math.floor(crimeCounts.length * 0.2)] || 0; // Top 20%
+    const lowThreshold = crimeCounts[Math.floor(crimeCounts.length * 0.8)] || 0; // Bottom 20%
+
+    const cityTimeAnalysis = [];
+    for (let hour = 0; hour < 24; hour++) {
+      const crimeCount = hourMap.get(hour) || 0;
+      const riskLevel = crimeCount >= highThreshold ? 'High' :
+                       crimeCount <= lowThreshold ? 'Low' : 'Medium';
+
+      cityTimeAnalysis.push({
+        hour,
+        crimeCount,
+        riskLevel
+      });
+    }
+
+    return cityTimeAnalysis;
+  }, [data, selectedCity, timeAnalysis]);
+
+  const maxCrimeCount = Math.max(...cityHourlyData.map(t => t.crimeCount));
+
   const getIntensityColor = (count: number, riskLevel: string) => {
     const intensity = count / maxCrimeCount;
     if (riskLevel === 'High') {
-      return `rgba(239, 68, 68, ${0.3 + intensity * 0.7})`;
+      return `rgba(239, 68, 68, ${0.4 + intensity * 0.6})`;
     } else if (riskLevel === 'Medium') {
-      return `rgba(245, 158, 11, ${0.3 + intensity * 0.7})`;
+      return `rgba(245, 158, 11, ${0.3 + intensity * 0.5})`;
     } else {
-      return `rgba(34, 197, 94, ${0.3 + intensity * 0.7})`;
+      return `rgba(34, 197, 94, ${0.2 + intensity * 0.4})`;
     }
   };
 
