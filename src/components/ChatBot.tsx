@@ -484,7 +484,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
 
     // Philosophical/deep questions
     if (message.includes('why') && (message.includes('crime') || message.includes('happen'))) {
-      return `🤔 **The Deep Question: Why Crime Happens**\n\nWhoa, getting philosophical! While I'm a data analyst, not a criminologist, the patterns tell interesting stories:\n\n🧠 **Data Patterns Suggest:**\n- Economic stress correlates with property crime\n- Social inequality creates tension\n- Opportunity + motive = risk\n- Community connection reduces crime\n\n📊 **What I DO know:** Prevention works better than reaction!\n\n💡 **Hope Factor:** Cities with strong communities, good policing, and economic opportunities show dramatic improvement over time!\n\n✨ **Plot Twist:** Humans are naturally cooperative! Crime is the exception, not the rule. Most people are good, and most places are safe most of the time.`;
+      return `🤔 **The Deep Question: Why Crime Happens**\n\nWhoa, getting philosophical! While I'm a data analyst, not a criminologist, the patterns tell interesting stories:\n\n🧠 **Data Patterns Suggest:**\n- Economic stress correlates with property crime\n- Social inequality creates tension\n- Opportunity + motive = risk\n- Community connection reduces crime\n\n��� **What I DO know:** Prevention works better than reaction!\n\n💡 **Hope Factor:** Cities with strong communities, good policing, and economic opportunities show dramatic improvement over time!\n\n✨ **Plot Twist:** Humans are naturally cooperative! Crime is the exception, not the rule. Most people are good, and most places are safe most of the time.`;
     }
 
     // Analyze the user's question more intelligently
@@ -634,14 +634,19 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
         {isTyping && (
           <div className="flex justify-start">
             <div className="flex">
-              <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 mr-2 flex items-center justify-center">
-                <Bot className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 mr-2 flex items-center justify-center">
+                <Bot className="w-4 h-4 text-white" />
               </div>
-              <div className="bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-lg">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 px-4 py-2 rounded-lg border border-blue-200 dark:border-blue-800">
+                <div className="flex items-center space-x-2">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  </div>
+                  <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+                    {isProcessingAI ? '🧠 AI analyzing data...' : '💭 Thinking...'}
+                  </span>
                 </div>
               </div>
             </div>
