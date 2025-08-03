@@ -7,36 +7,24 @@ interface ChatBotProps {
   cityStats: CityStats[];
 }
 
-// Enhanced AI response system
+// Simplified and stable AI response system
 class CrimeDataAI {
   private data: CrimeRecord[];
   private cityStats: CityStats[];
 
   constructor(data: CrimeRecord[], cityStats: CityStats[]) {
-    this.data = data;
-    this.cityStats = cityStats;
+    this.data = data || [];
+    this.cityStats = cityStats || [];
   }
 
   async generateEnhancedResponse(userMessage: string): Promise<string> {
-    // First, try to get context-aware response from local data
-    const localResponse = this.getContextualResponse(userMessage);
-
-    // For complex queries, we could integrate with AI APIs
-    // Note: In a real app, you'd use environment variables for API keys
-    const shouldUseAI = this.needsAIResponse(userMessage);
-
-    if (shouldUseAI) {
-      try {
-        // This is where you'd integrate with OpenAI, Anthropic, or other AI APIs
-        // For now, we'll use enhanced local processing
-        return this.generateAdvancedLocalResponse(userMessage, localResponse);
-      } catch (error) {
-        console.warn('AI API failed, falling back to local response:', error);
-        return localResponse;
-      }
+    try {
+      // Simplified response generation to avoid crashes
+      return this.generateSafeResponse(userMessage);
+    } catch (error) {
+      console.error('AI response error:', error);
+      return this.getFallbackResponse(userMessage);
     }
-
-    return localResponse;
   }
 
   private needsAIResponse(message: string): boolean {
