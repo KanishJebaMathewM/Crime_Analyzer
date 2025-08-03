@@ -107,31 +107,65 @@ const CrimeChart: React.FC<CrimeChartProps> = ({ data, fullSize = false }) => {
         </div>
       </div>
 
-      <div className={`grid ${fullSize ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
-        {/* Monthly Trend Chart */}
+      <div className={`grid ${fullSize ? 'grid-cols-1' : 'grid-cols-1'} gap-6`}>
+        {/* Hourly Crime Activity by City */}
         <div>
           <div className="flex items-center mb-4">
-            <Calendar className="w-4 h-4 text-blue-500 mr-2" />
+            <Clock className="w-4 h-4 text-blue-500 mr-2" />
             <h4 className="text-md font-medium text-gray-700 dark:text-gray-300">
-              Monthly Crime Reports
+              Peak Hours by City (Top 6 Cities)
             </h4>
           </div>
-          <div className="space-y-3">
-            {monthlyData.map(([month, count]) => (
-              <div key={month} className="flex items-center">
-                <div className="w-20 text-sm text-gray-600 dark:text-gray-400">
-                  {formatMonth(month)}
-                </div>
-                <div className="flex-1 mx-3">
-                  <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-4 relative overflow-hidden">
-                    <div
-                      className="bg-gradient-to-r from-blue-500 to-blue-600 h-full rounded-full transition-all duration-500 ease-out"
-                      style={{ width: `${(count / maxValue) * 100}%` }}
-                    />
+          <div className="space-y-4">
+            {hourlyDataByCity.map((cityData, index) => (
+              <div key={cityData.city} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center">
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                      index === 0 ? 'bg-red-100 text-red-800' :
+                      index === 1 ? 'bg-orange-100 text-orange-800' :
+                      index === 2 ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {index + 1}
+                    </div>
+                    <h5 className="ml-2 font-semibold text-gray-900 dark:text-white">
+                      {cityData.city}
+                    </h5>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-medium text-gray-900 dark:text-white">
+                      Peak: {formatHour(cityData.peakHour)}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {cityData.peakCrimes} crimes
+                    </div>
                   </div>
                 </div>
-                <div className="w-16 text-sm font-medium text-gray-900 dark:text-white text-right">
-                  {count.toLocaleString()}
+
+                {/* 24-hour timeline */}
+                <div className="grid grid-cols-12 gap-1">
+                  {cityData.hourlyData.map((count, hour) => (
+                    <div key={hour} className="relative group">
+                      <div
+                        className="bg-blue-200 dark:bg-blue-800 rounded-sm transition-all duration-300 hover:bg-blue-300 dark:hover:bg-blue-700"
+                        style={{
+                          height: `${Math.max(4, (count / maxHourlyValue) * 40)}px`,
+                          minHeight: '4px'
+                        }}
+                      />
+                      <div className="absolute bottom-full mb-1 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs rounded px-1 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                        {formatHour(hour)}: {count}
+                      </div>
+                      <div className="text-xs text-center text-gray-500 mt-1">
+                        {hour % 6 === 0 ? hour : ''}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 text-center">
+                  Total: {cityData.totalCrimes.toLocaleString()} crimes
                 </div>
               </div>
             ))}
