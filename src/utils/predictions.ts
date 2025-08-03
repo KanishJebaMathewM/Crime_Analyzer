@@ -172,8 +172,25 @@ export class CrimePredictionEngine {
     // Calculate peak hours
     const hourMap = new Map<number, number>();
     records.forEach(record => {
-      const hour = parseInt(record.timeOfOccurrence.split(':')[0]);
-      hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
+      try {
+        let hour = 0;
+        const timeStr = record.timeOfOccurrence;
+
+        // Handle different time formats
+        if (timeStr.includes(':')) {
+          const timePart = timeStr.split(' ').pop() || timeStr;
+          hour = parseInt(timePart.split(':')[0]);
+        } else {
+          hour = parseInt(timeStr) || 12;
+        }
+
+        // Ensure hour is valid (0-23)
+        if (hour >= 0 && hour <= 23) {
+          hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
+        }
+      } catch (error) {
+        // Skip invalid time entries
+      }
     });
     const peakHours = Array.from(hourMap.entries())
       .sort((a, b) => b[1] - a[1])
