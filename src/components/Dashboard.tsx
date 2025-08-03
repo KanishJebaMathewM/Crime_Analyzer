@@ -263,7 +263,7 @@ const Dashboard: React.FC = () => {
                     <AlertTriangle className="w-5 h-5 text-yellow-400" />
                     <div className="ml-3">
                       <h3 className="text-sm font-medium text-yellow-800">
-                        Safety Recommendations
+                        Safety Recommendations for {selectedCity}
                       </h3>
                       <div className="mt-2">
                         <div className="flex space-x-4 mb-4">
@@ -291,7 +291,7 @@ const Dashboard: React.FC = () => {
                           </select>
                         </div>
                         <div className="space-y-2">
-                          {recommendations.map((rec, index) => (
+                          {safetyData.recommendations.map((rec, index) => (
                             <p key={index} className="text-sm text-yellow-700">
                               {rec}
                             </p>
@@ -301,6 +301,68 @@ const Dashboard: React.FC = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Safety Centers Section */}
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                  <div className="flex items-center mb-6">
+                    <Shield className="w-5 h-5 text-blue-500 mr-2" />
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      Nearby Safety Centers in {selectedCity}
+                    </h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {safetyData.safetyCenters.map((center, index) => (
+                      <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-center">
+                            {center.type === 'Police Station' && <Shield className="w-5 h-5 text-blue-500 mr-2" />}
+                            {center.type === 'Hospital' && <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center mr-2"><span className="text-white text-xs">+</span></div>}
+                            {center.type === 'Fire Station' && <div className="w-5 h-5 bg-orange-500 rounded-full mr-2"></div>}
+                            <div>
+                              <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+                                {center.name}
+                              </h4>
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                                center.type === 'Police Station' ? 'bg-blue-100 text-blue-800' :
+                                center.type === 'Hospital' ? 'bg-red-100 text-red-800' :
+                                'bg-orange-100 text-orange-800'
+                              }`}>
+                                {center.type}
+                              </span>
+                            </div>
+                          </div>
+                          <span className={`text-xs px-2 py-1 rounded ${
+                            center.availability === '24/7'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {center.availability}
+                          </span>
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                          📍 {center.address}
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                          📞 {center.phone}
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Services:</p>
+                          <div className="flex flex-wrap gap-1">
+                            {center.services.slice(0, 3).map((service, serviceIndex) => (
+                              <span key={serviceIndex} className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded">
+                                {service}
+                              </span>
+                            ))}
+                            {center.services.length > 3 && (
+                              <span className="text-xs text-gray-500">+{center.services.length - 3} more</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <CityRankings cityStats={cityStats} showSafetyDetails />
               </div>
             )}
