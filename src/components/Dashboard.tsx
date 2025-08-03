@@ -70,11 +70,28 @@ const Dashboard: React.FC = () => {
                 if (dateStr.includes('-')) {
                   // Format like "01-01-2020 00:00" or "02-01-2020"
                   const datePart = dateStr.split(' ')[0];
-                  const [day, month, year] = datePart.split('-');
-                  return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+                  const parts = datePart.split('-');
+
+                  if (parts.length === 3) {
+                    // Check if it's DD-MM-YYYY or MM-DD-YYYY format
+                    const [first, second, year] = parts;
+                    const yearNum = parseInt(year);
+                    const firstNum = parseInt(first);
+                    const secondNum = parseInt(second);
+
+                    // If first number > 12, it's likely DD-MM-YYYY
+                    if (firstNum > 12 || (firstNum <= 12 && secondNum <= 12)) {
+                      // Assume DD-MM-YYYY format for Indian data
+                      return new Date(yearNum, secondNum - 1, firstNum);
+                    } else {
+                      // MM-DD-YYYY format
+                      return new Date(yearNum, firstNum - 1, secondNum);
+                    }
+                  }
                 }
                 return new Date(dateStr);
-              } catch {
+              } catch (error) {
+                console.warn('Date parsing failed for:', dateStr, error);
                 return new Date();
               }
             };
