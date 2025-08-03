@@ -164,15 +164,64 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       return `🏆 **Safety Champion: ${safestCity.city}!**\n\n⭐ **Safety Score:** ${safestCity.safetyRating}/5 (that's impressive!)\n📈 **Success Rate:** ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% case closure\n📊 **Crime Volume:** ${safestCity.totalCrimes.toLocaleString()} incidents\n\n🎯 **Why ${safestCity.city} wins:** ${reasons.join(', ')}\n\n✨ **Bonus insight:** Even in the safest cities, staying alert is key. ${safestCity.city} proves that good policing and community awareness work!`;
     }
 
-    // Enhanced specific city queries
+    // Enhanced specific queries with better matching
+
+    // More flexible city matching
     const cityQuery = cityStats.find(city =>
-      message.includes(city.city.toLowerCase())
+      message.includes(city.city.toLowerCase()) ||
+      city.city.toLowerCase().includes(message.replace(/[^a-z\s]/g, ''))
     );
+
     if (cityQuery) {
       const performance = cityQuery.safetyRating >= 4 ? 'excellent' : cityQuery.safetyRating >= 3 ? 'good' : 'needs improvement';
       const trend = cityQuery.riskLevel === 'Low' ? '📈 trending safer' : cityQuery.riskLevel === 'High' ? '📉 needs attention' : '⚖️ stable';
 
       return `🏙️ **${cityQuery.city} Crime Profile:**\n\n⭐ **Safety Rating:** ${cityQuery.safetyRating}/5 (${performance})\n📊 **Total Cases:** ${cityQuery.totalCrimes.toLocaleString()}\n🎯 **Police Effectiveness:** ${((cityQuery.closedCases / cityQuery.totalCrimes) * 100).toFixed(1)}% closure rate\n🔍 **Top Concern:** ${cityQuery.mostCommonCrime}\n📈 **Status:** ${trend}\n\n${cityQuery.riskLevel === 'High' ? '🚨 **Travel Advisory:** High caution recommended - stick to main areas, travel in groups, avoid late hours' : cityQuery.riskLevel === 'Medium' ? '⚡ **Moderate Risk:** Standard safety precautions should keep you safe' : '✅ **Low Risk:** Relatively safe, but stay alert as always!'}\n\n💡 **Local tip:** Every city has safe and risky areas - location and timing matter more than overall statistics!`;
+    }
+
+    // Handle specific crime type questions
+    if (message.includes('theft') || message.includes('robbery') || message.includes('assault') || message.includes('murder') || message.includes('fraud')) {
+      const crimeTypes = ['theft', 'robbery', 'assault', 'murder', 'fraud', 'burglary', 'vandalism'];
+      const mentionedCrime = crimeTypes.find(crime => message.includes(crime));
+
+      if (mentionedCrime) {
+        const crimeRecords = data.filter(record =>
+          record.crimeDescription.toLowerCase().includes(mentionedCrime)
+        );
+        const crimeCount = crimeRecords.length;
+        const crimePercentage = ((crimeCount / data.length) * 100).toFixed(1);
+
+        // City breakdown for this crime type
+        const cityBreakdown = new Map<string, number>();
+        crimeRecords.forEach(record => {
+          cityBreakdown.set(record.city, (cityBreakdown.get(record.city) || 0) + 1);
+        });
+
+        const topCities = Array.from(cityBreakdown.entries())
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3);
+
+        return `🔍 **${mentionedCrime.toUpperCase()} Analysis:**\n\n📊 **Frequency:** ${crimeCount.toLocaleString()} cases (${crimePercentage}% of all crimes)\n\n🏙️ **Top affected cities:**\n${topCities.map((c, i) => `${i + 1}. ${c[0]} - ${c[1]} cases`).join('\n')}\n\n🛡️ **Prevention tips for ${mentionedCrime}:**\n${mentionedCrime === 'theft' ? '• Secure valuables\n• Avoid displaying expensive items\n• Stay alert in crowded places' :
+          mentionedCrime === 'assault' ? '• Travel in groups\n• Avoid isolated areas\n• Trust your instincts' :
+          mentionedCrime === 'fraud' ? '• Verify all transactions\n• Never share personal info\n• Use secure payment methods' :
+          '• Stay vigilant\n• Report suspicious activity\n• Follow local safety guidelines'}`;
+      }
+    }
+
+    // Handle "how many" questions with more specific data
+    if (message.includes('how many') || message.includes('how much')) {
+      if (message.includes('cities')) {
+        return `📊 **Dataset Coverage:** We're analyzing **${cityStats.length} cities** across India with comprehensive crime data!\n\n🏆 **Top 5 safest cities:**\n${cityStats.slice(0, 5).map((c, i) => `${i + 1}. ${c.city} (${c.safetyRating}/5 safety rating)`).join('\n')}\n\n⚠️ **Cities needing attention:**\n${cityStats.slice(-3).reverse().map((c, i) => `• ${c.city} (${c.safetyRating}/5 rating)`).join('\n')}`;
+      }
+
+      if (message.includes('crimes') || message.includes('cases')) {
+        const weaponCrimes = data.filter(record => {
+          const weapon = record.weaponUsed?.toLowerCase() || '';
+          return weapon !== 'none' && weapon !== 'unknown' && weapon !== '' && weapon !== 'not specified';
+        }).length;
+
+        return `📈 **Crime Statistics Breakdown:**\n\n🔢 **Total crimes:** ${data.length.toLocaleString()} cases\n⚔️ **Weapon-involved:** ${weaponCrimes.toLocaleString()} cases (${((weaponCrimes / data.length) * 100).toFixed(1)}%)\n✅ **Cases solved:** ${data.filter(r => r.caseClosed === 'Yes').length.toLocaleString()} (${(((data.filter(r => r.caseClosed === 'Yes').length) / data.length) * 100).toFixed(1)}%)\n🏙️ **Average per city:** ${Math.round(data.length / cityStats.length).toLocaleString()} crimes\n\n📊 **Data spans ${cityStats.length} major Indian cities with comprehensive reporting!**`;
+      }
     }
 
     // Creative time analysis
