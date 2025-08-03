@@ -394,4 +394,21 @@ export class CrimePredictionEngine {
     const summerMonths = [5, 6, 7]; // June, July, August
     return summerMonths.includes(currentMonth) ? 1.2 : 1.0;
   }
+
+  private getDatasetDuration(): number {
+    if (this.data.length === 0) return 365;
+
+    const dates = this.data
+      .map(record => record.dateOfOccurrence)
+      .filter(date => date && date instanceof Date && !isNaN(date.getTime()))
+      .sort((a, b) => a.getTime() - b.getTime());
+
+    if (dates.length < 2) return 365;
+
+    const earliest = dates[0];
+    const latest = dates[dates.length - 1];
+    const diffInDays = Math.ceil((latest.getTime() - earliest.getTime()) / (1000 * 60 * 60 * 24));
+
+    return Math.max(1, diffInDays);
+  }
 }
