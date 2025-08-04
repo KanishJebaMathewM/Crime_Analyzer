@@ -125,7 +125,7 @@ const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) =>
           {cityHourlyData.map((time) => (
             <div
               key={time.hour}
-              className={`aspect-square rounded-lg flex flex-col items-center justify-center p-2 text-white text-xs font-medium relative group cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-lg ${
+              className={`aspect-square rounded-lg flex flex-col items-center justify-center p-2 text-white text-xs font-medium relative cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg hover:z-30 ${
                 time.riskLevel === 'High' ? 'ring-2 ring-red-400 ring-opacity-60' :
                 time.riskLevel === 'Low' ? 'ring-2 ring-green-400 ring-opacity-60' : ''
               }`}
@@ -133,6 +133,14 @@ const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) =>
                 backgroundColor: getIntensityColor(time.crimeCount, time.riskLevel),
                 boxShadow: time.riskLevel === 'High' ? '0 0 15px rgba(239, 68, 68, 0.4)' :
                           time.riskLevel === 'Low' ? '0 0 15px rgba(34, 197, 94, 0.3)' : ''
+              }}
+              onMouseEnter={(e) => {
+                const tooltip = e.currentTarget.querySelector('.hour-tooltip') as HTMLElement;
+                if (tooltip) tooltip.style.opacity = '1';
+              }}
+              onMouseLeave={(e) => {
+                const tooltip = e.currentTarget.querySelector('.hour-tooltip') as HTMLElement;
+                if (tooltip) tooltip.style.opacity = '0';
               }}
             >
               <div className="text-xs font-bold drop-shadow-sm">
@@ -142,8 +150,8 @@ const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) =>
                 {time.crimeCount}
               </div>
 
-              {/* Enhanced Tooltip */}
-              <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 whitespace-nowrap shadow-lg">
+              {/* Precise Tooltip - only shows when directly hovering on the cell */}
+              <div className="hour-tooltip absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 transition-opacity duration-200 z-40 whitespace-nowrap shadow-lg pointer-events-none">
                 <div className="font-semibold">{getTimeLabel(time.hour)}</div>
                 <div>{time.crimeCount} crimes</div>
                 <div className={`text-xs ${
@@ -152,6 +160,7 @@ const TimeHeatmap: React.FC<TimeHeatmapProps> = ({ timeAnalysis, data = [] }) =>
                 }`}>
                   {time.riskLevel} Risk
                 </div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
               </div>
             </div>
           ))}
