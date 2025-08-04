@@ -40,8 +40,15 @@ const Dashboard: React.FC = () => {
   const loadActualData = async () => {
     setLoading(true);
     try {
+      console.log('Attempting to fetch crime dataset...');
       const response = await fetch('/crime_dataset_india.csv');
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+      }
+
       const csvText = await response.text();
+      console.log('Dataset fetched successfully, size:', csvText.length);
 
       // Parse CSV using Papa Parse (same as FileUpload component)
       const Papa = await import('papaparse');
