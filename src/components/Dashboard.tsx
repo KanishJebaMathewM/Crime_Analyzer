@@ -192,8 +192,11 @@ const Dashboard: React.FC = () => {
   const closureRate = totalCrimes > 0 ? (closedCases / totalCrimes * 100).toFixed(1) : '0';
   const averageAge = totalCrimes > 0 ? Math.round(data.reduce((sum, record) => sum + record.victimAge, 0) / totalCrimes) : 0;
   const weaponCrimes = data.filter(record => {
-    const weapon = record.weaponUsed?.toLowerCase() || '';
-    return weapon !== 'none' && weapon !== 'unknown' && weapon !== '' && weapon !== 'not specified';
+    const weapon = record.weaponUsed?.toLowerCase().trim() || '';
+    // Only count actual weapons, not when weapon is explicitly None or undefined
+    return weapon !== 'none' && weapon !== 'unknown' && weapon !== '' &&
+           weapon !== 'not specified' && weapon !== 'n/a' && weapon !== 'na' &&
+           weapon !== 'not applicable' && weapon !== 'nil';
   }).length;
   const weaponRate = totalCrimes > 0 ? ((weaponCrimes / totalCrimes) * 100).toFixed(1) : '0';
 
