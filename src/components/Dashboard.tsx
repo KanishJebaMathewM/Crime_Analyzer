@@ -41,6 +41,9 @@ const Dashboard: React.FC = () => {
     setLoading(true);
     try {
       console.log('Attempting to fetch crime dataset...');
+      console.log('Current location:', window.location.href);
+      console.log('Trying to fetch:', window.location.origin + '/crime_dataset_india.csv');
+
       const response = await fetch('/crime_dataset_india.csv');
 
       if (!response.ok) {
