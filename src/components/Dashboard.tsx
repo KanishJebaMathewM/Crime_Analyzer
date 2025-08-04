@@ -159,6 +159,12 @@ const Dashboard: React.FC = () => {
         })
         .filter((record): record is CrimeRecord => record !== null);
 
+      console.log('Data processing completed, final record count:', processedData.length);
+
+      if (processedData.length === 0) {
+        throw new Error('No valid records could be processed from the dataset');
+      }
+
       setData(processedData);
       setDataSource('uploaded');
       if (processedData.length > 0) {
@@ -170,6 +176,7 @@ const Dashboard: React.FC = () => {
         const mostCommonCity = Array.from(cityCount.entries())
           .sort((a, b) => b[1] - a[1])[0][0];
         setSelectedCity(mostCommonCity);
+        console.log('Dataset loaded successfully with', processedData.length, 'records');
       }
     } catch (error) {
       console.error('Error loading actual dataset:', error);
