@@ -286,17 +286,19 @@ const Dashboard: React.FC = () => {
               <div className="flex space-x-3">
                 <button
                   onClick={loadActualData}
-                  className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  disabled={loading}
+                  className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <BarChart3 className="w-4 h-4 mr-2" />
-                  Load Real Dataset
+                  {loading ? 'Loading...' : 'Load Real Dataset'}
                 </button>
                 <button
                   onClick={loadActualData}
-                  className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  disabled={loading}
+                  className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <TrendingUp className="w-4 h-4 mr-2" />
-                  Refresh Data
+                  {loading ? 'Loading...' : 'Refresh Data'}
                 </button>
                 <button
                   onClick={() => setShowUpload(true)}
