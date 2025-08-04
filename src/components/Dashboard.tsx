@@ -156,6 +156,15 @@ const Dashboard: React.FC = () => {
       }
     } catch (error) {
       console.error('Error loading actual dataset:', error);
+      console.log('Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        type: typeof error,
+        stack: error instanceof Error ? error.stack : 'No stack trace'
+      });
+
+      // Show user-friendly error message
+      alert(`Failed to load dataset: ${error instanceof Error ? error.message : 'Unknown error'}. Loading demo data instead.`);
+
       // Fallback to mock data
       loadMockData();
     } finally {
