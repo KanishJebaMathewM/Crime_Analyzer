@@ -342,9 +342,10 @@ const Dashboard: React.FC = () => {
                 📊 Currently showing mock/demo data with {totalCrimes.toLocaleString()} sample records.
                 <button
                   onClick={loadActualData}
-                  className="ml-1 underline hover:no-underline font-medium"
+                  disabled={loading}
+                  className="ml-1 underline hover:no-underline font-medium disabled:opacity-50"
                 >
-                  Load real Indian crime dataset
+                  {loading ? 'Loading real dataset...' : 'Load real Indian crime dataset'}
                 </button> or
                 <button
                   onClick={() => setShowUpload(true)}
@@ -352,6 +353,9 @@ const Dashboard: React.FC = () => {
                 >
                   upload your own dataset
                 </button> for real analysis.
+              </p>
+              <p className="text-xs text-yellow-600 mt-2">
+                💡 If the real dataset fails to load, it might be a server configuration issue. The demo data provides similar insights.
               </p>
             </div>
           )}
