@@ -50,16 +50,33 @@ const Dashboard: React.FC = () => {
       const csvText = await response.text();
       console.log('Dataset fetched successfully, size:', csvText.length);
 
+      if (!csvText || csvText.length < 100) {
+        throw new Error('CSV file is empty or too small');
+      }
+
       // Parse CSV using Papa Parse (same as FileUpload component)
       const Papa = await import('papaparse');
       const parseResult = Papa.parse(csvText, {
         header: true,
-        skipEmptyLines: true
+        skipEmptyLines: true,
+        delimiter: ',',
+        quoteChar: '"'
       });
 
       if (parseResult.errors.length > 0) {
         console.warn('CSV parsing warnings:', parseResult.errors);
+        // Only throw if there are fatal errors
+        const fatalErrors = parseResult.errors.filter(error => error.type === 'Delimiter');
+        if (fatalErrors.length > 0) {
+          throw new Error(`CSV parsing failed: ${fatalErrors[0].message}`);
+        }
       }
+
+      if (!parseResult.data || parseResult.data.length === 0) {
+        throw new Error('No data found in CSV file');
+      }
+
+      console.log('CSV parsed successfully, rows:', parseResult.data.length);
 
       // Process the parsed data into CrimeRecord format
       const processedData: CrimeRecord[] = parseResult.data
