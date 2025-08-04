@@ -44,7 +44,13 @@ const Dashboard: React.FC = () => {
       console.log('Current location:', window.location.href);
       console.log('Trying to fetch:', window.location.origin + '/crime_dataset_india.csv');
 
-      const response = await fetch('/crime_dataset_india.csv');
+      let response;
+      try {
+        response = await fetch('/crime_dataset_india.csv');
+      } catch (fetchError) {
+        console.log('Direct fetch failed, trying with full URL...');
+        response = await fetch(window.location.origin + '/crime_dataset_india.csv');
+      }
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
