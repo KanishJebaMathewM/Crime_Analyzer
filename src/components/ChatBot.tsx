@@ -96,6 +96,9 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       return "🤔 I didn't catch that! Could you ask me a more specific question about crime data, safety, or city statistics?";
     }
 
+    // First check for specific keywords that indicate what the user wants
+    // This makes the chatbot more responsive to user queries
+
     // Fun greeting responses
     if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
       const greetings = [
@@ -261,7 +264,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           .sort((a, b) => b[1] - a[1])
           .slice(0, 3);
 
-        return `🔍 **${mentionedCrime.toUpperCase()} Analysis:**\n\n📊 **Frequency:** ${crimeCount.toLocaleString()} cases (${crimePercentage}% of all crimes)\n\n🏙️ **Top affected cities:**\n${topCities.map((c, i) => `${i + 1}. ${c[0]} - ${c[1]} cases`).join('\n')}\n\n🛡️ **Prevention tips for ${mentionedCrime}:**\n${mentionedCrime === 'theft' ? '• Secure valuables\n• Avoid displaying expensive items\n• Stay alert in crowded places' :
+        return `🔍 **${mentionedCrime.toUpperCase()} Analysis:**\n\n���� **Frequency:** ${crimeCount.toLocaleString()} cases (${crimePercentage}% of all crimes)\n\n🏙️ **Top affected cities:**\n${topCities.map((c, i) => `${i + 1}. ${c[0]} - ${c[1]} cases`).join('\n')}\n\n🛡️ **Prevention tips for ${mentionedCrime}:**\n${mentionedCrime === 'theft' ? '• Secure valuables\n• Avoid displaying expensive items\n• Stay alert in crowded places' :
           mentionedCrime === 'assault' ? '• Travel in groups\n• Avoid isolated areas\n• Trust your instincts' :
           mentionedCrime === 'fraud' ? '• Verify all transactions\n• Never share personal info\n• Use secure payment methods' :
           '• Stay vigilant\n• Report suspicious activity\n• Follow local safety guidelines'}`;
@@ -288,7 +291,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     if (message.startsWith('what is') || message.startsWith('what are') || message.startsWith('what')) {
       if (message.includes('crime rate')) {
         const avgCrimeRate = Math.round(data.length / cityStats.length);
-        return `📊 **Crime Rate Analysis:**\n\n🏙️ **Average:** ${avgCrimeRate.toLocaleString()} crimes per city\n📈 **Range:** ${Math.min(...cityStats.map(c => c.totalCrimes)).toLocaleString()} - ${Math.max(...cityStats.map(c => c.totalCrimes)).toLocaleString()} crimes\n⭐ **Best performing:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5 rating)\n⚠️ **Needs improvement:** ${cityStats[cityStats.length - 1].city} (${cityStats[cityStats.length - 1].safetyRating}/5 rating)\n\n💡 **Context:** Crime rates vary significantly based on city size, policing, and socioeconomic factors!`;
+        return `📊 **Crime Rate Analysis:**\n\n��️ **Average:** ${avgCrimeRate.toLocaleString()} crimes per city\n📈 **Range:** ${Math.min(...cityStats.map(c => c.totalCrimes)).toLocaleString()} - ${Math.max(...cityStats.map(c => c.totalCrimes)).toLocaleString()} crimes\n⭐ **Best performing:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5 rating)\n⚠️ **Needs improvement:** ${cityStats[cityStats.length - 1].city} (${cityStats[cityStats.length - 1].safetyRating}/5 rating)\n\n💡 **Context:** Crime rates vary significantly based on city size, policing, and socioeconomic factors!`;
       }
 
       if (message.includes('safety rating') || message.includes('safety score')) {
