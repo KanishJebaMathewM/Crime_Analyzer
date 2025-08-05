@@ -364,25 +364,28 @@ const Dashboard: React.FC = () => {
                 <button
                   onClick={loadActualData}
                   disabled={loading}
-                  className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center px-3 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm min-h-[44px]"
                 >
-                  <BarChart3 className="w-4 h-4 mr-2" />
-                  {loading ? 'Loading...' : 'Load Real Dataset'}
+                  <BarChart3 className="w-4 h-4 mr-1 sm:mr-2 flex-shrink-0" />
+                  <span className="hidden sm:inline">{loading ? 'Loading...' : 'Load Real Dataset'}</span>
+                  <span className="sm:hidden">{loading ? 'Load...' : 'Load Data'}</span>
                 </button>
                 <button
                   onClick={handleRefreshData}
                   disabled={loading}
-                  className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center px-3 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm min-h-[44px]"
                 >
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  {loading ? 'Loading...' : 'Refresh Data'}
+                  <TrendingUp className="w-4 h-4 mr-1 sm:mr-2 flex-shrink-0" />
+                  <span className="hidden sm:inline">{loading ? 'Loading...' : 'Refresh Data'}</span>
+                  <span className="sm:hidden">{loading ? 'Refresh...' : 'Refresh'}</span>
                 </button>
                 <button
                   onClick={() => setShowUpload(true)}
-                  className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="flex items-center px-3 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm min-h-[44px]"
                 >
-                  <Upload className="w-4 h-4 mr-2" />
-                  Upload Dataset
+                  <Upload className="w-4 h-4 mr-1 sm:mr-2 flex-shrink-0" />
+                  <span className="hidden sm:inline">Upload Dataset</span>
+                  <span className="sm:hidden">Upload</span>
                 </button>
                 <div className="relative">
                   <button
