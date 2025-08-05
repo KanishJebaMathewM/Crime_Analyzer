@@ -201,28 +201,43 @@ const AccuratePredictionsPanel: React.FC<AccuratePredictionsPanelProps> = ({ dat
 
         {/* Dataset Overview */}
         {datasetStats && (
-          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Dataset Overview</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-              <div>
-                <p className="text-gray-600 dark:text-gray-400">Cities</p>
-                <p className="font-semibold text-gray-900 dark:text-white">{datasetStats.totalCities}</p>
+          <div className="bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900 dark:to-slate-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div className="flex items-center mb-4">
+              <BarChart3 className="w-5 h-5 text-indigo-500 mr-2" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Dataset Overview</h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mx-auto mb-2">
+                  <MapPin className="w-6 h-6 text-blue-600" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{datasetStats.totalCities}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Cities</p>
               </div>
-              <div>
-                <p className="text-gray-600 dark:text-gray-400">Crime Types</p>
-                <p className="font-semibold text-gray-900 dark:text-white">{datasetStats.totalCrimeTypes}</p>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mx-auto mb-2">
+                  <Target className="w-6 h-6 text-green-600" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{datasetStats.totalCrimeTypes}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Crime Types</p>
               </div>
-              <div>
-                <p className="text-gray-600 dark:text-gray-400">Date Range</p>
-                <p className="font-semibold text-gray-900 dark:text-white">
-                  {datasetStats.dateRange.earliest.getFullYear()} - {datasetStats.dateRange.latest.getFullYear()}
+              <div className="text-center">
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mx-auto mb-2">
+                  <Clock className="w-6 h-6 text-purple-600" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {datasetStats.dateRange.earliest.getFullYear()}-{datasetStats.dateRange.latest.getFullYear()}
                 </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Date Range</p>
               </div>
-              <div>
-                <p className="text-gray-600 dark:text-gray-400">Completeness</p>
-                <p className="font-semibold text-gray-900 dark:text-white">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center mx-auto mb-2">
+                  <Shield className="w-6 h-6 text-orange-600" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
                   {formatProbability(datasetStats.completeness)}
                 </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Completeness</p>
               </div>
             </div>
           </div>
