@@ -88,7 +88,7 @@ export class ExcelProcessor {
   }
 
   private async processDataInChunks(rawData: any[]): Promise<CrimeRecord[]> {
-    const chunkSize = 1000;
+    const chunkSize = 2000; // Optimized for large datasets
     const totalChunks = Math.ceil(rawData.length / chunkSize);
     const processedData: CrimeRecord[] = [];
 
@@ -106,8 +106,10 @@ export class ExcelProcessor {
       const processedChunk = chunk.map(row => this.mapRowToCrimeRecord(row));
       processedData.push(...processedChunk);
 
-      // Allow UI to update
-      await new Promise(resolve => setTimeout(resolve, 10));
+      // Allow UI to update with reduced frequency for better performance
+      if (i % 5 === 0) {
+        await new Promise(resolve => setTimeout(resolve, 5));
+      }
     }
 
     return processedData.filter(record => record !== null);
