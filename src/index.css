@@ -85,19 +85,19 @@
 }
 
 .dark .text-white {
-  color: #f8fafc !important;
+  color: #ffffff !important;
 }
 
 .dark .text-gray-300 {
-  color: #cbd5e1 !important;
+  color: #cccccc !important;
 }
 
 .dark .text-gray-400 {
-  color: #94a3b8 !important;
+  color: #999999 !important;
 }
 
 .dark .border-gray-700 {
-  border-color: rgba(148, 163, 184, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* ============ DEFAULT MODE (System) ============ */
