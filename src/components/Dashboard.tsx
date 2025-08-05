@@ -285,21 +285,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const getThemeIcon = () => {
-    switch (theme) {
-      case 'light': return <Sun className="w-4 h-4" />;
-      case 'dark': return <Moon className="w-4 h-4" />;
-      default: return <Monitor className="w-4 h-4" />;
-    }
-  };
 
-  const getThemeLabel = () => {
-    switch (theme) {
-      case 'light': return 'Light';
-      case 'dark': return 'Dark';
-      default: return 'Default';
-    }
-  };
   
   const totalCrimes = data.length;
   const closedCases = data.filter(record => record.caseClosed === 'Yes').length;
