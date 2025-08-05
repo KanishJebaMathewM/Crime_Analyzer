@@ -275,7 +275,7 @@ describe('CSVValidator', () => {
     it('should detect missing required headers', () => {
       const headers = ['Report Number', 'City']; // Missing required columns
 
-      const validateHeaders = (validator as any).validateHeaders;
+      const validateHeaders = (validator as any).validateHeaders.bind(validator);
       const result = validateHeaders(headers);
 
       expect(result.valid).toBe(false);
