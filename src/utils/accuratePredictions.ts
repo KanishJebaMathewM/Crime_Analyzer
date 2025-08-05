@@ -166,12 +166,21 @@ export class AccuratePredictionEngine {
   }
 
   generateAccuratePrediction(city: string, hour: number): AccuratePrediction {
+    // Check cache first for better performance
+    const cacheKey = `${city}-${hour}`;
+    if (this.predictionCache.has(cacheKey)) {
+      return this.predictionCache.get(cacheKey)!;
+    }
+
     const cityRecords = this.cityData.get(city) || [];
     const hourRecords = this.hourlyData.get(hour) || [];
     const cityHourRecords = this.cityHourData.get(city)?.get(hour) || [];
+    const cityHourCount = this.cityHourCounts.get(city)?.get(hour) || 0;
 
     if (cityRecords.length === 0) {
-      return this.createNoPredictionResult(city, hour, 'No historical data for this city');
+      const result = this.createNoPredictionResult(city, hour, 'No historical data for this city');
+      this.predictionCache.set(cacheKey, result);
+      return result;
     }
 
     // Calculate actual probability based on historical data
