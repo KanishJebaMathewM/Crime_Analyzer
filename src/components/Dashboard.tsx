@@ -14,6 +14,7 @@ import ChatBot from './ChatBot';
 import LoadingSpinner from './LoadingSpinner';
 import FileUpload from './FileUpload';
 import AccuratePredictionsPanel from './AccuratePredictionsPanel';
+import IncidentAnalysis from './IncidentAnalysis';
 
 const Dashboard: React.FC = () => {
   const { theme, setTheme } = useTheme();
