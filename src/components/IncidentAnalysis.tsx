@@ -15,16 +15,8 @@ interface TrendData {
 }
 
 interface IncidentStats {
-  weeklyTrends: TrendData[];
-  monthlyTrends: TrendData[];
   peakHours: { hour: number; incidents: number; percentage: number }[];
   commonIncidents: { type: string; count: number; percentage: number }[];
-  recentActivity: {
-    last7Days: number;
-    last30Days: number;
-    weekOverWeek: number;
-    monthOverMonth: number;
-  };
 }
 
 const IncidentAnalysis: React.FC<IncidentAnalysisProps> = ({ data, selectedCity }) => {
