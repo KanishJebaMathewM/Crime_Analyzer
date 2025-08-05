@@ -125,38 +125,8 @@ const IncidentAnalysis: React.FC<IncidentAnalysisProps> = ({ data, selectedCity 
       </div>
 
       <div className="p-6 space-y-6">
-        {/* Recent Activity Summary */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-            <div className="flex items-center">
-              <Calendar className="w-5 h-5 text-blue-600 mr-2" />
-              <div>
-                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Last 7 Days</p>
-                <p className="text-xl font-bold text-blue-900 dark:text-blue-100">
-                  {incidentStats.recentActivity.last7Days}
-                </p>
-                <p className="text-xs text-blue-700 dark:text-blue-300">
-                  {incidentStats.recentActivity.weekOverWeek > 0 ? '+' : ''}{incidentStats.recentActivity.weekOverWeek.toFixed(1)}% vs prev week
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg p-4 border border-purple-200 dark:border-purple-800">
-            <div className="flex items-center">
-              <Calendar className="w-5 h-5 text-purple-600 mr-2" />
-              <div>
-                <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Last 30 Days</p>
-                <p className="text-xl font-bold text-purple-900 dark:text-purple-100">
-                  {incidentStats.recentActivity.last30Days}
-                </p>
-                <p className="text-xs text-purple-700 dark:text-purple-300">
-                  {incidentStats.recentActivity.monthOverMonth > 0 ? '+' : ''}{incidentStats.recentActivity.monthOverMonth.toFixed(1)}% vs prev month
-                </p>
-              </div>
-            </div>
-          </div>
-
+        {/* Summary Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-lg p-4 border border-orange-200 dark:border-orange-800">
             <div className="flex items-center">
               <Clock className="w-5 h-5 text-orange-600 mr-2" />
@@ -166,7 +136,7 @@ const IncidentAnalysis: React.FC<IncidentAnalysisProps> = ({ data, selectedCity 
                   {String(incidentStats.peakHours[0]?.hour || 0).padStart(2, '0')}:00
                 </p>
                 <p className="text-xs text-orange-700 dark:text-orange-300">
-                  {incidentStats.peakHours[0]?.incidents || 0} incidents
+                  {incidentStats.peakHours[0]?.incidents || 0} incidents ({incidentStats.peakHours[0]?.percentage.toFixed(1) || 0}%)
                 </p>
               </div>
             </div>
@@ -176,12 +146,12 @@ const IncidentAnalysis: React.FC<IncidentAnalysisProps> = ({ data, selectedCity 
             <div className="flex items-center">
               <Users className="w-5 h-5 text-green-600 mr-2" />
               <div>
-                <p className="text-sm font-medium text-green-600 dark:text-green-400">Top Incident</p>
+                <p className="text-sm font-medium text-green-600 dark:text-green-400">Most Common</p>
                 <p className="text-lg font-bold text-green-900 dark:text-green-100 truncate">
                   {incidentStats.commonIncidents[0]?.type.split(' ')[0] || 'None'}
                 </p>
                 <p className="text-xs text-green-700 dark:text-green-300">
-                  {incidentStats.commonIncidents[0]?.percentage.toFixed(1) || 0}% of incidents
+                  {incidentStats.commonIncidents[0]?.count || 0} cases ({incidentStats.commonIncidents[0]?.percentage.toFixed(1) || 0}%)
                 </p>
               </div>
             </div>
