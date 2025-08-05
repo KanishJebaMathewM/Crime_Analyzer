@@ -27,30 +27,8 @@ const IncidentAnalysis: React.FC<IncidentAnalysisProps> = ({ data, selectedCity 
       return null;
     }
 
-    // Calculate recent activity
-    const now = new Date();
-    const last7Days = cityData.filter(record => {
-      const daysDiff = (now.getTime() - record.dateOfOccurrence.getTime()) / (1000 * 60 * 60 * 24);
-      return daysDiff <= 7;
-    }).length;
-
-    const last30Days = cityData.filter(record => {
-      const daysDiff = (now.getTime() - record.dateOfOccurrence.getTime()) / (1000 * 60 * 60 * 24);
-      return daysDiff <= 30;
-    }).length;
-
-    const prev7Days = cityData.filter(record => {
-      const daysDiff = (now.getTime() - record.dateOfOccurrence.getTime()) / (1000 * 60 * 60 * 24);
-      return daysDiff > 7 && daysDiff <= 14;
-    }).length;
-
-    const prev30Days = cityData.filter(record => {
-      const daysDiff = (now.getTime() - record.dateOfOccurrence.getTime()) / (1000 * 60 * 60 * 24);
-      return daysDiff > 30 && daysDiff <= 60;
-    }).length;
-
-    const weekOverWeek = prev7Days > 0 ? ((last7Days - prev7Days) / prev7Days) * 100 : 0;
-    const monthOverMonth = prev30Days > 0 ? ((last30Days - prev30Days) / prev30Days) * 100 : 0;
+    // Calculate total incidents for the city
+    const totalIncidents = cityData.length;
 
     // Calculate hourly distribution
     const hourlyCount = new Array(24).fill(0);
