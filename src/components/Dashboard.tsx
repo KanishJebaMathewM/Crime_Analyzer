@@ -605,7 +605,7 @@ const Dashboard: React.FC = () => {
                     </div>
                   </div>
                   {predictionAccuracy && (
-                    <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-6 rounded-xl border border-purple-200 dark:border-purple-800 shadow-lg hover:shadow-xl transition-shadow">
+                    <div className="gradient-purple-light p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
                       <div className="flex items-center">
                         <Target className="w-8 h-8 text-purple-600" />
                         <div className="ml-4">
