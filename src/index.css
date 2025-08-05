@@ -35,26 +35,17 @@
   --gradient-danger: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
 }
 
-/* Premium background with enhanced visuals */
+/* Original dark blue theme */
 body {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #667eea 50%, #764ba2 75%, #667eea 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
   background-attachment: fixed;
-  color: #1a202c;
+  color: #f8fafc;
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Performance optimizations */
   overflow-x: hidden;
   scroll-behavior: smooth;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 /* Enhanced card styles with premium glass-morphism */
