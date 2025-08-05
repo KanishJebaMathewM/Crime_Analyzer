@@ -239,38 +239,7 @@ const IncidentAnalysis: React.FC<IncidentAnalysisProps> = ({ data, selectedCity 
           </div>
         </div>
 
-        {/* Weekly Trends */}
-        <div>
-          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-            <TrendingUp className="w-5 h-5 text-blue-500 mr-2" />
-            Recent Trends
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {incidentStats.weeklyTrends.map((trend, index) => (
-              <div key={trend.period} className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center justify-between mb-2">
-                  <h5 className="font-medium text-gray-900 dark:text-white">{trend.period}</h5>
-                  <div className="flex items-center">
-                    {getTrendIcon(trend.trend)}
-                    <span className={`ml-1 text-sm font-medium ${
-                      trend.trend === 'up' ? 'text-red-600' :
-                      trend.trend === 'down' ? 'text-green-600' :
-                      'text-gray-600'
-                    }`}>
-                      {trend.change !== 0 && (trend.change > 0 ? '+' : '')}{trend.change.toFixed(1)}%
-                    </span>
-                  </div>
-                </div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {trend.incidents}
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  incidents recorded
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
+
       </div>
     </div>
   );
