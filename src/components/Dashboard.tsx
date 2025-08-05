@@ -590,7 +590,7 @@ const Dashboard: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 p-6 rounded-xl border border-red-200 dark:border-red-800 shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="gradient-red-light p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
                     <div className="flex items-center">
                       <AlertTriangle className="w-8 h-8 text-red-600" />
                       <div className="ml-4">
