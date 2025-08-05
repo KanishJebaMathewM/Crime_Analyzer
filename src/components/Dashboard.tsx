@@ -379,55 +379,46 @@ const Dashboard: React.FC = () => {
           </div>
           
           {dataSource === 'demo' && (
-            <div className="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-5 mb-6 shadow-lg animate-fade-in-up">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm mr-3">
-                    <BarChart3 className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-white/95">
-                      📊 Demo Dataset Active
-                    </p>
-                    <p className="text-xs text-white/80 mt-1">
-                      {totalCrimes.toLocaleString()} sample records • Indian crime data simulation
-                    </p>
-                  </div>
-                </div>
-                {predictionAccuracy && (
-                  <div className="text-right bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2">
-                    <p className="text-lg font-bold text-white text-shadow">
-                      {Math.round(predictionAccuracy.overallAccuracy * 100)}%
-                    </p>
-                    <p className="text-xs text-white/80 font-medium">AI Accuracy</p>
-                  </div>
-                )}
-              </div>
+            <div className="bg-yellow-100 border border-yellow-300 rounded-lg p-3 mb-4">
+              <p className="text-sm text-yellow-800">
+                📊 Currently showing demo data with {totalCrimes.toLocaleString()} sample records.
+                <button
+                  onClick={loadActualData}
+                  disabled={loading}
+                  className="ml-1 underline hover:no-underline font-medium disabled:opacity-50"
+                >
+                  {loading ? 'Loading real dataset...' : 'Load real Indian crime dataset'}
+                </button> or
+                <button
+                  onClick={() => setShowUpload(true)}
+                  className="ml-1 underline hover:no-underline"
+                >
+                  upload your own dataset
+                </button> for real analysis.
+              </p>
             </div>
           )}
 
           {dataSource === 'uploaded' && (
-            <div className="status-success rounded-2xl p-5 mb-6 shadow-2xl animate-fade-in-up border-2 border-green-400/30">
+            <div className="status-success rounded-lg p-4 mb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <div className="p-2 bg-green-100 rounded-lg mr-3">
-                    <CheckCircle className="w-6 h-6 text-green-600" />
-                  </div>
+                  <CheckCircle className="w-5 h-5 text-green-200 mr-3" />
                   <div>
-                    <p className="text-base font-bold text-green-800">
-                      📈 Custom Dataset Loaded
+                    <p className="text-sm font-medium text-green-100">
+                      📈 Using your uploaded dataset
                     </p>
-                    <p className="text-sm text-green-700 mt-1">
-                      {totalCrimes.toLocaleString()} records • Real-time analysis active
+                    <p className="text-xs text-green-200">
+                      {totalCrimes.toLocaleString()} records �� All analysis reflects your actual data
                     </p>
                   </div>
                 </div>
                 {predictionAccuracy && (
-                  <div className="text-right bg-green-100 rounded-lg px-4 py-3">
-                    <p className="text-2xl font-bold text-green-800">
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-green-100">
                       {Math.round(predictionAccuracy.overallAccuracy * 100)}%
                     </p>
-                    <p className="text-sm text-green-600 font-semibold">AI Accuracy</p>
+                    <p className="text-xs text-green-200">AI Accuracy</p>
                   </div>
                 )}
               </div>
