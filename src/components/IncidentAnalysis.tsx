@@ -115,10 +115,10 @@ const IncidentAnalysis: React.FC<IncidentAnalysisProps> = ({ data, selectedCity 
           </div>
           <div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Incident Trend Analysis
+              Incident Analysis
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Recent activity patterns for {selectedCity}
+              Crime patterns and statistics for {selectedCity}
             </p>
           </div>
         </div>
