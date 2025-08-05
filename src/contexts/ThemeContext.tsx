@@ -30,26 +30,49 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('crime-dashboard-theme', theme);
-    
+
     // Remove all theme classes first
     document.documentElement.classList.remove('light', 'dark', 'default');
-    
-    // Apply the selected theme
+    document.body.classList.remove('light', 'dark', 'default');
+
+    // Apply the selected theme to both html and body
     if (theme === 'light') {
       document.documentElement.classList.add('light');
+      document.body.classList.add('light');
       document.documentElement.classList.remove('dark');
     } else if (theme === 'dark') {
       document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
       document.documentElement.classList.remove('light');
     } else {
       // Default mode - use system preference
       document.documentElement.classList.add('default');
+      document.body.classList.add('default');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       if (prefersDark) {
         document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
+        document.body.classList.remove('dark');
       }
+    }
+
+    // Listen for system theme changes when in default mode
+    if (theme === 'default') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = (e: MediaQueryListEvent) => {
+        if (e.matches) {
+          document.documentElement.classList.add('dark');
+          document.body.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.body.classList.remove('dark');
+        }
+      };
+
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
     }
   }, [theme]);
 
