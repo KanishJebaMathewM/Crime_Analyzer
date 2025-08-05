@@ -294,11 +294,33 @@ export class AccuratePredictionEngine {
   }
 
   private calculateRiskLevel(probability: number, actualOccurrences: number): 'Low' | 'Medium' | 'High' | 'Critical' {
-    // Base on both probability and actual historical occurrences
-    if (actualOccurrences >= 50 || probability >= 0.7) return 'Critical';
-    if (actualOccurrences >= 20 || probability >= 0.4) return 'High';
-    if (actualOccurrences >= 5 || probability >= 0.15) return 'Medium';
-    return 'Low';
+    if (!this.riskThresholds) {
+      // Fallback to original method if thresholds not calculated
+      if (actualOccurrences >= 50 || probability >= 0.7) return 'Critical';
+      if (actualOccurrences >= 20 || probability >= 0.4) return 'High';
+      if (actualOccurrences >= 5 || probability >= 0.15) return 'Medium';
+      return 'Low';
+    }
+
+    // Use percentile-based thresholds
+    // Critical risk for extremely high occurrences (top 5% of data)
+    const criticalThreshold = this.riskThresholds.high * 2;
+    if (actualOccurrences >= criticalThreshold && probability >= 0.5) {
+      return 'Critical';
+    }
+
+    // High risk: Top 25% of occurrences
+    if (actualOccurrences >= this.riskThresholds.high) {
+      return 'High';
+    }
+
+    // Low risk: Bottom 25% of occurrences
+    if (actualOccurrences <= this.riskThresholds.medium) {
+      return 'Low';
+    }
+
+    // Medium risk: Middle 50% of occurrences
+    return 'Medium';
   }
 
   private generateEvidenceBasedRecommendations(
