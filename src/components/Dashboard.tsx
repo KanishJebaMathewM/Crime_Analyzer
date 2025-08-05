@@ -495,7 +495,7 @@ const Dashboard: React.FC = () => {
           )}
 
           {dataSource === 'demo' && (
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4 mb-4 shadow-sm">
+            <div className="gradient-blue-light rounded-xl p-4 mb-4 shadow-lg animate-fade-in-up">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <BarChart3 className="w-5 h-5 text-blue-600 mr-3" />
