@@ -65,23 +65,23 @@
 }
 
 .dark .bg-white {
-  background: rgba(15, 23, 42, 0.95) !important;
+  background: rgba(26, 26, 26, 0.95) !important;
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dark .bg-gray-800 {
-  background: rgba(30, 41, 59, 0.95) !important;
+  background: rgba(17, 17, 17, 0.95) !important;
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(148, 163, 184, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .dark .bg-gray-50 {
-  background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
+  background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%) !important;
 }
 
 .dark .bg-gray-900 {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+  background: linear-gradient(135deg, #000000 0%, #111111 100%) !important;
 }
 
 .dark .text-white {
