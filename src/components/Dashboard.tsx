@@ -438,18 +438,17 @@ const Dashboard: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="card-enhanced">
-          <div className="border-b border-white/20 backdrop-blur-sm">
-            <nav className="flex items-center space-x-1 md:space-x-2 px-6 overflow-x-auto scrollbar-hide py-2">
-              {tabs.map((tab, index) => (
+          <div className="border-b border-gray-600">
+            <nav className="flex items-center space-x-2 md:space-x-4 px-6 overflow-x-auto scrollbar-hide">
+              {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-3 px-3 md:px-4 rounded-lg font-semibold text-xs md:text-sm flex items-center space-x-2 whitespace-nowrap flex-shrink-0 transition-all duration-300 animate-fade-in-up ${
+                  className={`py-4 px-2 md:px-3 border-b-2 font-medium text-xs md:text-sm flex items-center space-x-1 md:space-x-2 whitespace-nowrap flex-shrink-0 ${
                     activeTab === tab.id
-                      ? 'bg-white/25 text-white border-2 border-white/40 backdrop-blur-md transform scale-105 shadow-lg'
-                      : 'bg-white/10 text-white/80 border border-white/20 hover:bg-white/20 hover:text-white hover:scale-102 backdrop-blur-sm'
+                      ? 'border-blue-400 text-blue-400'
+                      : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-500'
                   }`}
-                  style={{animationDelay: `${0.8 + index * 0.1}s`}}
                 >
                   <tab.icon className="w-4 h-4 flex-shrink-0" />
                   <span className="hidden sm:inline">{tab.label}</span>
