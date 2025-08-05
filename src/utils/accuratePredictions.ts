@@ -79,6 +79,37 @@ export class AccuratePredictionEngine {
     });
   }
 
+  private calculatePercentileThresholds() {
+    // Collect all city-hour crime counts
+    const allCounts: number[] = [];
+
+    for (const [city, hourMap] of this.cityHourData.entries()) {
+      for (let hour = 0; hour < 24; hour++) {
+        const count = hourMap.get(hour)?.length || 0;
+        allCounts.push(count);
+      }
+    }
+
+    // Sort counts to find percentiles
+    allCounts.sort((a, b) => a - b);
+
+    if (allCounts.length === 0) {
+      this.riskThresholds = { high: 0, medium: 0, low: 0 };
+      return;
+    }
+
+    // Calculate thresholds
+    // Top 25% = High risk, Bottom 25% = Low risk, Middle 50% = Medium risk
+    const highThresholdIndex = Math.floor(allCounts.length * 0.75); // 75th percentile
+    const lowThresholdIndex = Math.floor(allCounts.length * 0.25);  // 25th percentile
+
+    this.riskThresholds = {
+      high: allCounts[highThresholdIndex] || 0,
+      medium: allCounts[lowThresholdIndex] || 0,
+      low: 0
+    };
+  }
+
   private parseHour(timeStr: string): number {
     try {
       let timePart = timeStr.trim();
