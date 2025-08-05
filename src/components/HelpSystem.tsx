@@ -6,103 +6,96 @@ interface HelpStep {
   title: string;
   content: string;
   icon: React.ComponentType<any>;
-  tips?: string[];
+  tips: string[];
 }
 
 const helpSteps: HelpStep[] = [
   {
     id: 'welcome',
-    title: 'Welcome to Crime Analysis Dashboard',
-    content: 'This powerful AI-driven platform helps you analyze crime data, predict patterns, and enhance public safety through advanced analytics and machine learning.',
+    title: 'Welcome to Crime Dashboard',
+    content: 'AI-powered crime analysis platform for data-driven safety insights and predictions.',
     icon: HelpCircle,
     tips: [
-      'Upload your own crime dataset for personalized analysis',
-      'Explore different visualization modes for comprehensive insights',
-      'Use AI predictions to make informed safety decisions'
+      'Upload CSV files up to 200K records',
+      'Get real-time AI predictions',
+      'Access emergency contact info'
     ]
   },
   {
     id: 'overview',
     title: 'Dashboard Overview',
-    content: 'The main dashboard provides key metrics, crime statistics, and quick insights. Monitor total crimes, case closure rates, average victim age, and weapon-related incidents at a glance.',
+    content: 'View key metrics: total crimes, closure rates, victim demographics, and weapon incidents.',
     icon: BarChart3,
     tips: [
-      'Total cases counter shows the complete dataset size',
-      'Solved percentage indicates police effectiveness',
-      'Armed incidents percentage highlights weapon-related crimes',
-      'All metrics update automatically when you upload new data'
+      'Metrics update with new data',
+      'Color-coded risk indicators',
+      'Accuracy shows prediction quality'
     ]
   },
   {
     id: 'upload',
-    title: 'Uploading Your Dataset',
-    content: 'Click the "Upload Dataset" button to analyze your own crime data. Supports CSV files up to 100MB with up to 200,000 records for comprehensive analysis.',
+    title: 'Data Upload',
+    content: 'Upload CSV files with crime data. Required columns: Report Number, Date, City, Crime Type, Age, Gender.',
     icon: Upload,
     tips: [
-      'Ensure your CSV has columns: Report Number, Date of Occurrence, City, Crime Description, Victim Age, Victim Gender',
-      'Data is processed locally for privacy and security',
-      'Large files are processed in chunks for optimal performance',
-      'You can download a validation report if there are data quality issues'
+      'CSV format only, 100MB max',
+      'Data processed locally',
+      'Validation reports available'
     ]
   },
   {
     id: 'city-analysis',
-    title: 'City Analysis & Rankings',
-    content: 'Explore crime patterns across different cities. View safety ratings, total crimes, closure rates, and demographic insights for each location.',
+    title: 'City Analysis',
+    content: 'Compare safety ratings, crime patterns, and demographics across different cities.',
     icon: MapPin,
     tips: [
-      'Safety ratings range from 1.0 (high risk) to 5.0 (very safe)',
-      'Click on any city to see detailed safety recommendations',
-      'Risk levels are calculated using AI algorithms and historical data',
-      'Last incident date helps understand recent crime activity'
+      'Safety ratings: 1.0 (high risk) to 5.0 (safe)',
+      'AI-calculated risk levels',
+      'Historical incident tracking'
     ]
   },
   {
     id: 'time-patterns',
-    title: 'Time Pattern Analysis',
-    content: 'Understand when crimes are most likely to occur. The time heatmap shows hourly crime distribution and risk levels throughout the day.',
+    title: 'Time Patterns',
+    content: 'Analyze crime frequency by hour. Red = high risk, Green = safe periods.',
     icon: Clock,
     tips: [
-      'Darker colors indicate higher crime frequency',
-      'Red hours represent high-risk time periods',
-      'Use this data to plan safer travel times',
-      'Pattern recognition helps identify peak crime hours'
+      '24-hour risk visualization',
+      'Pattern-based recommendations',
+      'Peak crime hour identification'
     ]
   },
   {
     id: 'ai-predictions',
-    title: 'AI-Powered Predictions',
-    content: 'Advanced machine learning models analyze your data to predict crime patterns, detect anomalies, and provide real-time risk assessments.',
+    title: 'AI Predictions',
+    content: 'Data-driven predictions using your historical crime data. No defaults - only real patterns.',
     icon: Target,
     tips: [
-      'Predictions are based entirely on historical patterns in your dataset',
-      'No default values - all calculations use your actual data',
-      'Confidence scores show prediction reliability',
-      'Real-time risk assessment helps with immediate safety decisions'
+      'Based entirely on your data',
+      'Confidence scores included',
+      'Evidence-based recommendations'
     ]
   },
   {
     id: 'safety-center',
-    title: 'Safety Center & Recommendations',
-    content: 'Get personalized safety recommendations based on your location and time. Access emergency contact information and safety centers.',
+    title: 'Safety & Emergency',
+    content: 'Access emergency contacts, safety recommendations, and incident analysis for specific locations.',
     icon: Shield,
     tips: [
-      'Select your city and time for customized safety advice',
-      'Emergency contacts include real police, hospital, and fire department numbers',
-      'Recommendations are generated based on actual crime data patterns',
-      'Safety centers show 24/7 available emergency services'
+      'Real emergency numbers',
+      'Location-specific advice',
+      'Incident trend analysis'
     ]
   },
   {
     id: 'ai-assistant',
     title: 'AI Chat Assistant',
-    content: 'Interact with the AI assistant to ask questions about your crime data, get insights, and receive detailed explanations about patterns and trends.',
+    content: 'Ask questions about your crime data in natural language. Get insights and explanations.',
     icon: MessageCircle,
     tips: [
-      'Ask questions in natural language about your data',
-      'Get explanations for complex statistical concepts',
-      'Request specific analysis for particular cities or time periods',
-      'The assistant can help interpret prediction results'
+      'Natural language queries',
+      'Data interpretation help',
+      'Pattern explanations'
     ]
   }
 ];
@@ -120,6 +113,8 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
   const handleNext = () => {
     if (currentStep < helpSteps.length - 1) {
       setCurrentStep(currentStep + 1);
+    } else {
+      onClose();
     }
   };
 
@@ -132,14 +127,16 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
   const currentHelpStep = helpSteps[currentStep];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[85vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-hidden border border-gray-200 dark:border-gray-700">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
           <div className="flex items-center">
-            <currentHelpStep.icon className="w-6 h-6 text-blue-500 mr-3" />
+            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-3">
+              <currentHelpStep.icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {currentHelpStep.title}
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -149,97 +146,42 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(85vh-140px)]">
+        <div className="p-6">
           <div className="mb-6">
-            <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">
               {currentHelpStep.content}
             </p>
+            
+            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2">
+                💡 Quick Tips
+              </h4>
+              <ul className="space-y-1">
+                {currentHelpStep.tips.map((tip, index) => (
+                  <li key={index} className="flex items-start text-sm text-blue-800 dark:text-blue-300">
+                    <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                    {tip}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {currentHelpStep.tips && (
-            <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                💡 Tips & Best Practices
-              </h4>
-              <div className="space-y-3">
-                {currentHelpStep.tips.map((tip, index) => (
-                  <div key={index} className="flex items-start">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <p className="text-gray-600 dark:text-gray-400">{tip}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Special content for specific steps */}
-          {currentStep === 0 && (
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-4 mb-6">
-              <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">
-                🚀 Quick Start
-              </h4>
-              <ol className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
-                <li>1. Upload your crime dataset (CSV format)</li>
-                <li>2. Explore the Overview tab for key insights</li>
-                <li>3. Check AI Predictions for future trends</li>
-                <li>4. Use Safety Center for location-specific advice</li>
-              </ol>
-            </div>
-          )}
-
-          {currentStep === 2 && (
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 mb-6">
-              <h4 className="font-semibold text-yellow-900 dark:text-yellow-300 mb-2">
-                📊 Supported Data Format
-              </h4>
-              <div className="text-sm text-yellow-800 dark:text-yellow-300 space-y-2">
-                <p><strong>Required columns:</strong></p>
-                <ul className="ml-4 space-y-1">
-                  <li>• Report Number</li>
-                  <li>• Date of Occurrence</li>
-                  <li>• City</li>
-                  <li>• Crime Description</li>
-                  <li>• Victim Age</li>
-                  <li>• Victim Gender</li>
-                </ul>
-                <p className="mt-2"><strong>File limits:</strong> Up to 200,000 rows, 100MB max</p>
-              </div>
-            </div>
-          )}
-
-          {currentStep === 5 && (
-            <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 mb-6">
-              <h4 className="font-semibold text-green-900 dark:text-green-300 mb-2">
-                🤖 AI Prediction Information
-              </h4>
-              <div className="text-sm text-green-800 dark:text-green-300 space-y-2">
-                <p><strong>Data-driven approach:</strong></p>
-                <ul className="ml-4 space-y-1">
-                  <li>• Uses only your historical data</li>
-                  <li>• No artificial defaults or assumptions</li>
-                  <li>• Confidence based on sample size</li>
-                  <li>• Evidence-based recommendations</li>
-                </ul>
-                <p className="mt-2"><strong>Accuracy:</strong> Depends on your data quality and completeness</p>
-              </div>
-            </div>
-          )}
-
           {/* Progress indicator */}
-          <div className="flex items-center justify-center space-x-2 mt-6">
+          <div className="flex items-center justify-center space-x-2 mb-6">
             {helpSteps.map((_, index) => (
               <div
                 key={index}
-                className={`w-3 h-3 rounded-full transition-colors ${
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                   index === currentStep
-                    ? 'bg-blue-500'
+                    ? 'bg-blue-500 scale-125'
                     : index < currentStep
                     ? 'bg-blue-300'
                     : 'bg-gray-300 dark:bg-gray-600'
@@ -249,28 +191,28 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Footer Navigation */}
-        <div className="flex items-center justify-between p-6 border-t border-gray-200 dark:border-gray-700">
+        {/* Footer Navigation - Fixed positioning */}
+        <div className="flex items-center justify-between p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
           <button
             onClick={handlePrevious}
             disabled={currentStep === 0}
-            className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`flex items-center px-6 py-3 rounded-lg font-medium transition-all min-w-[100px] ${
               currentStep === 0
-                ? 'text-gray-400 cursor-not-allowed'
-                : 'text-white bg-blue-600 hover:bg-blue-700'
+                ? 'text-gray-400 cursor-not-allowed bg-gray-100 dark:bg-gray-800'
+                : 'text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
             }`}
           >
             <ChevronLeft className="w-4 h-4 mr-1" />
-            Previous
+            Back
           </button>
 
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            {currentStep + 1} of {helpSteps.length}
+          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+            {currentStep + 1} / {helpSteps.length}
           </span>
 
           <button
-            onClick={currentStep === helpSteps.length - 1 ? onClose : handleNext}
-            className="flex items-center px-4 py-2 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+            onClick={handleNext}
+            className="flex items-center px-6 py-3 rounded-lg font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 min-w-[100px]"
           >
             {currentStep === helpSteps.length - 1 ? 'Done' : 'Next'}
             {currentStep < helpSteps.length - 1 && <ChevronRight className="w-4 h-4 ml-1" />}
