@@ -32,12 +32,17 @@ export class AccuratePredictionEngine {
   private hourlyData: Map<number, CrimeRecord[]>;
   private crimeTypeData: Map<string, CrimeRecord[]>;
   private cityHourData: Map<string, Map<number, CrimeRecord[]>>;
+  private cityHourCounts: Map<string, Map<number, number>>;
+  private cityWeaponCounts: Map<string, number>;
+  private cityClosureRates: Map<string, number>;
   private riskThresholds: { high: number; medium: number; low: number } | null = null;
+  private predictionCache: Map<string, AccuratePrediction> = new Map();
 
   constructor(data: CrimeRecord[]) {
     this.data = data;
-    this.buildDataStructures();
+    this.buildOptimizedDataStructures();
     this.calculatePercentileThresholds();
+    this.precomputeStatistics();
   }
 
   private buildDataStructures() {
