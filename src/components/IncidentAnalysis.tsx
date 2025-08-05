@@ -62,28 +62,9 @@ const IncidentAnalysis: React.FC<IncidentAnalysisProps> = ({ data, selectedCity 
       .sort((a, b) => b.count - a.count)
       .slice(0, 5);
 
-    // Generate mock weekly/monthly trends based on data
-    const weeklyTrends: TrendData[] = [
-      { period: 'This Week', incidents: last7Days, change: weekOverWeek, trend: weekOverWeek > 5 ? 'up' : weekOverWeek < -5 ? 'down' : 'stable' },
-      { period: 'Last Week', incidents: prev7Days, change: 0, trend: 'stable' }
-    ];
-
-    const monthlyTrends: TrendData[] = [
-      { period: 'This Month', incidents: last30Days, change: monthOverMonth, trend: monthOverMonth > 10 ? 'up' : monthOverMonth < -10 ? 'down' : 'stable' },
-      { period: 'Last Month', incidents: prev30Days, change: 0, trend: 'stable' }
-    ];
-
     return {
-      weeklyTrends,
-      monthlyTrends,
       peakHours,
-      commonIncidents,
-      recentActivity: {
-        last7Days,
-        last30Days,
-        weekOverWeek,
-        monthOverMonth
-      }
+      commonIncidents
     };
   }, [data, selectedCity]);
 
