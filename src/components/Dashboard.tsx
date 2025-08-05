@@ -753,7 +753,7 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
 
-                <CityRankings cityStats={cityStats} showSafetyDetails />
+                <IncidentAnalysis data={data} selectedCity={selectedCity} />
               </div>
             )}
 
