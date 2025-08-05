@@ -247,7 +247,7 @@ export class AccuratePredictionEngine {
       city, hour, cityHourRecords, mostLikelyCrimeType, riskLevel
     );
 
-    return {
+    const result = {
       city,
       hour,
       crimeType: mostLikelyCrimeType,
@@ -263,6 +263,10 @@ export class AccuratePredictionEngine {
       },
       recommendations
     };
+
+    // Cache the result for better performance
+    this.predictionCache.set(cacheKey, result);
+    return result;
   }
 
   private createNoPredictionResult(city: string, hour: number, reason: string): AccuratePrediction {
