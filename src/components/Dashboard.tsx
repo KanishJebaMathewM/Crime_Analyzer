@@ -2,7 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { CrimeRecord, CityStats, TimeAnalysis, ChatMessage } from '../types/crime';
 import { generateMockData, processDataInChunks } from '../utils/dataGenerator';
 import { analyzeCitySafety, analyzeTimePatterns, generateSafetyRecommendations } from '../utils/analytics';
-import { BarChart3, MapPin, Clock, Users, Shield, MessageCircle, TrendingUp, AlertTriangle, Upload, Target, CheckCircle } from 'lucide-react';
+import { AccuratePredictionEngine, PredictionAccuracy } from '../utils/accuratePredictions';
+import { useTheme } from '../contexts/ThemeContext';
+import { BarChart3, MapPin, Clock, Users, Shield, MessageCircle, TrendingUp, AlertTriangle, Upload, Target, CheckCircle, HelpCircle, Sun, Moon, Monitor, Settings } from 'lucide-react';
+import HelpSystem from './HelpSystem';
 import CrimeChart from './CrimeChart';
 import CityRankings from './CityRankings';
 import TimeHeatmap from './TimeHeatmap';
@@ -13,6 +16,7 @@ import FileUpload from './FileUpload';
 import PredictionsPanel from './PredictionsPanel';
 
 const Dashboard: React.FC = () => {
+  const { theme, setTheme } = useTheme();
   const [data, setData] = useState<CrimeRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
@@ -21,6 +25,10 @@ const Dashboard: React.FC = () => {
   const [showUpload, setShowUpload] = useState(false);
   const [dataSource, setDataSource] = useState<'demo' | 'uploaded'>('demo');
   const [showAllCities, setShowAllCities] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [uploadedDatasetPath, setUploadedDatasetPath] = useState<string | null>(null);
+  const [lastUploadedData, setLastUploadedData] = useState<CrimeRecord[] | null>(null);
 
   const cityStats = useMemo(() => {
     if (data.length === 0) return [];
@@ -31,6 +39,18 @@ const Dashboard: React.FC = () => {
     if (data.length === 0) return [];
     return analyzeTimePatterns(data);
   }, [data]);
+
+  // Accurate prediction engine
+  const predictionEngine = useMemo(() => {
+    if (data.length === 0) return null;
+    return new AccuratePredictionEngine(data);
+  }, [data]);
+
+  // Prediction accuracy metrics
+  const predictionAccuracy = useMemo(() => {
+    if (!predictionEngine) return null;
+    return predictionEngine.calculateOverallAccuracy();
+  }, [predictionEngine]);
 
   const safetyData = useMemo(() => {
     if (!selectedCity || cityStats.length === 0) return { recommendations: [], safetyCenters: [] };
@@ -245,11 +265,42 @@ const Dashboard: React.FC = () => {
 
   const handleDataUpload = (uploadedData: CrimeRecord[]) => {
     setData(uploadedData);
+    setLastUploadedData(uploadedData);
     setDataSource('uploaded');
     if (uploadedData.length > 0) {
       setSelectedCity(uploadedData[0].city);
     }
     setShowUpload(false);
+  };
+
+  const handleRefreshData = () => {
+    if (dataSource === 'uploaded' && lastUploadedData) {
+      // Refresh the uploaded data
+      setLoading(true);
+      setTimeout(() => {
+        setData([...lastUploadedData]);
+        setLoading(false);
+      }, 500);
+    } else {
+      // Load actual dataset
+      loadActualData();
+    }
+  };
+
+  const getThemeIcon = () => {
+    switch (theme) {
+      case 'light': return <Sun className="w-4 h-4" />;
+      case 'dark': return <Moon className="w-4 h-4" />;
+      default: return <Monitor className="w-4 h-4" />;
+    }
+  };
+
+  const getThemeLabel = () => {
+    switch (theme) {
+      case 'light': return 'Light';
+      case 'dark': return 'Dark';
+      default: return 'Default';
+    }
   };
   
   const totalCrimes = data.length;
@@ -318,7 +369,7 @@ const Dashboard: React.FC = () => {
                   {loading ? 'Loading...' : 'Load Real Dataset'}
                 </button>
                 <button
-                  onClick={loadActualData}
+                  onClick={handleRefreshData}
                   disabled={loading}
                   className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -331,6 +382,48 @@ const Dashboard: React.FC = () => {
                 >
                   <Upload className="w-4 h-4 mr-2" />
                   Upload Dataset
+                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setShowSettings(!showSettings)}
+                    className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  >
+                    <Settings className="w-4 h-4 mr-2" />
+                    Settings
+                  </button>
+                  {showSettings && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-10 border border-gray-200 dark:border-gray-700">
+                      <div className="py-2">
+                        <div className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700">
+                          Theme
+                        </div>
+                        {['default', 'light', 'dark'].map((themeOption) => (
+                          <button
+                            key={themeOption}
+                            onClick={() => {
+                              setTheme(themeOption as any);
+                              setShowSettings(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center ${
+                              theme === themeOption ? 'bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300'
+                            }`}
+                          >
+                            {themeOption === 'light' && <Sun className="w-4 h-4 mr-2" />}
+                            {themeOption === 'dark' && <Moon className="w-4 h-4 mr-2" />}
+                            {themeOption === 'default' && <Monitor className="w-4 h-4 mr-2" />}
+                            {themeOption.charAt(0).toUpperCase() + themeOption.slice(1)}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <button
+                  onClick={() => setShowHelp(true)}
+                  className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                >
+                  <HelpCircle className="w-4 h-4 mr-2" />
+                  Help
                 </button>
               </div>
             </div>
@@ -362,11 +455,36 @@ const Dashboard: React.FC = () => {
 
           {dataSource === 'uploaded' && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
-              <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                <p className="text-sm text-green-800">
-                  📈 Using real crime dataset from India with {totalCrimes.toLocaleString()} actual records. All analysis reflects genuine crime data.
-                </p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
+                  <p className="text-sm text-green-800">
+                    📈 Using uploaded dataset with {totalCrimes.toLocaleString()} records. All analysis reflects your actual data.
+                  </p>
+                </div>
+                {predictionAccuracy && (
+                  <div className="text-sm text-green-700">
+                    <span className="font-semibold">AI Accuracy: {Math.round(predictionAccuracy.overallAccuracy * 100)}%</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {dataSource === 'demo' && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <AlertTriangle className="w-4 h-4 text-yellow-600 mr-2" />
+                  <p className="text-sm text-yellow-800">
+                    📊 Using real Indian crime dataset with {totalCrimes.toLocaleString()} records for demonstration.
+                  </p>
+                </div>
+                {predictionAccuracy && (
+                  <div className="text-sm text-yellow-700">
+                    <span className="font-semibold">AI Accuracy: {Math.round(predictionAccuracy.overallAccuracy * 100)}%</span>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -398,7 +516,7 @@ const Dashboard: React.FC = () => {
             {activeTab === 'overview' && (
               <div className="space-y-6">
                 {/* Key Metrics */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                   <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
                     <div className="flex items-center">
                       <BarChart3 className="w-8 h-8 text-blue-600" />
@@ -455,6 +573,22 @@ const Dashboard: React.FC = () => {
                       </div>
                     </div>
                   </div>
+                  {predictionAccuracy && (
+                    <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-6 rounded-xl border border-purple-200 dark:border-purple-800">
+                      <div className="flex items-center">
+                        <Target className="w-8 h-8 text-purple-600" />
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-purple-600">AI Accuracy</p>
+                          <p className="text-2xl font-bold text-purple-900 dark:text-purple-100">
+                            {Math.round(predictionAccuracy.overallAccuracy * 100)}%
+                          </p>
+                          <p className="text-xs text-purple-700 dark:text-purple-300 mt-1">
+                            Prediction reliability
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 {/* Charts Section */}
@@ -602,6 +736,11 @@ const Dashboard: React.FC = () => {
             onClose={() => setShowUpload(false)}
           />
         )}
+
+        <HelpSystem
+          isOpen={showHelp}
+          onClose={() => setShowHelp(false)}
+        />
         
         {showAllCities && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
