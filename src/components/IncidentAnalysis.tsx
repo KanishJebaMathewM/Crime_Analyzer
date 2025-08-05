@@ -41,7 +41,7 @@ const IncidentAnalysis: React.FC<IncidentAnalysisProps> = ({ data, selectedCity 
       .map((count, hour) => ({
         hour,
         incidents: count,
-        percentage: cityData.length > 0 ? (count / cityData.length) * 100 : 0
+        percentage: totalIncidents > 0 ? (count / totalIncidents) * 100 : 0
       }))
       .sort((a, b) => b.incidents - a.incidents)
       .slice(0, 6);
