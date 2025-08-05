@@ -469,7 +469,7 @@ const Dashboard: React.FC = () => {
           )}
 
           {dataSource === 'uploaded' && (
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4 mb-4 shadow-sm">
+            <div className="status-success rounded-xl p-4 mb-4 shadow-lg animate-fade-in-up">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
