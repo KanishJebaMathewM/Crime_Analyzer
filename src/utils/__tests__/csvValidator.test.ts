@@ -293,7 +293,7 @@ describe('CSVValidator', () => {
         'victim gender',
       ];
 
-      const validateHeaders = (validator as any).validateHeaders;
+      const validateHeaders = (validator as any).validateHeaders.bind(validator);
       const result = validateHeaders(headers);
 
       expect(result.valid).toBe(true);
