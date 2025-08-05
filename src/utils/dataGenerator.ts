@@ -8,7 +8,7 @@ const crimeTypes = [
 const weapons = ['None', 'Knife', 'Gun', 'Blunt Object', 'Other', 'Unknown'];
 const domains = ['Property', 'Violent', 'Financial', 'Cyber', 'Traffic', 'Drug'];
 
-export function generateMockData(count: number = 50000): CrimeRecord[] {
+export function generateMockData(count: number = 100000): CrimeRecord[] {
   const data: CrimeRecord[] = [];
 
   for (let i = 0; i < count; i++) {
@@ -76,9 +76,9 @@ export function generateMockData(count: number = 50000): CrimeRecord[] {
 }
 
 export function processDataInChunks<T, R>(
-  data: T[], 
-  processor: (chunk: T[]) => R[], 
-  chunkSize: number = 1000
+  data: T[],
+  processor: (chunk: T[]) => R[],
+  chunkSize: number = 2000
 ): R[] {
   const results: R[] = [];
   
