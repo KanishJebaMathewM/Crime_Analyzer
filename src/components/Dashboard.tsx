@@ -13,7 +13,7 @@ import VictimDemographics from './VictimDemographics';
 import ChatBot from './ChatBot';
 import LoadingSpinner from './LoadingSpinner';
 import FileUpload from './FileUpload';
-import PredictionsPanel from './PredictionsPanel';
+import AccuratePredictionsPanel from './AccuratePredictionsPanel';
 
 const Dashboard: React.FC = () => {
   const { theme, setTheme } = useTheme();
