@@ -28,8 +28,8 @@ export interface CSVPreviewData {
 }
 
 export const DEFAULT_CSV_CONFIG: CSVValidationConfig = {
-  maxFileSize: 50 * 1024 * 1024, // 50MB
-  maxRows: 100000,
+  maxFileSize: 100 * 1024 * 1024, // 100MB
+  maxRows: 200000,
   allowedMimeTypes: ['text/csv', 'application/csv', 'text/plain'],
   requiredColumns: [
     'Report Number',
@@ -222,8 +222,8 @@ export class CSVValidator {
 
     this.updateProgress(50, 'Processing data rows...');
 
-    // Process data in chunks for better performance
-    const chunkSize = 1000;
+    // Process data in chunks for better performance with large datasets
+    const chunkSize = 2000; // Increased chunk size for better performance
     const validRecords: CrimeRecord[] = [];
     const invalidRecords: Array<{
       rowIndex: number;
