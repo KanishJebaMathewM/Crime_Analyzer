@@ -501,74 +501,88 @@ const Dashboard: React.FC = () => {
           <div className="p-6">
             {activeTab === 'overview' && (
               <div className="space-y-6">
-                {/* Key Metrics */}
+                {/* Enhanced Key Metrics with Premium Graphics */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                  <div className="gradient-blue-light p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in-up">
+                  <div className="gradient-blue-light p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 animate-fade-in-up animate-float">
                     <div className="flex items-center">
-                      <BarChart3 className="w-8 h-8 text-blue-600" />
+                      <div className="p-3 bg-white/30 rounded-xl backdrop-blur-sm">
+                        <BarChart3 className="w-8 h-8 text-white" />
+                      </div>
                       <div className="ml-4">
-                        <p className="text-sm font-medium text-blue-600">Total Crimes</p>
-                        <p className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+                        <p className="text-sm font-semibold text-white/90">📊 Total Crimes</p>
+                        <p className="text-3xl font-bold text-white text-shadow-lg">
                           {totalCrimes.toLocaleString()}
                         </p>
-                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+                        <p className="text-xs text-white/80 mt-1 font-medium">
                           Across {cityStats.length} cities
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="gradient-green-light p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+
+                  <div className="gradient-green-light p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 animate-fade-in-up animate-float" style={{animationDelay: '0.1s'}}>
                     <div className="flex items-center">
-                      <Shield className="w-8 h-8 text-green-600" />
+                      <div className="p-3 bg-white/30 rounded-xl backdrop-blur-sm">
+                        <Shield className="w-8 h-8 text-white" />
+                      </div>
                       <div className="ml-4">
-                        <p className="text-sm font-medium text-green-600">Cases Closed</p>
-                        <p className="text-2xl font-bold text-green-900 dark:text-green-100">
-                          {closedCases.toLocaleString()} ({closureRate}%)
+                        <p className="text-sm font-semibold text-white/90">🛡️ Cases Closed</p>
+                        <p className="text-3xl font-bold text-white text-shadow-lg">
+                          {closureRate}%
                         </p>
-                        <p className="text-xs text-green-700 dark:text-green-300 mt-1">
-                          Police effectiveness
+                        <p className="text-xs text-white/80 mt-1 font-medium">
+                          {closedCases.toLocaleString()} solved cases
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="gradient-orange-light p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+
+                  <div className="gradient-orange-light p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 animate-fade-in-up animate-float" style={{animationDelay: '0.2s'}}>
                     <div className="flex items-center">
-                      <Users className="w-8 h-8 text-orange-600" />
+                      <div className="p-3 bg-white/30 rounded-xl backdrop-blur-sm">
+                        <Users className="w-8 h-8 text-white" />
+                      </div>
                       <div className="ml-4">
-                        <p className="text-sm font-medium text-orange-600">Avg Victim Age</p>
-                        <p className="text-2xl font-bold text-orange-900 dark:text-orange-100">
-                          {averageAge} years
+                        <p className="text-sm font-semibold text-white/90">👥 Avg Victim Age</p>
+                        <p className="text-3xl font-bold text-white text-shadow-lg">
+                          {averageAge}
                         </p>
-                        <p className="text-xs text-orange-700 dark:text-orange-300 mt-1">
-                          Demographic insight
+                        <p className="text-xs text-white/80 mt-1 font-medium">
+                          years old
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="gradient-red-light p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+
+                  <div className="gradient-red-light p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 animate-fade-in-up animate-float" style={{animationDelay: '0.3s'}}>
                     <div className="flex items-center">
-                      <AlertTriangle className="w-8 h-8 text-red-600" />
+                      <div className="p-3 bg-white/30 rounded-xl backdrop-blur-sm">
+                        <AlertTriangle className="w-8 h-8 text-white" />
+                      </div>
                       <div className="ml-4">
-                        <p className="text-sm font-medium text-red-600">Weapon Crimes</p>
-                        <p className="text-2xl font-bold text-red-900 dark:text-red-100">
-                          {weaponCrimes.toLocaleString()} ({weaponRate}%)
+                        <p className="text-sm font-semibold text-white/90">⚔️ Weapon Crimes</p>
+                        <p className="text-3xl font-bold text-white text-shadow-lg">
+                          {weaponRate}%
                         </p>
-                        <p className="text-xs text-red-700 dark:text-red-300 mt-1">
-                          Armed incidents
+                        <p className="text-xs text-white/80 mt-1 font-medium">
+                          {weaponCrimes.toLocaleString()} armed incidents
                         </p>
                       </div>
                     </div>
                   </div>
+
                   {predictionAccuracy && (
-                    <div className="gradient-purple-light p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+                    <div className="gradient-purple-light p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 animate-fade-in-up animate-float animate-pulse-glow" style={{animationDelay: '0.4s'}}>
                       <div className="flex items-center">
-                        <Target className="w-8 h-8 text-purple-600" />
+                        <div className="p-3 bg-white/30 rounded-xl backdrop-blur-sm">
+                          <Target className="w-8 h-8 text-white" />
+                        </div>
                         <div className="ml-4">
-                          <p className="text-sm font-medium text-purple-600">AI Accuracy</p>
-                          <p className="text-2xl font-bold text-purple-900 dark:text-purple-100">
+                          <p className="text-sm font-semibold text-white/90">🤖 AI Accuracy</p>
+                          <p className="text-3xl font-bold text-white text-shadow-lg">
                             {Math.round(predictionAccuracy.overallAccuracy * 100)}%
                           </p>
-                          <p className="text-xs text-purple-700 dark:text-purple-300 mt-1">
+                          <p className="text-xs text-white/80 mt-1 font-medium">
                             Prediction reliability
                           </p>
                         </div>
