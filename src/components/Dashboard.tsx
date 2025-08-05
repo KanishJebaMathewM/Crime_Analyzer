@@ -343,44 +343,36 @@ const Dashboard: React.FC = () => {
                   <div className="text-xs text-gray-400">Armed</div>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full">
+              <div className="flex items-center space-x-3">
                 <button
                   onClick={loadActualData}
                   disabled={loading}
-                  className="btn-primary flex items-center px-4 py-3 rounded-xl font-semibold text-sm min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed animate-fade-in-up"
-                  style={{animationDelay: '0.4s'}}
+                  className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <BarChart3 className="w-5 h-5 mr-2 flex-shrink-0" />
-                  <span className="hidden sm:inline">{loading ? '🔄 Loading...' : '📊 Load Real Dataset'}</span>
-                  <span className="sm:hidden">{loading ? 'Load...' : 'Data'}</span>
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  {loading ? 'Loading...' : 'Load Real Dataset'}
                 </button>
                 <button
                   onClick={handleRefreshData}
                   disabled={loading}
-                  className="btn-primary flex items-center px-4 py-3 rounded-xl font-semibold text-sm min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed animate-fade-in-up"
-                  style={{animationDelay: '0.5s'}}
+                  className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <TrendingUp className="w-5 h-5 mr-2 flex-shrink-0" />
-                  <span className="hidden sm:inline">{loading ? '🔄 Refreshing...' : '🔄 Refresh Data'}</span>
-                  <span className="sm:hidden">{loading ? 'Refresh...' : 'Refresh'}</span>
+                  <TrendingUp className="w-4 h-4 mr-2" />
+                  {loading ? 'Loading...' : 'Refresh Data'}
                 </button>
                 <button
                   onClick={() => setShowUpload(true)}
-                  className="btn-primary flex items-center px-4 py-3 rounded-xl font-semibold text-sm min-h-[48px] animate-fade-in-up"
-                  style={{animationDelay: '0.6s'}}
+                  className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  <Upload className="w-5 h-5 mr-2 flex-shrink-0" />
-                  <span className="hidden sm:inline">📤 Upload Dataset</span>
-                  <span className="sm:hidden">Upload</span>
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Dataset
                 </button>
                 <button
                   onClick={() => setShowHelp(true)}
-                  className="btn-primary flex items-center p-3 rounded-xl focus:outline-none focus:ring-4 focus:ring-white/30 animate-pulse-glow animate-fade-in-up"
-                  style={{animationDelay: '0.7s'}}
+                  className="flex items-center p-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
                   title="Help & Instructions"
                 >
-                  <HelpCircle className="w-6 h-6" />
-                  <span className="hidden lg:inline ml-2 font-semibold">Help</span>
+                  <HelpCircle className="w-5 h-5" />
                 </button>
               </div>
             </div>
