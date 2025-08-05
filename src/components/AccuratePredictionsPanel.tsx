@@ -140,13 +140,15 @@ const AccuratePredictionsPanel: React.FC<AccuratePredictionsPanelProps> = ({ dat
 
         {/* Accuracy Metrics */}
         {predictionAccuracy && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-4 rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-5 rounded-xl shadow-lg hover:shadow-xl transition-all border border-blue-200 dark:border-blue-800">
               <div className="flex items-center">
-                <Target className="w-5 h-5 text-blue-600 mr-2" />
-                <div>
-                  <p className="text-sm text-blue-600">Prediction Accuracy</p>
-                  <p className="text-lg font-bold text-blue-900 dark:text-blue-100">
+                <div className="p-2 bg-blue-500 rounded-lg">
+                  <Target className="w-5 h-5 text-white" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Prediction Accuracy</p>
+                  <p className="text-xl font-bold text-blue-900 dark:text-blue-100">
                     {formatProbability(predictionAccuracy.overallAccuracy)}
                   </p>
                 </div>
