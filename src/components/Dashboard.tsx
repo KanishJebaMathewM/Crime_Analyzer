@@ -370,76 +370,13 @@ const Dashboard: React.FC = () => {
                   <span className="hidden sm:inline">Upload Dataset</span>
                   <span className="sm:hidden">Upload</span>
                 </button>
-                <div className="relative">
-                  <button
-                    onClick={() => setShowSettings(!showSettings)}
-                    className="flex items-center p-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                    title="Settings"
-                  >
-                    <Settings className="w-5 h-5" />
-                  </button>
-                  {showSettings && (
-                    <>
-                      {/* Backdrop */}
-                      <div
-                        className="fixed inset-0 z-40"
-                        onClick={() => setShowSettings(false)}
-                      />
-                      {/* Dropdown */}
-                      <div className="absolute right-0 mt-2 w-64 sm:w-64 max-sm:fixed max-sm:top-1/2 max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2 max-sm:-translate-y-1/2 max-sm:w-80 bg-white dark:bg-gray-800 rounded-xl shadow-2xl z-50 border border-gray-200 dark:border-gray-700 overflow-hidden">
-                        <div className="py-2">
-                          <div className="px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                            <div className="flex items-center">
-                              <Settings className="w-4 h-4 mr-2" />
-                              Settings
-                            </div>
-                          </div>
-
-                          <div className="px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-25 dark:bg-gray-850">
-                            Theme Selection
-                          </div>
-                          <div className="px-2 py-1">
-                            {['default', 'light', 'dark'].map((themeOption) => (
-                              <button
-                                key={themeOption}
-                                onClick={() => {
-                                  setTheme(themeOption as any);
-                                  setShowSettings(false);
-                                }}
-                                className={`w-full text-left px-3 py-3 text-sm rounded-lg flex items-center transition-all duration-200 mb-1 ${
-                                  theme === themeOption
-                                    ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-medium'
-                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                                }`}
-                              >
-                                {themeOption === 'light' && <Sun className="w-4 h-4 mr-3 flex-shrink-0" />}
-                                {themeOption === 'dark' && <Moon className="w-4 h-4 mr-3 flex-shrink-0" />}
-                                {themeOption === 'default' && <Monitor className="w-4 h-4 mr-3 flex-shrink-0" />}
-                                <span className="flex-1">{themeOption.charAt(0).toUpperCase() + themeOption.slice(1)} Mode</span>
-                                {theme === themeOption && <span className="text-blue-500 font-bold">✓</span>}
-                              </button>
-                            ))}
-                          </div>
-
-                          <div className="border-t border-gray-200 dark:border-gray-700 mt-2">
-                            <div className="px-2 py-1">
-                              <button
-                                onClick={() => {
-                                  setShowHelp(true);
-                                  setShowSettings(false);
-                                }}
-                                className="w-full text-left px-3 py-3 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center text-gray-700 dark:text-gray-300 transition-all duration-200"
-                              >
-                                <HelpCircle className="w-4 h-4 mr-3 flex-shrink-0" />
-                                <span>Help & Instructions</span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
+                <button
+                  onClick={() => setShowHelp(true)}
+                  className="flex items-center p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 animate-pulse-glow"
+                  title="Help & Instructions"
+                >
+                  <HelpCircle className="w-5 h-5" />
+                </button>
               </div>
             </div>
           </div>
