@@ -548,7 +548,7 @@ const Dashboard: React.FC = () => {
               <div className="space-y-6">
                 {/* Key Metrics */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800 shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="gradient-blue-light p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in-up">
                     <div className="flex items-center">
                       <BarChart3 className="w-8 h-8 text-blue-600" />
                       <div className="ml-4">
