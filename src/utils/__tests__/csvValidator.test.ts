@@ -2,12 +2,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { CSVValidator, DEFAULT_CSV_CONFIG } from '../csvValidator';
 
 // Mock Papa Parse
-const mockPapaParse = {
-  parse: vi.fn(),
-};
-
 vi.mock('papaparse', () => ({
-  default: mockPapaParse,
+  default: {
+    parse: vi.fn(),
+  },
 }));
 
 describe('CSVValidator', () => {
