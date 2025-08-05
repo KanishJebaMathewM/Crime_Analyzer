@@ -132,6 +132,16 @@
   }
 }
 
+/* ============ UTILITY CLASSES ============ */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* ============ ENHANCED CARD STYLES ============ */
 .card-enhanced {
   background: rgba(255, 255, 255, 0.95);
