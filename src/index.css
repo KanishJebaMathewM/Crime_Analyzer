@@ -69,35 +69,30 @@ body {
     0 0 0 1px rgba(148, 163, 184, 0.2);
 }
 
-/* Premium gradient backgrounds with enhanced visuals */
+/* Original dark theme gradient backgrounds */
 .gradient-blue-light {
-  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 25px rgba(168, 237, 234, 0.3);
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.3) 0%, rgba(37, 99, 235, 0.2) 50%, rgba(59, 130, 246, 0.1) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.5);
 }
 
 .gradient-green-light {
-  background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 25px rgba(210, 153, 194, 0.3);
+  background: linear-gradient(135deg, rgba(21, 128, 61, 0.3) 0%, rgba(34, 197, 94, 0.2) 50%, rgba(74, 222, 128, 0.1) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.5);
 }
 
 .gradient-orange-light {
-  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 25px rgba(252, 182, 159, 0.3);
+  background: linear-gradient(135deg, rgba(194, 65, 12, 0.3) 0%, rgba(249, 115, 22, 0.2) 50%, rgba(251, 146, 60, 0.1) 100%);
+  border: 1px solid rgba(249, 115, 22, 0.5);
 }
 
 .gradient-red-light {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
+  background: linear-gradient(135deg, rgba(185, 28, 28, 0.3) 0%, rgba(239, 68, 68, 0.2) 50%, rgba(248, 113, 113, 0.1) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.5);
 }
 
 .gradient-purple-light {
-  background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 25px rgba(161, 140, 209, 0.3);
+  background: linear-gradient(135deg, rgba(126, 34, 206, 0.3) 0%, rgba(168, 85, 247, 0.2) 50%, rgba(192, 132, 252, 0.1) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.5);
 }
 
 /* Premium button styles */
