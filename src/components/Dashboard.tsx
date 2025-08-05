@@ -316,17 +316,28 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="card-enhanced border-b backdrop-blur-lg">
+    <div className="min-h-screen">
+      <div className="card-enhanced border-b backdrop-blur-lg animate-fade-in-up">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between py-6 gap-6">
-            <div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
-                Crime Analysis Dashboard
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between py-8 gap-6">
+            <div className="animate-slide-in-left">
+              <h1 className="text-3xl lg:text-4xl font-bold text-white text-shadow-lg animate-float">
+                🚔 Crime Analysis Dashboard
               </h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm lg:text-base">
-                Advanced analytics for crime prevention and safety insights
+              <p className="text-white/90 mt-3 text-lg font-medium text-shadow">
+                AI-Powered Crime Prevention & Safety Intelligence Platform
               </p>
+              <div className="mt-4 flex items-center space-x-4">
+                <div className="px-3 py-1 bg-white/20 rounded-full text-white text-sm font-medium backdrop-blur-sm">
+                  🤖 AI-Enhanced
+                </div>
+                <div className="px-3 py-1 bg-white/20 rounded-full text-white text-sm font-medium backdrop-blur-sm">
+                  📊 Real-Time Analysis
+                </div>
+                <div className="px-3 py-1 bg-white/20 rounded-full text-white text-sm font-medium backdrop-blur-sm">
+                  🛡️ Safety Focused
+                </div>
+              </div>
             </div>
             <div className="flex flex-col items-start space-y-4 w-full lg:w-auto">
               <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center w-full">
