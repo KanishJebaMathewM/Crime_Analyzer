@@ -183,21 +183,22 @@ export class AccuratePredictionEngine {
       return result;
     }
 
-    // Calculate actual probability based on historical data
+    // Calculate actual probability based on historical data using precomputed values
     const totalDatasetRecords = this.data.length;
-    const cityHourFrequency = cityHourRecords.length;
+    const cityHourFrequency = cityHourCount;
     const cityTotalRecords = cityRecords.length;
-    
+
     // Base probability: how often crimes occur in this city at this hour
     const baseProbability = cityTotalRecords > 0 ? cityHourFrequency / cityTotalRecords : 0;
-    
+
     // Adjust probability based on overall dataset patterns
     const globalHourFrequency = hourRecords.length / totalDatasetRecords;
     const cityFrequency = cityTotalRecords / totalDatasetRecords;
-    
-    // Calculate adjusted probability using Bayesian-like approach
-    const adjustedProbability = (baseProbability * cityFrequency * globalHourFrequency) / 
-                               Math.max(0.0001, (cityFrequency * globalHourFrequency));
+
+    // Enhanced probability calculation with better normalization
+    const adjustedProbability = Math.min(1, Math.max(0,
+      (baseProbability * (1 + cityFrequency) * (1 + globalHourFrequency)) / 2
+    ));
 
     // Find most likely crime type based on actual data
     const crimeTypeCounts = new Map<string, number>();
