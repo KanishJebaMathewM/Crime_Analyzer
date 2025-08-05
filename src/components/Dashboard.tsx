@@ -398,75 +398,55 @@ const Dashboard: React.FC = () => {
           </div>
           
           {dataSource === 'demo' && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
-              <p className="text-sm text-yellow-800">
-                📊 Currently showing mock/demo data with {totalCrimes.toLocaleString()} sample records.
-                <button
-                  onClick={loadActualData}
-                  disabled={loading}
-                  className="ml-1 underline hover:no-underline font-medium disabled:opacity-50"
-                >
-                  {loading ? 'Loading real dataset...' : 'Load real Indian crime dataset'}
-                </button> or
-                <button
-                  onClick={() => setShowUpload(true)}
-                  className="ml-1 underline hover:no-underline"
-                >
-                  upload your own dataset
-                </button> for real analysis.
-              </p>
-              <p className="text-xs text-yellow-600 mt-2">
-                💡 If the real dataset fails to load, it might be a server configuration issue. The demo data provides similar insights.
-              </p>
-            </div>
-          )}
-
-          {dataSource === 'uploaded' && (
-            <div className="status-success rounded-xl p-4 mb-4 shadow-lg animate-fade-in-up">
+            <div className="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-5 mb-6 shadow-lg animate-fade-in-up">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
+                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm mr-3">
+                    <BarChart3 className="w-5 h-5 text-white" />
+                  </div>
                   <div>
-                    <p className="text-sm font-medium text-green-800 dark:text-green-300">
-                      📈 Using your uploaded dataset
+                    <p className="text-sm font-semibold text-white/95">
+                      📊 Demo Dataset Active
                     </p>
-                    <p className="text-xs text-green-700 dark:text-green-400">
-                      {totalCrimes.toLocaleString()} records • All analysis reflects your actual data
+                    <p className="text-xs text-white/80 mt-1">
+                      {totalCrimes.toLocaleString()} sample records • Indian crime data simulation
                     </p>
                   </div>
                 </div>
                 {predictionAccuracy && (
-                  <div className="text-right">
-                    <p className="text-sm font-semibold text-green-700 dark:text-green-300">
+                  <div className="text-right bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2">
+                    <p className="text-lg font-bold text-white text-shadow">
                       {Math.round(predictionAccuracy.overallAccuracy * 100)}%
                     </p>
-                    <p className="text-xs text-green-600 dark:text-green-400">AI Accuracy</p>
+                    <p className="text-xs text-white/80 font-medium">AI Accuracy</p>
                   </div>
                 )}
               </div>
             </div>
           )}
 
-          {dataSource === 'demo' && (
-            <div className="gradient-blue-light rounded-xl p-4 mb-4 shadow-lg animate-fade-in-up">
+          {dataSource === 'uploaded' && (
+            <div className="status-success rounded-2xl p-5 mb-6 shadow-2xl animate-fade-in-up border-2 border-green-400/30">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <BarChart3 className="w-5 h-5 text-blue-600 mr-3" />
+                  <div className="p-2 bg-green-100 rounded-lg mr-3">
+                    <CheckCircle className="w-6 h-6 text-green-600" />
+                  </div>
                   <div>
-                    <p className="text-sm font-medium text-blue-800 dark:text-blue-300">
-                      📊 Using Indian crime dataset
+                    <p className="text-base font-bold text-green-800">
+                      📈 Custom Dataset Loaded
                     </p>
-                    <p className="text-xs text-blue-700 dark:text-blue-400">
-                      {totalCrimes.toLocaleString()} records • Real crime data for demonstration
+                    <p className="text-sm text-green-700 mt-1">
+                      {totalCrimes.toLocaleString()} records • Real-time analysis active
                     </p>
                   </div>
                 </div>
                 {predictionAccuracy && (
-                  <div className="text-right">
-                    <p className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+                  <div className="text-right bg-green-100 rounded-lg px-4 py-3">
+                    <p className="text-2xl font-bold text-green-800">
                       {Math.round(predictionAccuracy.overallAccuracy * 100)}%
                     </p>
-                    <p className="text-xs text-blue-600 dark:text-blue-400">AI Accuracy</p>
+                    <p className="text-sm text-green-600 font-semibold">AI Accuracy</p>
                   </div>
                 )}
               </div>
