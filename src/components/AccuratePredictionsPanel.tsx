@@ -155,36 +155,42 @@ const AccuratePredictionsPanel: React.FC<AccuratePredictionsPanelProps> = ({ dat
               </div>
             </div>
             
-            <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-4 rounded-lg">
+            <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-5 rounded-xl shadow-lg hover:shadow-xl transition-all border border-green-200 dark:border-green-800">
               <div className="flex items-center">
-                <Eye className="w-5 h-5 text-green-600 mr-2" />
-                <div>
-                  <p className="text-sm text-green-600">Data Quality</p>
-                  <p className="text-lg font-bold text-green-900 dark:text-green-100">
+                <div className="p-2 bg-green-500 rounded-lg">
+                  <Eye className="w-5 h-5 text-white" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-green-600 dark:text-green-400">Data Quality</p>
+                  <p className="text-xl font-bold text-green-900 dark:text-green-100">
                     {formatProbability(predictionAccuracy.dataCompleteness)}
                   </p>
                 </div>
               </div>
             </div>
-            
-            <div className="bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-4 rounded-lg">
+
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-5 rounded-xl shadow-lg hover:shadow-xl transition-all border border-purple-200 dark:border-purple-800">
               <div className="flex items-center">
-                <BarChart3 className="w-5 h-5 text-purple-600 mr-2" />
-                <div>
-                  <p className="text-sm text-purple-600">Sample Size</p>
-                  <p className="text-lg font-bold text-purple-900 dark:text-purple-100">
+                <div className="p-2 bg-purple-500 rounded-lg">
+                  <BarChart3 className="w-5 h-5 text-white" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Sample Size</p>
+                  <p className="text-xl font-bold text-purple-900 dark:text-purple-100">
                     {predictionAccuracy.sampleSize.toLocaleString()}
                   </p>
                 </div>
               </div>
             </div>
-            
-            <div className="bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-4 rounded-lg">
+
+            <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-5 rounded-xl shadow-lg hover:shadow-xl transition-all border border-orange-200 dark:border-orange-800">
               <div className="flex items-center">
-                <Shield className="w-5 h-5 text-orange-600 mr-2" />
-                <div>
-                  <p className="text-sm text-orange-600">Reliability</p>
-                  <p className="text-lg font-bold text-orange-900 dark:text-orange-100">
+                <div className="p-2 bg-orange-500 rounded-lg">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Reliability</p>
+                  <p className="text-xl font-bold text-orange-900 dark:text-orange-100">
                     {formatProbability(predictionAccuracy.predictionReliability)}
                   </p>
                 </div>
