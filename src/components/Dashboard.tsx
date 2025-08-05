@@ -354,39 +354,44 @@ const Dashboard: React.FC = () => {
                   <div className="text-sm text-white/80 font-medium">⚔️ Armed</div>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full">
                 <button
                   onClick={loadActualData}
                   disabled={loading}
-                  className="flex items-center px-3 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm min-h-[44px]"
+                  className="btn-primary flex items-center px-4 py-3 rounded-xl font-semibold text-sm min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed animate-fade-in-up"
+                  style={{animationDelay: '0.4s'}}
                 >
-                  <BarChart3 className="w-4 h-4 mr-1 sm:mr-2 flex-shrink-0" />
-                  <span className="hidden sm:inline">{loading ? 'Loading...' : 'Load Real Dataset'}</span>
-                  <span className="sm:hidden">{loading ? 'Load...' : 'Load Data'}</span>
+                  <BarChart3 className="w-5 h-5 mr-2 flex-shrink-0" />
+                  <span className="hidden sm:inline">{loading ? '🔄 Loading...' : '📊 Load Real Dataset'}</span>
+                  <span className="sm:hidden">{loading ? 'Load...' : 'Data'}</span>
                 </button>
                 <button
                   onClick={handleRefreshData}
                   disabled={loading}
-                  className="flex items-center px-3 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm min-h-[44px]"
+                  className="btn-primary flex items-center px-4 py-3 rounded-xl font-semibold text-sm min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed animate-fade-in-up"
+                  style={{animationDelay: '0.5s'}}
                 >
-                  <TrendingUp className="w-4 h-4 mr-1 sm:mr-2 flex-shrink-0" />
-                  <span className="hidden sm:inline">{loading ? 'Loading...' : 'Refresh Data'}</span>
+                  <TrendingUp className="w-5 h-5 mr-2 flex-shrink-0" />
+                  <span className="hidden sm:inline">{loading ? '🔄 Refreshing...' : '🔄 Refresh Data'}</span>
                   <span className="sm:hidden">{loading ? 'Refresh...' : 'Refresh'}</span>
                 </button>
                 <button
                   onClick={() => setShowUpload(true)}
-                  className="flex items-center px-3 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm min-h-[44px]"
+                  className="btn-primary flex items-center px-4 py-3 rounded-xl font-semibold text-sm min-h-[48px] animate-fade-in-up"
+                  style={{animationDelay: '0.6s'}}
                 >
-                  <Upload className="w-4 h-4 mr-1 sm:mr-2 flex-shrink-0" />
-                  <span className="hidden sm:inline">Upload Dataset</span>
+                  <Upload className="w-5 h-5 mr-2 flex-shrink-0" />
+                  <span className="hidden sm:inline">📤 Upload Dataset</span>
                   <span className="sm:hidden">Upload</span>
                 </button>
                 <button
                   onClick={() => setShowHelp(true)}
-                  className="flex items-center p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 animate-pulse-glow"
+                  className="btn-primary flex items-center p-3 rounded-xl focus:outline-none focus:ring-4 focus:ring-white/30 animate-pulse-glow animate-fade-in-up"
+                  style={{animationDelay: '0.7s'}}
                   title="Help & Instructions"
                 >
-                  <HelpCircle className="w-5 h-5" />
+                  <HelpCircle className="w-6 h-6" />
+                  <span className="hidden lg:inline ml-2 font-semibold">Help</span>
                 </button>
               </div>
             </div>
