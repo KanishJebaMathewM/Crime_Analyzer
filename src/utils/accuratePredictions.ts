@@ -45,26 +45,38 @@ export class AccuratePredictionEngine {
     this.precomputeStatistics();
   }
 
-  private buildDataStructures() {
+  private buildOptimizedDataStructures() {
     this.cityData = new Map();
     this.hourlyData = new Map();
     this.crimeTypeData = new Map();
     this.cityHourData = new Map();
+    this.cityHourCounts = new Map();
 
     // Initialize hourly data structure
     for (let hour = 0; hour < 24; hour++) {
       this.hourlyData.set(hour, []);
     }
 
+    // Single pass through data for better performance
     this.data.forEach(record => {
+      const hour = this.parseHour(record.timeOfOccurrence);
+
       // Group by city
       if (!this.cityData.has(record.city)) {
         this.cityData.set(record.city, []);
+        this.cityHourData.set(record.city, new Map());
+        this.cityHourCounts.set(record.city, new Map());
+
+        // Initialize hour maps for this city
+        for (let h = 0; h < 24; h++) {
+          this.cityHourData.get(record.city)!.set(h, []);
+          this.cityHourCounts.get(record.city)!.set(h, 0);
+        }
       }
+
       this.cityData.get(record.city)!.push(record);
 
       // Group by hour
-      const hour = this.parseHour(record.timeOfOccurrence);
       this.hourlyData.get(hour)!.push(record);
 
       // Group by crime type
@@ -74,14 +86,31 @@ export class AccuratePredictionEngine {
       this.crimeTypeData.get(record.crimeDescription)!.push(record);
 
       // Group by city and hour combination
-      if (!this.cityHourData.has(record.city)) {
-        this.cityHourData.set(record.city, new Map());
-        for (let h = 0; h < 24; h++) {
-          this.cityHourData.get(record.city)!.set(h, []);
-        }
-      }
       this.cityHourData.get(record.city)!.get(hour)!.push(record);
+      this.cityHourCounts.get(record.city)!.set(hour,
+        this.cityHourCounts.get(record.city)!.get(hour)! + 1);
     });
+  }
+
+  private precomputeStatistics() {
+    this.cityWeaponCounts = new Map();
+    this.cityClosureRates = new Map();
+
+    for (const [city, records] of this.cityData.entries()) {
+      // Precompute weapon crime counts
+      const weaponCrimes = records.filter(record => {
+        const weapon = record.weaponUsed?.toLowerCase().trim() || '';
+        return weapon !== 'none' && weapon !== 'unknown' && weapon !== '' &&
+               weapon !== 'not specified' && weapon !== 'n/a' && weapon !== 'na' &&
+               weapon !== 'not applicable' && weapon !== 'nil';
+      }).length;
+      this.cityWeaponCounts.set(city, weaponCrimes);
+
+      // Precompute closure rates
+      const closedCases = records.filter(record => record.caseClosed === 'Yes').length;
+      const closureRate = records.length > 0 ? (closedCases / records.length) : 0;
+      this.cityClosureRates.set(city, closureRate);
+    }
   }
 
   private calculatePercentileThresholds() {
