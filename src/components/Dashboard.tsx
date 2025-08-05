@@ -339,19 +339,19 @@ const Dashboard: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start space-y-4 w-full lg:w-auto">
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center w-full">
-                <div>
-                  <div className="text-sm sm:text-lg font-bold text-blue-600">{totalCrimes.toLocaleString()}</div>
-                  <div className="text-xs text-gray-500">Total Cases</div>
+            <div className="flex flex-col items-start space-y-6 w-full lg:w-auto">
+              <div className="grid grid-cols-3 gap-4 sm:gap-6 text-center w-full">
+                <div className="bg-white/15 backdrop-blur-md rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+                  <div className="text-2xl sm:text-3xl font-bold text-white text-shadow">{totalCrimes.toLocaleString()}</div>
+                  <div className="text-sm text-white/80 font-medium">📊 Total Cases</div>
                 </div>
-                <div>
-                  <div className="text-sm sm:text-lg font-bold text-green-600">{closureRate}%</div>
-                  <div className="text-xs text-gray-500">Solved</div>
+                <div className="bg-white/15 backdrop-blur-md rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                  <div className="text-2xl sm:text-3xl font-bold text-white text-shadow">{closureRate}%</div>
+                  <div className="text-sm text-white/80 font-medium">✅ Solved</div>
                 </div>
-                <div>
-                  <div className="text-sm sm:text-lg font-bold text-red-600">{weaponRate}%</div>
-                  <div className="text-xs text-gray-500">Armed</div>
+                <div className="bg-white/15 backdrop-blur-md rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+                  <div className="text-2xl sm:text-3xl font-bold text-white text-shadow">{weaponRate}%</div>
+                  <div className="text-sm text-white/80 font-medium">⚔️ Armed</div>
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
