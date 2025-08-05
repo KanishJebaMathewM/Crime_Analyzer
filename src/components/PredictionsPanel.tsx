@@ -12,7 +12,12 @@ import {
   performAdvancedAnalytics, 
   AIAnalyticsResult 
 } from '../utils/analytics';
-import { 
+import {
+  AccuratePredictionEngine,
+  AccuratePrediction,
+  PredictionAccuracy
+} from '../utils/accuratePredictions';
+import {
   TrendingUp, 
   Calendar, 
   MapPin, 
