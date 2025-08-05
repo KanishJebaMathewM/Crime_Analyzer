@@ -16,7 +16,6 @@ import AccuratePredictionsPanel from './AccuratePredictionsPanel';
 import IncidentAnalysis from './IncidentAnalysis';
 
 const Dashboard: React.FC = () => {
-  const { theme, setTheme } = useTheme();
   const [data, setData] = useState<CrimeRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
@@ -26,7 +25,6 @@ const Dashboard: React.FC = () => {
   const [dataSource, setDataSource] = useState<'demo' | 'uploaded'>('demo');
   const [showAllCities, setShowAllCities] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
   const [uploadedDatasetPath, setUploadedDatasetPath] = useState<string | null>(null);
   const [lastUploadedData, setLastUploadedData] = useState<CrimeRecord[] | null>(null);
 
