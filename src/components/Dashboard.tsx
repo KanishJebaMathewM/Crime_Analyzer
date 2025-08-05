@@ -576,7 +576,7 @@ const Dashboard: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-6 rounded-xl border border-orange-200 dark:border-orange-800 shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="gradient-orange-light p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                     <div className="flex items-center">
                       <Users className="w-8 h-8 text-orange-600" />
                       <div className="ml-4">
