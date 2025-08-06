@@ -3,7 +3,7 @@ import { CrimeRecord, CityStats, TimeAnalysis, ChatMessage } from '../types/crim
 import { generateMockData, processDataInChunks } from '../utils/dataGenerator';
 import { analyzeCitySafety, analyzeTimePatterns, generateSafetyRecommendations } from '../utils/analytics';
 import { AccuratePredictionEngine, PredictionAccuracy } from '../utils/accuratePredictions';
-import { BarChart3, MapPin, Clock, Users, Shield, MessageCircle, TrendingUp, AlertTriangle, Upload, Target, CheckCircle, HelpCircle } from 'lucide-react';
+import { BarChart3, MapPin, Clock, Users, Shield, MessageCircle, TrendingUp, AlertTriangle, Upload, Target, CheckCircle, HelpCircle, X } from 'lucide-react';
 import HelpSystem from './HelpSystem';
 import CrimeChart from './CrimeChart';
 import CityRankings from './CityRankings';
