@@ -173,21 +173,21 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6">
-          <div className="mb-6">
-            <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">
+        <div className="p-8">
+          <div className="mb-8">
+            <p className="text-white text-lg leading-relaxed mb-6">
               {currentHelpStep.content}
             </p>
-            
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2">
-                💡 Quick Tips
+
+            <div className="bg-blue-800 rounded-xl p-6 border border-blue-400">
+              <h4 className="text-lg font-bold text-blue-200 mb-4 flex items-center">
+                💡 Key Features
               </h4>
-              <ul className="space-y-1">
+              <ul className="space-y-3">
                 {currentHelpStep.tips.map((tip, index) => (
-                  <li key={index} className="flex items-start text-sm text-blue-800 dark:text-blue-300">
-                    <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
-                    {tip}
+                  <li key={index} className="flex items-start text-blue-100">
+                    <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span className="text-base">{tip}</span>
                   </li>
                 ))}
               </ul>
@@ -195,16 +195,16 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* Progress indicator */}
-          <div className="flex items-center justify-center space-x-2 mb-6">
+          <div className="flex items-center justify-center space-x-3 mb-6">
             {helpSteps.map((_, index) => (
               <div
                 key={index}
-                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   index === currentStep
-                    ? 'bg-blue-500 scale-125'
+                    ? 'bg-blue-300 scale-125 shadow-lg'
                     : index < currentStep
-                    ? 'bg-blue-300'
-                    : 'bg-gray-300 dark:bg-gray-600'
+                    ? 'bg-blue-400'
+                    : 'bg-blue-700'
                 }`}
               />
             ))}
