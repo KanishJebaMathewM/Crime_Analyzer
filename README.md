@@ -89,8 +89,8 @@ src/
 1. `git clone https://github.com/KanishJebaMathewM/Crime_data_analysis`
 2. `npm install`
 3. `npm run dev`
-4. Visit [live demo](https://crime-data-analysis.netlify.app/)
 ```
+Visit [live demo](https://crime-data-analysis.netlify.app/)
 
 ## 📊 Core Modules
 ```
