@@ -541,18 +541,15 @@ const Dashboard: React.FC = () => {
                   )}
                 </div>
                 
-                {/* Charts Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <CrimeChart data={data} />
-                  <CityRankings 
-                    cityStats={cityStats} 
+                {/* City Rankings Section */}
+                <div className="grid grid-cols-1 gap-6">
+                  <CityRankings
+                    cityStats={cityStats}
                     onViewAll={() => setShowAllCities(true)}
                   />
                 </div>
               </div>
             )}
-
-            {activeTab === 'trends' && <CrimeChart data={data} fullSize />}
             {activeTab === 'predictions' && <AccuratePredictionsPanel data={data} />}
             {activeTab === 'cities' && <CityRankings cityStats={cityStats} fullSize showSafetyDetails />}
             {activeTab === 'time' && <TimeHeatmap timeAnalysis={timeAnalysis} data={data} />}
