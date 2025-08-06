@@ -212,32 +212,33 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Footer Navigation */}
-        <div className="flex items-center justify-between p-6 border-t border-blue-400 bg-blue-800">
+        <div className="flex items-center justify-between p-4 md:p-6 border-t border-blue-400 bg-blue-800">
           <button
             onClick={handlePrevious}
             disabled={currentStep === 0}
-            className={`flex items-center px-6 py-3 rounded-lg font-semibold transition-all min-w-[120px] ${
+            className={`flex items-center px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold transition-all min-w-[80px] md:min-w-[120px] text-sm md:text-base ${
               currentStep === 0
                 ? 'text-blue-400 cursor-not-allowed bg-blue-900'
                 : 'text-white bg-blue-600 hover:bg-blue-500 shadow-lg hover:shadow-xl'
             }`}
           >
-            <ChevronLeft className="w-5 h-5 mr-2" />
-            Previous
+            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">Previous</span>
+            <span className="sm:hidden">Prev</span>
           </button>
 
-          <div className="text-center">
-            <span className="text-lg font-bold text-blue-200">
+          <div className="text-center px-2">
+            <span className="text-sm md:text-lg font-bold text-blue-200">
               {currentStep + 1} of {helpSteps.length}
             </span>
           </div>
 
           <button
             onClick={handleNext}
-            className="flex items-center px-6 py-3 rounded-lg font-semibold text-white bg-blue-500 hover:bg-blue-400 transition-all shadow-lg hover:shadow-xl min-w-[120px]"
+            className="flex items-center px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold text-white bg-blue-500 hover:bg-blue-400 transition-all shadow-lg hover:shadow-xl min-w-[80px] md:min-w-[120px] text-sm md:text-base"
           >
             {currentStep === helpSteps.length - 1 ? 'Finish' : 'Next'}
-            {currentStep < helpSteps.length - 1 && <ChevronRight className="w-5 h-5 ml-2" />}
+            {currentStep < helpSteps.length - 1 && <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-1 md:ml-2" />}
           </button>
         </div>
       </div>
