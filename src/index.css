@@ -9,116 +9,121 @@
               color 0.2s ease;
 }
 
-/* Simple dark blue background */
+/* IBM Dark Navy background */
 body {
-  background: #1e3a8a;
-  color: #f8fafc;
+  background: #1e1e2f;
+  color: #cfd8dc;
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
-/* Simple card styles */
+/* Card styles with IBM colors */
 .card-enhanced {
-  background: #1e40af;
+  background: #263238;
   border-radius: 8px;
-  border: 1px solid #3b82f6;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #37474f;
+  box-shadow: 0 1px 3px rgba(15, 98, 254, 0.2);
   transition: box-shadow 0.2s ease;
 }
 
 .card-enhanced:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px rgba(15, 98, 254, 0.3);
 }
 
-/* Simple gradient backgrounds */
-.gradient-blue-light {
-  background: #2563eb;
-  border: 1px solid #3b82f6;
+/* Gradient backgrounds with IBM colors */
+.gradient-ibm-blue {
+  background: #0f62fe;
+  border: 1px solid #0043ce;
 }
 
-.gradient-green-light {
-  background: #16a34a;
-  border: 1px solid #22c55e;
+.gradient-ibm-red {
+  background: #e74c3c;
+  border: 1px solid #c0392b;
 }
 
-.gradient-orange-light {
-  background: #ea580c;
-  border: 1px solid #f97316;
+.gradient-ibm-gray {
+  background: #37474f;
+  border: 1px solid #546e7a;
 }
 
-.gradient-red-light {
-  background: #dc2626;
-  border: 1px solid #ef4444;
-}
-
-.gradient-purple-light {
-  background: #9333ea;
-  border: 1px solid #a855f7;
-}
-
-/* Simple button styles */
+/* Button styles with IBM colors */
 .btn-primary {
-  background: #3b82f6;
-  border: 1px solid #2563eb;
+  background: #0f62fe;
+  border: 1px solid #0043ce;
   border-radius: 6px;
   color: white;
   font-weight: 600;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(15, 98, 254, 0.1);
   transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
-  background: #2563eb;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: #0043ce;
+  box-shadow: 0 2px 4px rgba(15, 98, 254, 0.2);
 }
 
-/* Simple scrollbar */
+.btn-danger {
+  background: #e74c3c;
+  border: 1px solid #c0392b;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(231, 76, 60, 0.1);
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+  background: #c0392b;
+  box-shadow: 0 2px 4px rgba(231, 76, 60, 0.2);
+}
+
+/* Scrollbar with IBM colors */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e40af;
+  background: #263238;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3b82f6;
+  background: #0f62fe;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: #0043ce;
 }
 
-/* Simple form inputs */
+/* Form inputs with IBM colors */
 .form-input {
-  background: #1e40af;
-  border: 1px solid #3b82f6;
+  background: #263238;
+  border: 1px solid #37474f;
   border-radius: 6px;
   padding: 8px 12px;
-  color: #f8fafc;
+  color: #cfd8dc;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+  border-color: #0f62fe;
+  box-shadow: 0 0 0 2px rgba(15, 98, 254, 0.3);
 }
 
-/* Simple modal styles */
+/* Modal styles with IBM colors */
 .modal-backdrop {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(30, 30, 47, 0.7);
 }
 
 .modal-content {
-  background: #1e40af;
+  background: #263238;
   border-radius: 8px;
-  border: 1px solid #3b82f6;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid #37474f;
+  box-shadow: 0 10px 25px rgba(15, 98, 254, 0.3);
 }
 
-/* Simple animations */
+/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -149,23 +154,29 @@ body {
   animation: slideInLeft 0.3s ease-out;
 }
 
-/* Simple status indicators */
+/* Status indicators with IBM colors */
 .status-success {
-  background: #16a34a;
-  border: 1px solid #22c55e;
-  color: #f0fdf4;
+  background: #0f62fe;
+  border: 1px solid #0043ce;
+  color: white;
 }
 
 .status-warning {
-  background: #ea580c;
-  border: 1px solid #f97316;
-  color: #fefce8;
+  background: #e74c3c;
+  border: 1px solid #c0392b;
+  color: white;
 }
 
 .status-error {
-  background: #dc2626;
-  border: 1px solid #ef4444;
-  color: #fef2f2;
+  background: #c0392b;
+  border: 1px solid #a93226;
+  color: white;
+}
+
+.status-info {
+  background: #37474f;
+  border: 1px solid #546e7a;
+  color: #cfd8dc;
 }
 
 /* Utility classes */
@@ -228,7 +239,7 @@ body {
 
 /* Focus styles */
 .focus-visible {
-  outline: 2px solid #60a5fa;
+  outline: 2px solid #0f62fe;
   outline-offset: 2px;
 }
 

@@ -32,80 +32,81 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('crime-dashboard-theme', theme);
-    
-    // Start transition
+
     setIsTransitioning(true);
-    
-    // Remove all theme classes first
+
     document.documentElement.classList.remove('light', 'dark', 'default');
     document.body.classList.remove('light', 'dark', 'default');
-    
-    // Force a reflow to ensure classes are removed
-    document.documentElement.offsetHeight;
-    
-    // Apply the selected theme to both html and body
+
+    document.documentElement.offsetHeight; // force reflow
+
     if (theme === 'light') {
       document.documentElement.classList.add('light');
       document.body.classList.add('light');
-      document.documentElement.classList.remove('dark');
-      document.body.classList.remove('dark');
-      
-      // Add light theme specific meta
-      document.documentElement.style.setProperty('--theme-background', 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #bae6fd 50%, #7dd3fc 75%, #38bdf8 100%)');
-      
+      document.documentElement.style.setProperty(
+        '--theme-background',
+        'linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 25%, #bdbdbd 50%, #9e9e9e 75%, #757575 100%)'
+      );
     } else if (theme === 'dark') {
       document.documentElement.classList.add('dark');
       document.body.classList.add('dark');
-      document.documentElement.classList.remove('light');
-      document.body.classList.remove('light');
-      
-      // Add dark theme specific meta
-      document.documentElement.style.setProperty('--theme-background', 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)');
-      
+      document.documentElement.style.setProperty(
+        '--theme-background',
+        'linear-gradient(135deg, #16161d 0%, #1e1e2f 25%, #263238 50%, #37474f 75%, #0f62fe 100%)'
+      );
     } else {
-      // Default mode - use system preference
       document.documentElement.classList.add('default');
       document.body.classList.add('default');
-      
+
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       if (prefersDark) {
         document.documentElement.classList.add('dark');
         document.body.classList.add('dark');
-        document.documentElement.style.setProperty('--theme-background', 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)');
+        document.documentElement.style.setProperty(
+          '--theme-background',
+          'linear-gradient(135deg, #16161d 0%, #1e1e2f 25%, #263238 50%, #37474f 75%, #0f62fe 100%)'
+        );
       } else {
         document.documentElement.classList.remove('dark');
         document.body.classList.remove('dark');
-        document.documentElement.style.setProperty('--theme-background', 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #bae6fd 50%, #7dd3fc 75%, #38bdf8 100%)');
+        document.documentElement.style.setProperty(
+          '--theme-background',
+          'linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 25%, #bdbdbd 50%, #9e9e9e 75%, #757575 100%)'
+        );
       }
     }
-    
-    // End transition after animation completes
+
     const timer = setTimeout(() => {
       setIsTransitioning(false);
     }, 400);
-    
-    // Listen for system theme changes when in default mode
+
     if (theme === 'default') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const handleChange = (e: MediaQueryListEvent) => {
         if (e.matches) {
           document.documentElement.classList.add('dark');
           document.body.classList.add('dark');
-          document.documentElement.style.setProperty('--theme-background', 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)');
+          document.documentElement.style.setProperty(
+            '--theme-background',
+            'linear-gradient(135deg, #16161d 0%, #1e1e2f 25%, #263238 50%, #37474f 75%, #0f62fe 100%)'
+          );
         } else {
           document.documentElement.classList.remove('dark');
           document.body.classList.remove('dark');
-          document.documentElement.style.setProperty('--theme-background', 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #bae6fd 50%, #7dd3fc 75%, #38bdf8 100%)');
+          document.documentElement.style.setProperty(
+            '--theme-background',
+            'linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 25%, #bdbdbd 50%, #9e9e9e 75%, #757575 100%)'
+          );
         }
       };
-      
+
       mediaQuery.addEventListener('change', handleChange);
       return () => {
         mediaQuery.removeEventListener('change', handleChange);
         clearTimeout(timer);
       };
     }
-    
+
     return () => clearTimeout(timer);
   }, [theme]);
 
