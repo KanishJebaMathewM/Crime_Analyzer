@@ -150,23 +150,23 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-2 md:p-4">
       <div className="bg-blue-900 rounded-xl md:rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] md:max-h-[85vh] overflow-hidden border-2 border-blue-400">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-blue-400 bg-blue-800">
+        <div className="flex items-center justify-between p-4 md:p-6 border-b border-blue-400 bg-blue-800">
           <div className="flex items-center">
-            <div className="p-3 bg-blue-500 rounded-xl mr-4">
-              <currentHelpStep.icon className="w-6 h-6 text-white" />
+            <div className="p-2 md:p-3 bg-blue-500 rounded-lg md:rounded-xl mr-3 md:mr-4">
+              <currentHelpStep.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">
+              <h2 className="text-lg md:text-xl font-bold text-white">
                 {currentHelpStep.title}
               </h2>
-              <p className="text-sm text-blue-200">
+              <p className="text-xs md:text-sm text-blue-200">
                 Step {currentStep + 1} of {helpSteps.length}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-blue-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-blue-700 text-xl font-bold"
+            className="text-blue-300 hover:text-white transition-colors p-1 md:p-2 rounded-lg hover:bg-blue-700 text-lg md:text-xl font-bold"
           >
             <X className="w-5 h-5" />
           </button>
