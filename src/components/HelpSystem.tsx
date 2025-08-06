@@ -147,26 +147,26 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
   const currentHelpStep = helpSteps[currentStep];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+      <div className="bg-blue-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden border-2 border-blue-400">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+        <div className="flex items-center justify-between p-6 border-b border-blue-400 bg-blue-800">
           <div className="flex items-center">
-            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-3">
-              <currentHelpStep.icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <div className="p-3 bg-blue-500 rounded-xl mr-4">
+              <currentHelpStep.icon className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <h2 className="text-xl font-bold text-white">
                 {currentHelpStep.title}
               </h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-blue-200">
                 Step {currentStep + 1} of {helpSteps.length}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="text-blue-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-blue-700 text-xl font-bold"
           >
             <X className="w-5 h-5" />
           </button>
