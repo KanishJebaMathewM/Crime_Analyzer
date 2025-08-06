@@ -3,6 +3,7 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
 <<<<<<< HEAD
+<<<<<<< HEAD
     extend: {
       colors: {
         ibm: {
@@ -67,6 +68,9 @@ export default {
         'gray-gradient': 'linear-gradient(135deg, #cfd8dc 0%, #90a4ae 50%, #607d8b 100%)'
       }
     },
+=======
+    extend: {},
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 =======
     extend: {},
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e

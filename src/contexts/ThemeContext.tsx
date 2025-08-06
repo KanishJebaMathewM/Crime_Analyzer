@@ -33,6 +33,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('crime-dashboard-theme', theme);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     setIsTransitioning(true);
 
@@ -60,6 +61,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       document.body.classList.add('default');
 
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
     
     // Start transition
     setIsTransitioning(true);
@@ -95,11 +98,15 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       document.documentElement.classList.add('default');
       document.body.classList.add('default');
       
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       if (prefersDark) {
         document.documentElement.classList.add('dark');
         document.body.classList.add('dark');
+<<<<<<< HEAD
 <<<<<<< HEAD
         document.documentElement.style.setProperty(
           '--theme-background',
@@ -120,6 +127,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     }, 400);
 
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
         document.documentElement.style.setProperty('--theme-background', 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)');
       } else {
         document.documentElement.classList.remove('dark');
@@ -134,6 +143,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     }, 400);
     
     // Listen for system theme changes when in default mode
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
     if (theme === 'default') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -141,6 +153,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         if (e.matches) {
           document.documentElement.classList.add('dark');
           document.body.classList.add('dark');
+<<<<<<< HEAD
 <<<<<<< HEAD
           document.documentElement.style.setProperty(
             '--theme-background',
@@ -157,6 +170,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       };
 
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
           document.documentElement.style.setProperty('--theme-background', 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)');
         } else {
           document.documentElement.classList.remove('dark');
@@ -165,6 +180,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         }
       };
       
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
       mediaQuery.addEventListener('change', handleChange);
       return () => {
@@ -173,7 +191,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       };
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 =======
     
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e

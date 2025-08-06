@@ -10,20 +10,27 @@
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* IBM Dark Navy background */
 body {
   background: #1e1e2f;
   color: #cfd8dc;
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 /* Simple dark blue background */
 body {
   background: #1e3a8a;
   color: #f8fafc;
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 /* Card styles with IBM colors */
 .card-enhanced {
@@ -32,17 +39,23 @@ body {
   border: 1px solid #37474f;
   box-shadow: 0 1px 3px rgba(15, 98, 254, 0.2);
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 /* Simple card styles */
 .card-enhanced {
   background: #1e40af;
   border-radius: 8px;
   border: 1px solid #3b82f6;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   transition: box-shadow 0.2s ease;
 }
 
 .card-enhanced:hover {
+<<<<<<< HEAD
 <<<<<<< HEAD
   box-shadow: 0 4px 6px rgba(15, 98, 254, 0.3);
 }
@@ -72,6 +85,8 @@ body {
   font-weight: 600;
   box-shadow: 0 1px 2px rgba(15, 98, 254, 0.1);
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -109,11 +124,15 @@ body {
   color: white;
   font-weight: 600;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
+<<<<<<< HEAD
 <<<<<<< HEAD
   background: #0043ce;
   box-shadow: 0 2px 4px rgba(15, 98, 254, 0.2);
@@ -136,11 +155,16 @@ body {
 
 /* Scrollbar with IBM colors */
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   background: #2563eb;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Simple scrollbar */
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 ::-webkit-scrollbar {
   width: 8px;
@@ -149,22 +173,29 @@ body {
 
 ::-webkit-scrollbar-track {
 <<<<<<< HEAD
+<<<<<<< HEAD
   background: #263238;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #0f62fe;
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   background: #1e40af;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #3b82f6;
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
+<<<<<<< HEAD
 <<<<<<< HEAD
   background: #0043ce;
 }
@@ -177,6 +208,8 @@ body {
   padding: 8px 12px;
   color: #cfd8dc;
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   background: #2563eb;
 }
 
@@ -187,11 +220,15 @@ body {
   border-radius: 6px;
   padding: 8px 12px;
   color: #f8fafc;
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 }
 
 .form-input:focus {
   outline: none;
+<<<<<<< HEAD
 <<<<<<< HEAD
   border-color: #0f62fe;
   box-shadow: 0 0 0 2px rgba(15, 98, 254, 0.3);
@@ -211,6 +248,8 @@ body {
 
 /* Animations */
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   border-color: #60a5fa;
   box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
 }
@@ -228,6 +267,9 @@ body {
 }
 
 /* Simple animations */
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 @keyframes fadeInUp {
   from {
@@ -260,6 +302,7 @@ body {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* Status indicators with IBM colors */
 .status-success {
   background: #0f62fe;
@@ -284,6 +327,8 @@ body {
   border: 1px solid #546e7a;
   color: #cfd8dc;
 =======
+=======
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 /* Simple status indicators */
 .status-success {
   background: #16a34a;
@@ -301,6 +346,9 @@ body {
   background: #dc2626;
   border: 1px solid #ef4444;
   color: #fef2f2;
+<<<<<<< HEAD
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
+=======
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 }
 
@@ -365,7 +413,11 @@ body {
 /* Focus styles */
 .focus-visible {
 <<<<<<< HEAD
+<<<<<<< HEAD
   outline: 2px solid #0f62fe;
+=======
+  outline: 2px solid #60a5fa;
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 =======
   outline: 2px solid #60a5fa;
 >>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
