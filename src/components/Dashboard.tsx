@@ -429,11 +429,7 @@ const Dashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="card-enhanced">
           <div className="border-b border-blue-300">
-<<<<<<< HEAD
-            <nav className="flex items-center space-x-1 px-6 overflow-x-auto scrollbar-hide flex-grow w-full justify-between">
-=======
             <nav className="grid grid-cols-3 md:grid-cols-6 gap-1 px-4 py-2">
->>>>>>> 0732f2ef56f4f5d466ecd23d72e8d1837069a583
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
