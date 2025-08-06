@@ -2,10 +2,9 @@
 
 ## 🌐 Links
 
-```
 - [GitHub Repository](https://github.com/KanishJebaMathewM/Crime_data_analysis)
 - [Live Demo](https://crime-data-analysis.netlify.app/)
-```
+  
 
 ## 📁 Project Architecture
 
