@@ -173,21 +173,21 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="p-8">
-          <div className="mb-8">
-            <p className="text-white text-lg leading-relaxed mb-6">
+        <div className="p-4 md:p-8">
+          <div className="mb-6 md:mb-8">
+            <p className="text-white text-base md:text-lg leading-relaxed mb-4 md:mb-6">
               {currentHelpStep.content}
             </p>
 
-            <div className="bg-blue-800 rounded-xl p-6 border border-blue-400">
-              <h4 className="text-lg font-bold text-blue-200 mb-4 flex items-center">
+            <div className="bg-blue-800 rounded-lg md:rounded-xl p-4 md:p-6 border border-blue-400">
+              <h4 className="text-base md:text-lg font-bold text-blue-200 mb-3 md:mb-4 flex items-center">
                 💡 Key Features
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-2 md:space-y-3">
                 {currentHelpStep.tips.map((tip, index) => (
                   <li key={index} className="flex items-start text-blue-100">
                     <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span className="text-base">{tip}</span>
+                    <span className="text-sm md:text-base">{tip}</span>
                   </li>
                 ))}
               </ul>
@@ -195,11 +195,11 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* Progress indicator */}
-          <div className="flex items-center justify-center space-x-3 mb-6">
+          <div className="flex items-center justify-center space-x-2 md:space-x-3 mb-4 md:mb-6">
             {helpSteps.map((_, index) => (
               <div
                 key={index}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
                   index === currentStep
                     ? 'bg-blue-300 scale-125 shadow-lg'
                     : index < currentStep
