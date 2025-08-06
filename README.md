@@ -1,4 +1,4 @@
-# Crime Analysis Dashboard
+# Crime_Analyzer
 
 ## 🌐 Links
 
