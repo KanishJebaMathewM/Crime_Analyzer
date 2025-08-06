@@ -277,7 +277,7 @@ const AccuratePredictionsPanel: React.FC<AccuratePredictionsPanelProps> = ({ dat
             <select
               value={selectedCity}
               onChange={(e) => setSelectedCity(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full px-3 py-2 border border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-900 text-blue-100"
             >
               {availableCities.map((city) => (
                 <option key={city} value={city}>{city}</option>
@@ -409,7 +409,7 @@ const AccuratePredictionsPanel: React.FC<AccuratePredictionsPanelProps> = ({ dat
               <select
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 border border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-900 text-blue-100"
               >
                 {availableCities.map((city) => (
                   <option key={city} value={city}>{city}</option>
@@ -424,7 +424,7 @@ const AccuratePredictionsPanel: React.FC<AccuratePredictionsPanelProps> = ({ dat
               <select
                 value={selectedHour}
                 onChange={(e) => setSelectedHour(parseInt(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 border border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-900 text-blue-100"
               >
                 {Array.from({ length: 24 }, (_, i) => (
                   <option key={i} value={i}>

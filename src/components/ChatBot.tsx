@@ -2,9 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { CrimeRecord, CityStats, ChatMessage } from '../types/crime';
 import { MessageCircle, Send, Bot, User } from 'lucide-react';
 
-interface ChatBotProps {
-  data: CrimeRecord[];
-  cityStats: CityStats[];
+interface QuickResponses {
+  [key: string]: string;
+  statistics: string;
+  cities: string;
+  safety: string;
+  weapons: string;
+  time: string;
+  police: string;
+  crime_types: string;
 }
 
 // Simplified and stable AI response system
@@ -54,18 +60,25 @@ class CrimeDataAI {
 
 }
 
+// Restore ChatBotProps interface
+interface ChatBotProps {
+  data: CrimeRecord[];
+  cityStats: CityStats[];
+}
+
 const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
       type: 'assistant',
-      content: '🤖 Hello! I\'m your **Enhanced Crime Analysis AI Assistant** powered by advanced data processing!\n\n✨ **New Capabilities:**\n🧠 AI-powered correlation analysis\n🔮 Predictive insights\n📊 Advanced comparative analysis\n🎯 Context-aware responses\n\nI can analyze patterns, predict trends, and provide deep insights from our crime database. What would you like to explore?',
+      content: '\u{1F916} Hello! I\'m your **Enhanced Crime Analysis AI Assistant** powered by advanced data processing!\n\n\u2728 **New Capabilities:**\n\u{1FAA0} AI-powered correlation analysis\n\u{1F52E} Predictive insights\n\u{1F4CA} Advanced comparative analysis\n\u{1F3AF} Context-aware responses\n\nI can analyze patterns, predict trends, and provide deep insights from our crime database. What would you like to explore?',
       timestamp: new Date()
     }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
+  const [isOpen, setIsOpen] = useState(false); // floating chat state
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Quick action suggestions
@@ -440,7 +453,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
 
     // Provide category-specific quick responses for unmatched questions
     if (maxMatches > 0 && bestCategory) {
-      const quickResponses = {
+      const quickResponses: QuickResponses = {
         statistics: `📊 You're asking about statistics! I can help with:\n• Total crimes: ${data.length.toLocaleString()}\n• Cities analyzed: ${cityStats.length}\n• Solved cases: ${data.filter(r => r.caseClosed === 'Yes').length.toLocaleString()}\n\nTry asking: "What are the crime statistics?" or "How many cases were solved?"`,
         cities: `🏙️ You're asking about cities! Here's what I can tell you:\n• Safest city: ${cityStats[0]?.city} (${cityStats[0]?.safetyRating}/5 rating)\n• Total cities analyzed: ${cityStats.length}\n\nTry asking: "Which city is safest?" or "Compare Mumbai and Delhi"`,
         safety: `🛡️ You're asking about safety! I can help with:\n• Safety ratings by city\n• Risk level analysis\n• Travel recommendations\n\nTry asking: "Is [city name] safe?" or "What are safety tips?"`,
@@ -538,170 +551,73 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     }
   };
 
+  // Floating button and chat modal
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow h-[600px] flex flex-col">
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-center">
-          <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
-            <Bot className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Enhanced AI Crime Assistant
-            </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              🧠 AI-powered insights • 📊 {data.length.toLocaleString()} records • 🏙️ {cityStats.length} cities
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setShowQuickActions(!showQuickActions)}
-            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-            title="Toggle quick actions"
-          >
-            <MessageCircle className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => {
-              const conversationText = messages.map(m =>
-                `${m.type === 'user' ? 'You' : 'AI'}: ${m.content}`
-              ).join('\n\n');
-              navigator.clipboard.writeText(conversationText);
-              alert('Conversation copied to clipboard!');
-            }}
-            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-            title="Export conversation"
-          >
-            📋
-          </button>
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {/* Quick Actions Panel */}
-        {showQuickActions && messages.length <= 1 && (
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-            <div className="flex items-center mb-3">
-              <span className="text-sm font-medium text-blue-700 dark:text-blue-300">⚡ Quick Actions</span>
+    <>
+      {/* Floating Chat Icon */}
+      {!isOpen && (
+        <button
+          className="fixed bottom-6 right-6 z-50 bg-blue-700 hover:bg-blue-800 text-white rounded-full shadow-lg p-4 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+          style={{ boxShadow: '0 4px 16px rgba(30, 58, 138, 0.3)' }}
+          aria-label="Open AI Assistant"
+          onClick={() => setIsOpen(true)}
+        >
+          <Bot className="w-7 h-7" />
+        </button>
+      )}
+      {/* Chat Modal */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black bg-opacity-40">
+          <div className="w-full max-w-md mx-auto bg-blue-900 rounded-t-2xl sm:rounded-2xl shadow-2xl border-2 border-blue-400 flex flex-col h-[70vh] sm:h-[80vh] animate-fade-in-up relative">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-blue-400 bg-blue-800 rounded-t-2xl">
+              <div className="flex items-center space-x-2">
+                <Bot className="w-6 h-6 text-blue-300" />
+                <span className="font-bold text-white text-lg">AI Assistant</span>
+              </div>
               <button
-                onClick={() => setShowQuickActions(false)}
-                className="ml-auto text-xs text-gray-500 hover:text-gray-700"
+                className="text-blue-300 hover:text-white p-2 rounded-lg hover:bg-blue-700 transition-colors"
+                onClick={() => setIsOpen(false)}
+                aria-label="Close Chat"
               >
-                Hide
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              {quickActions.map((action, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setInputValue(action.replace(/[🏆📊⏰🔍📈🏙️💡🎯]\s/, ''));
-                    setShowQuickActions(false);
-                  }}
-                  className="text-left text-xs p-2 bg-white dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 transition-colors"
-                >
-                  {action}
-                </button>
+            {/* Chat Content */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-blue-900">
+              {messages.map((msg, idx) => (
+                <div key={msg.id || idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}> 
+                  <div className={`max-w-[80%] px-4 py-2 rounded-2xl shadow-md text-sm whitespace-pre-line ${msg.type === 'user' ? 'bg-blue-700 text-white' : 'bg-blue-800 text-blue-100'}`}>{msg.content}</div>
+                </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
-          </div>
-        )}
-
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
-            <div className={`flex max-w-[80%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                message.type === 'user' 
-                  ? 'bg-blue-500 ml-2' 
-                  : 'bg-gray-300 dark:bg-gray-600 mr-2'
-              }`}>
-                {message.type === 'user' ? (
-                  <User className="w-4 h-4 text-white" />
-                ) : (
-                  <Bot className="w-4 h-4 text-gray-700 dark:text-gray-300" />
-                )}
-              </div>
-              
-              <div className={`px-4 py-3 rounded-lg shadow-sm ${
-                message.type === 'user'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
-              }`}>
-                <div className="text-sm whitespace-pre-wrap leading-relaxed font-medium">
-                  {message.content}
-                </div>
-                <div className={`text-xs mt-1 ${
-                  message.type === 'user' 
-                    ? 'text-blue-100' 
-                    : 'text-gray-500 dark:text-gray-400'
-                }`}>
-                  {message.timestamp.toLocaleTimeString()}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-
-        {isTyping && (
-          <div className="flex justify-start">
-            <div className="flex">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 mr-2 flex items-center justify-center">
-                <Bot className="w-4 h-4 text-white" />
-              </div>
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 px-4 py-2 rounded-lg border border-blue-200 dark:border-blue-800">
-                <div className="flex items-center space-x-2">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
-                  <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                    💭 Analyzing data...
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        <div ref={messagesEndRef} />
-      </div>
-
-      <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-        <div className="flex space-x-2">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Ask me about crime data, safety tips, or city statistics..."
-            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm font-medium leading-relaxed"
-            disabled={isTyping}
-          />
-          <button
-            onClick={handleSendMessage}
-            disabled={!inputValue.trim() || isTyping}
-            className="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-          >
-            <Send className="w-4 h-4" />
-          </button>
-        </div>
-        
-        <div className="mt-2 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-          <div className="flex items-center space-x-4">
-            <span>💡 Try: "Analyze correlations", "Predict trends for Mumbai", "Compare safety ratings"</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span>🤖 Data Assistant</span>
-            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+            {/* Input */}
+            <form
+              className="flex items-center p-3 border-t border-blue-400 bg-blue-800"
+              onSubmit={e => { e.preventDefault(); handleSendMessage(); }}
+            >
+              <input
+                className="flex-1 form-input bg-blue-900 border-blue-400 text-white placeholder-blue-300 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                type="text"
+                placeholder="Ask me about crime data..."
+                value={inputValue}
+                onChange={e => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                disabled={isTyping}
+              />
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400"
+                aria-label="Send"
+              >
+                <Send className="w-5 h-5" />
+              </button>
+            </form>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

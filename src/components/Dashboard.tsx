@@ -321,7 +321,7 @@ const Dashboard: React.FC = () => {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between py-8 gap-6">
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold text-white">
-                Crime Analysis Dashboard
+                Crime Analyzer
               </h1>
               <p className="text-gray-300 mt-2 text-sm lg:text-base">
                 Advanced analytics for crime prevention and safety insights
@@ -429,7 +429,7 @@ const Dashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="card-enhanced">
           <div className="border-b border-blue-300">
-            <nav className="flex items-center space-x-1 px-6 overflow-x-auto scrollbar-hide">
+            <nav className="flex items-center space-x-1 px-6 overflow-x-auto scrollbar-hide flex-grow w-full justify-between">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
@@ -576,7 +576,7 @@ const Dashboard: React.FC = () => {
                           <select
                             value={selectedCity}
                             onChange={(e) => setSelectedCity(e.target.value)}
-                            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="px-3 py-2 border border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-900 text-blue-100"
                           >
                             {cityStats.map(city => (
                               <option key={city.city} value={city.city}>
@@ -587,7 +587,7 @@ const Dashboard: React.FC = () => {
                           <select
                             value={selectedTime}
                             onChange={(e) => setSelectedTime(parseInt(e.target.value))}
-                            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="px-3 py-2 border border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-900 text-blue-100"
                           >
                             {Array.from({ length: 24 }, (_, i) => (
                               <option key={i} value={i}>
@@ -673,7 +673,6 @@ const Dashboard: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'chat' && <ChatBot data={data} cityStats={cityStats} />}
           </div>
         </div>
         

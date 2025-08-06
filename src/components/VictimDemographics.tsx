@@ -81,7 +81,7 @@ const VictimDemographics: React.FC<VictimDemographicsProps> = ({
             <select
               value={selectedCity || ''}
               onChange={(e) => onCityChange(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 border border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-900 text-blue-100"
             >
               <option value="">All Cities</option>
               {cities.map(city => (
