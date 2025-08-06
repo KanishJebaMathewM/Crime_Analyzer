@@ -12,90 +12,110 @@ interface HelpStep {
 const helpSteps: HelpStep[] = [
   {
     id: 'welcome',
-    title: 'Welcome to Crime Dashboard',
-    content: 'AI-powered crime analysis platform for data-driven safety insights and predictions.',
+    title: 'Welcome to Crime Analysis Dashboard',
+    content: 'A comprehensive AI-powered platform for crime data analysis, safety insights, and predictive analytics. Upload your data or use demo data to get started.',
     icon: HelpCircle,
     tips: [
-      'Upload CSV files up to 200K records',
-      'Get real-time AI predictions',
-      'Access emergency contact info'
+      'Upload CSV files with crime data',
+      'Get AI-powered predictions and insights',
+      'Access safety recommendations',
+      'View city comparisons and demographics'
     ]
   },
   {
     id: 'overview',
     title: 'Dashboard Overview',
-    content: 'View key metrics: total crimes, closure rates, victim demographics, and weapon incidents.',
+    content: 'The main dashboard shows key crime statistics including total cases, closure rates, average victim age, and weapon-related incidents with AI accuracy metrics.',
     icon: BarChart3,
     tips: [
-      'Metrics update with new data',
-      'Color-coded risk indicators',
-      'Accuracy shows prediction quality'
+      'View total crimes across all cities',
+      'Track case closure rates',
+      'Monitor weapon-related incidents',
+      'See AI prediction accuracy'
     ]
   },
   {
-    id: 'upload',
-    title: 'Data Upload',
-    content: 'Upload CSV files with crime data. Required columns: Report Number, Date, City, Crime Type, Age, Gender.',
+    id: 'data-upload',
+    title: 'Data Upload & Management',
+    content: 'Upload your crime data in CSV format. The system will validate and process your data for analysis. You can also refresh data or load the demo dataset.',
     icon: Upload,
     tips: [
-      'CSV format only, 100MB max',
-      'Data processed locally',
-      'Validation reports available'
+      'CSV format with required columns',
+      'Real-time data validation',
+      'Switch between demo and uploaded data',
+      'Refresh data when needed'
+    ]
+  },
+  {
+    id: 'predictions',
+    title: 'AI Predictions',
+    content: 'Get data-driven crime predictions based on your historical data. View city-specific predictions, time patterns, and real-time risk assessments.',
+    icon: Target,
+    tips: [
+      'Predictions based on your actual data',
+      'City-specific risk analysis',
+      'Hourly pattern predictions',
+      'Confidence scores for reliability'
     ]
   },
   {
     id: 'city-analysis',
-    title: 'City Analysis',
-    content: 'Compare safety ratings, crime patterns, and demographics across different cities.',
+    title: 'City Analysis & Rankings',
+    content: 'Compare crime statistics across different cities. View safety rankings, crime rates, and detailed city-specific information.',
     icon: MapPin,
     tips: [
-      'Safety ratings: 1.0 (high risk) to 5.0 (safe)',
-      'AI-calculated risk levels',
-      'Historical incident tracking'
+      'Safety rankings from safest to highest risk',
+      'City-specific crime statistics',
+      'Compare multiple cities',
+      'View detailed city profiles'
     ]
   },
   {
     id: 'time-patterns',
-    title: 'Time Patterns',
-    content: 'Analyze crime frequency by hour. Red = high risk, Green = safe periods.',
+    title: 'Time Pattern Analysis',
+    content: 'Analyze when crimes occur throughout the day. See hour-by-hour risk levels with interactive heatmaps and safety recommendations.',
     icon: Clock,
     tips: [
-      '24-hour risk visualization',
-      'Pattern-based recommendations',
-      'Peak crime hour identification'
+      'Hour-by-hour crime frequency',
+      'Visual risk level indicators',
+      'Peak crime time identification',
+      'Safety recommendations by time'
     ]
   },
   {
-    id: 'ai-predictions',
-    title: 'AI Predictions',
-    content: 'Data-driven predictions using your historical crime data. No defaults - only real patterns.',
-    icon: Target,
+    id: 'demographics',
+    title: 'Demographics Analysis',
+    content: 'Explore victim demographics including age groups, gender distribution, and patterns across different cities and crime types.',
+    icon: Users,
     tips: [
-      'Based entirely on your data',
-      'Confidence scores included',
-      'Evidence-based recommendations'
+      'Age and gender breakdowns',
+      'City-specific demographics',
+      'Crime type correlations',
+      'Trend analysis over time'
     ]
   },
   {
     id: 'safety-center',
-    title: 'Safety & Emergency',
-    content: 'Access emergency contacts, safety recommendations, and incident analysis for specific locations.',
+    title: 'Safety Center',
+    content: 'Access safety recommendations, emergency contacts, and incident analysis. Get location-specific safety advice and emergency information.',
     icon: Shield,
     tips: [
-      'Real emergency numbers',
-      'Location-specific advice',
-      'Incident trend analysis'
+      'Emergency contact information',
+      'Location-based safety tips',
+      'Incident analysis and patterns',
+      'Real safety recommendations'
     ]
   },
   {
     id: 'ai-assistant',
     title: 'AI Chat Assistant',
-    content: 'Ask questions about your crime data in natural language. Get insights and explanations.',
+    content: 'Ask questions about your crime data in natural language. Get explanations, insights, and help interpreting the analysis results.',
     icon: MessageCircle,
     tips: [
-      'Natural language queries',
-      'Data interpretation help',
-      'Pattern explanations'
+      'Ask questions in plain English',
+      'Get data explanations',
+      'Understand analysis results',
+      'Request specific insights'
     ]
   }
 ];
