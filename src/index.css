@@ -9,24 +9,41 @@
               color 0.2s ease;
 }
 
+<<<<<<< HEAD
 /* IBM Dark Navy background */
 body {
   background: #1e1e2f;
   color: #cfd8dc;
+=======
+/* Simple dark blue background */
+body {
+  background: #1e3a8a;
+  color: #f8fafc;
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
+<<<<<<< HEAD
 /* Card styles with IBM colors */
 .card-enhanced {
   background: #263238;
   border-radius: 8px;
   border: 1px solid #37474f;
   box-shadow: 0 1px 3px rgba(15, 98, 254, 0.2);
+=======
+/* Simple card styles */
+.card-enhanced {
+  background: #1e40af;
+  border-radius: 8px;
+  border: 1px solid #3b82f6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   transition: box-shadow 0.2s ease;
 }
 
 .card-enhanced:hover {
+<<<<<<< HEAD
   box-shadow: 0 4px 6px rgba(15, 98, 254, 0.3);
 }
 
@@ -54,10 +71,50 @@ body {
   color: white;
   font-weight: 600;
   box-shadow: 0 1px 2px rgba(15, 98, 254, 0.1);
+=======
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Simple gradient backgrounds */
+.gradient-blue-light {
+  background: #2563eb;
+  border: 1px solid #3b82f6;
+}
+
+.gradient-green-light {
+  background: #16a34a;
+  border: 1px solid #22c55e;
+}
+
+.gradient-orange-light {
+  background: #ea580c;
+  border: 1px solid #f97316;
+}
+
+.gradient-red-light {
+  background: #dc2626;
+  border: 1px solid #ef4444;
+}
+
+.gradient-purple-light {
+  background: #9333ea;
+  border: 1px solid #a855f7;
+}
+
+/* Simple button styles */
+.btn-primary {
+  background: #3b82f6;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
+<<<<<<< HEAD
   background: #0043ce;
   box-shadow: 0 2px 4px rgba(15, 98, 254, 0.2);
 }
@@ -78,21 +135,37 @@ body {
 }
 
 /* Scrollbar with IBM colors */
+=======
+  background: #2563eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Simple scrollbar */
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
+<<<<<<< HEAD
   background: #263238;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #0f62fe;
+=======
+  background: #1e40af;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
+<<<<<<< HEAD
   background: #0043ce;
 }
 
@@ -103,10 +176,23 @@ body {
   border-radius: 6px;
   padding: 8px 12px;
   color: #cfd8dc;
+=======
+  background: #2563eb;
+}
+
+/* Simple form inputs */
+.form-input {
+  background: #1e40af;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #f8fafc;
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 }
 
 .form-input:focus {
   outline: none;
+<<<<<<< HEAD
   border-color: #0f62fe;
   box-shadow: 0 0 0 2px rgba(15, 98, 254, 0.3);
 }
@@ -124,6 +210,25 @@ body {
 }
 
 /* Animations */
+=======
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+}
+
+/* Simple modal styles */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: #1e40af;
+  border-radius: 8px;
+  border: 1px solid #3b82f6;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Simple animations */
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -154,6 +259,7 @@ body {
   animation: slideInLeft 0.3s ease-out;
 }
 
+<<<<<<< HEAD
 /* Status indicators with IBM colors */
 .status-success {
   background: #0f62fe;
@@ -177,6 +283,25 @@ body {
   background: #37474f;
   border: 1px solid #546e7a;
   color: #cfd8dc;
+=======
+/* Simple status indicators */
+.status-success {
+  background: #16a34a;
+  border: 1px solid #22c55e;
+  color: #f0fdf4;
+}
+
+.status-warning {
+  background: #ea580c;
+  border: 1px solid #f97316;
+  color: #fefce8;
+}
+
+.status-error {
+  background: #dc2626;
+  border: 1px solid #ef4444;
+  color: #fef2f2;
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
 }
 
 /* Utility classes */
@@ -239,7 +364,11 @@ body {
 
 /* Focus styles */
 .focus-visible {
+<<<<<<< HEAD
   outline: 2px solid #0f62fe;
+=======
+  outline: 2px solid #60a5fa;
+>>>>>>> 7808bf108315d31264bc9e46c82ffb3c7a1a125e
   outline-offset: 2px;
 }
 
