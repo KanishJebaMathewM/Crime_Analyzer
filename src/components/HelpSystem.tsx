@@ -131,35 +131,17 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
   // Show all help content at once, no step navigation
   const allTips = helpSteps.flatMap(step => step.tips);
   return (
-<<<<<<< HEAD
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-2 sm:p-4">
       <div className="bg-blue-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-2 border-blue-400">
-=======
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-2 md:p-4">
-      <div className="bg-blue-900 rounded-xl md:rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] md:max-h-[85vh] overflow-hidden border-2 border-blue-400">
->>>>>>> 0732f2ef56f4f5d466ecd23d72e8d1837069a583
         {/* Header */}
         <div className="flex items-center justify-between p-4 md:p-6 border-b border-blue-400 bg-blue-800">
           <div className="flex items-center">
-<<<<<<< HEAD
             <div className="p-3 bg-blue-500 rounded-xl mr-4">
               <HelpCircle className="w-6 h-6 text-white" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">Help & Instructions</h2>
               <p className="text-sm text-blue-200">How to use Crime Analyzer</p>
-=======
-            <div className="p-2 md:p-3 bg-blue-500 rounded-lg md:rounded-xl mr-3 md:mr-4">
-              <currentHelpStep.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
-            </div>
-            <div>
-              <h2 className="text-lg md:text-xl font-bold text-white">
-                {currentHelpStep.title}
-              </h2>
-              <p className="text-xs md:text-sm text-blue-200">
-                Step {currentStep + 1} of {helpSteps.length}
-              </p>
->>>>>>> 0732f2ef56f4f5d466ecd23d72e8d1837069a583
             </div>
           </div>
           <button
@@ -170,7 +152,6 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
         {/* Content */}
-<<<<<<< HEAD
         <div className="p-6 sm:p-8">
           <p className="text-white text-lg leading-relaxed mb-6">
             Welcome to <span className="font-bold text-blue-300">Crime Analyzer</span>! This dashboard helps you analyze crime data, predict trends, and get safety insights for cities across India. Use the navigation bar to explore different features.
@@ -192,76 +173,6 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
             For best experience, use on a modern browser. The dashboard is fully responsive and works on both laptops and mobile devices.
           </div>
         </div>
-=======
-        <div className="p-4 md:p-8">
-          <div className="mb-6 md:mb-8">
-            <p className="text-white text-base md:text-lg leading-relaxed mb-4 md:mb-6">
-              {currentHelpStep.content}
-            </p>
-
-            <div className="bg-blue-800 rounded-lg md:rounded-xl p-4 md:p-6 border border-blue-400">
-              <h4 className="text-base md:text-lg font-bold text-blue-200 mb-3 md:mb-4 flex items-center">
-                💡 Key Features
-              </h4>
-              <ul className="space-y-2 md:space-y-3">
-                {currentHelpStep.tips.map((tip, index) => (
-                  <li key={index} className="flex items-start text-blue-100">
-                    <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span className="text-sm md:text-base">{tip}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Progress indicator */}
-          <div className="flex items-center justify-center space-x-2 md:space-x-3 mb-4 md:mb-6">
-            {helpSteps.map((_, index) => (
-              <div
-                key={index}
-                className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
-                  index === currentStep
-                    ? 'bg-blue-300 scale-125 shadow-lg'
-                    : index < currentStep
-                    ? 'bg-blue-400'
-                    : 'bg-blue-700'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Footer Navigation */}
-        <div className="flex items-center justify-between p-4 md:p-6 border-t border-blue-400 bg-blue-800">
-          <button
-            onClick={handlePrevious}
-            disabled={currentStep === 0}
-            className={`flex items-center px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold transition-all min-w-[80px] md:min-w-[120px] text-sm md:text-base ${
-              currentStep === 0
-                ? 'text-blue-400 cursor-not-allowed bg-blue-900'
-                : 'text-white bg-blue-600 hover:bg-blue-500 shadow-lg hover:shadow-xl'
-            }`}
-          >
-            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
-            <span className="hidden sm:inline">Previous</span>
-            <span className="sm:hidden">Prev</span>
-          </button>
-
-          <div className="text-center px-2">
-            <span className="text-sm md:text-lg font-bold text-blue-200">
-              {currentStep + 1} of {helpSteps.length}
-            </span>
-          </div>
-
-          <button
-            onClick={handleNext}
-            className="flex items-center px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold text-white bg-blue-500 hover:bg-blue-400 transition-all shadow-lg hover:shadow-xl min-w-[80px] md:min-w-[120px] text-sm md:text-base"
-          >
-            {currentStep === helpSteps.length - 1 ? 'Finish' : 'Next'}
-            {currentStep < helpSteps.length - 1 && <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-1 md:ml-2" />}
-          </button>
-        </div>
->>>>>>> 0732f2ef56f4f5d466ecd23d72e8d1837069a583
       </div>
     </div>
   );
