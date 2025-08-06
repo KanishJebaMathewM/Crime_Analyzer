@@ -25,6 +25,7 @@ const Dashboard: React.FC = () => {
   const [dataSource, setDataSource] = useState<'demo' | 'uploaded'>('demo');
   const [showAllCities, setShowAllCities] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [showChat, setShowChat] = useState(false);
   const [uploadedDatasetPath, setUploadedDatasetPath] = useState<string | null>(null);
   const [lastUploadedData, setLastUploadedData] = useState<CrimeRecord[] | null>(null);
 
