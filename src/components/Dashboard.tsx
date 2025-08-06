@@ -674,7 +674,6 @@ const Dashboard: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'chat' && <ChatBot data={data} cityStats={cityStats} />}
           </div>
         </div>
         
