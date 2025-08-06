@@ -711,29 +711,29 @@ const Dashboard: React.FC = () => {
         )}
 
         {/* Floating AI Chat Widget */}
-        <div className="fixed bottom-6 right-6 z-40">
+        <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-40">
           {!showChat && (
             <button
               onClick={() => setShowChat(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 animate-pulse"
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-3 md:p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 animate-pulse"
               title="AI Chat Assistant"
             >
-              <MessageCircle className="w-6 h-6" />
+              <MessageCircle className="w-5 h-5 md:w-6 md:h-6" />
             </button>
           )}
 
           {showChat && (
-            <div className="bg-blue-900 rounded-xl shadow-2xl border-2 border-blue-400 w-80 md:w-96 h-96 md:h-[500px] flex flex-col">
-              <div className="flex items-center justify-between p-4 border-b border-blue-400 bg-blue-800 rounded-t-xl">
+            <div className="bg-blue-900 rounded-xl shadow-2xl border-2 border-blue-400 w-[calc(100vw-2rem)] max-w-sm md:w-96 h-[70vh] max-h-96 md:h-[500px] flex flex-col">
+              <div className="flex items-center justify-between p-3 md:p-4 border-b border-blue-400 bg-blue-800 rounded-t-xl">
                 <div className="flex items-center space-x-2">
-                  <MessageCircle className="w-5 h-5 text-blue-300" />
-                  <h3 className="text-white font-semibold">AI Assistant</h3>
+                  <MessageCircle className="w-4 h-4 md:w-5 md:h-5 text-blue-300" />
+                  <h3 className="text-white font-semibold text-sm md:text-base">AI Assistant</h3>
                 </div>
                 <button
                   onClick={() => setShowChat(false)}
                   className="text-blue-300 hover:text-white transition-colors p-1 rounded"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
               </div>
               <div className="flex-1 overflow-hidden">
