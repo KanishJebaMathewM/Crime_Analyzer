@@ -211,31 +211,33 @@ export const HelpSystem: React.FC<HelpSystemProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Footer Navigation - Fixed positioning */}
-        <div className="flex items-center justify-between p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+        {/* Footer Navigation */}
+        <div className="flex items-center justify-between p-6 border-t border-blue-400 bg-blue-800">
           <button
             onClick={handlePrevious}
             disabled={currentStep === 0}
-            className={`flex items-center px-6 py-3 rounded-lg font-medium transition-all min-w-[100px] ${
+            className={`flex items-center px-6 py-3 rounded-lg font-semibold transition-all min-w-[120px] ${
               currentStep === 0
-                ? 'text-gray-400 cursor-not-allowed bg-gray-100 dark:bg-gray-800'
-                : 'text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                ? 'text-blue-400 cursor-not-allowed bg-blue-900'
+                : 'text-white bg-blue-600 hover:bg-blue-500 shadow-lg hover:shadow-xl'
             }`}
           >
-            <ChevronLeft className="w-4 h-4 mr-1" />
-            Back
+            <ChevronLeft className="w-5 h-5 mr-2" />
+            Previous
           </button>
 
-          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            {currentStep + 1} / {helpSteps.length}
-          </span>
+          <div className="text-center">
+            <span className="text-lg font-bold text-blue-200">
+              {currentStep + 1} of {helpSteps.length}
+            </span>
+          </div>
 
           <button
             onClick={handleNext}
-            className="flex items-center px-6 py-3 rounded-lg font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 min-w-[100px]"
+            className="flex items-center px-6 py-3 rounded-lg font-semibold text-white bg-blue-500 hover:bg-blue-400 transition-all shadow-lg hover:shadow-xl min-w-[120px]"
           >
-            {currentStep === helpSteps.length - 1 ? 'Done' : 'Next'}
-            {currentStep < helpSteps.length - 1 && <ChevronRight className="w-4 h-4 ml-1" />}
+            {currentStep === helpSteps.length - 1 ? 'Finish' : 'Next'}
+            {currentStep < helpSteps.length - 1 && <ChevronRight className="w-5 h-5 ml-2" />}
           </button>
         </div>
       </div>
