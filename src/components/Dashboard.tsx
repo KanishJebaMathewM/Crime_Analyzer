@@ -429,20 +429,21 @@ const Dashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="card-enhanced">
           <div className="border-b border-blue-300">
-            <nav className="flex items-center space-x-1 px-6 overflow-x-auto scrollbar-hide">
+            <nav className="grid grid-cols-3 md:grid-cols-6 gap-1 px-4 py-2">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-3 px-4 rounded-lg font-semibold text-sm flex items-center space-x-2 whitespace-nowrap flex-shrink-0 transition-all duration-200 ${
+                  className={`py-3 px-2 md:px-4 rounded-lg font-semibold text-xs md:text-sm flex flex-col md:flex-row items-center justify-center md:space-x-2 transition-all duration-200 ${
                     activeTab === tab.id
                       ? 'bg-blue-500 text-white shadow-lg border-2 border-blue-300'
                       : 'bg-blue-600/20 text-blue-100 hover:bg-blue-500/30 hover:text-white border-2 border-transparent'
                   }`}
                 >
-                  <tab.icon className="w-4 h-4 flex-shrink-0" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                  <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
+                  <tab.icon className="w-4 h-4 md:flex-shrink-0" />
+                  <span className="text-xs md:text-sm mt-1 md:mt-0 leading-tight text-center md:text-left">
+                    {tab.label}
+                  </span>
                 </button>
               ))}
             </nav>
