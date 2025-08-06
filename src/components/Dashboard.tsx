@@ -311,8 +311,7 @@ const Dashboard: React.FC = () => {
     { id: 'cities', label: 'City Analysis', icon: MapPin },
     { id: 'time', label: 'Time Patterns', icon: Clock },
     { id: 'demographics', label: 'Demographics', icon: Users },
-    { id: 'safety', label: 'Safety Center', icon: Shield },
-    { id: 'chat', label: 'AI Assistant', icon: MessageCircle }
+    { id: 'safety', label: 'Safety Center', icon: Shield }
   ];
 
   return (
