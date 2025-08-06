@@ -306,7 +306,6 @@ const Dashboard: React.FC = () => {
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: BarChart3 },
-    { id: 'trends', label: 'Crime Trends', icon: TrendingUp },
     { id: 'predictions', label: 'Predictions', icon: Target },
     { id: 'cities', label: 'City Analysis', icon: MapPin },
     { id: 'time', label: 'Time Patterns', icon: Clock },
