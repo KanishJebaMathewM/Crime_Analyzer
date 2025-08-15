@@ -20,7 +20,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     {
       id: '1',
       type: 'assistant',
-      content: '\u{1F916} Hello! I\'m your **Enhanced Crime Analysis AI Assistant** powered by advanced data processing!\n\n\u2728 **New Capabilities:**\n\u{1FAA0} AI-powered correlation analysis\n\u{1F52E} Predictive insights\n\u{1F4CA} Advanced comparative analysis\n\u{1F3AF} Context-aware responses\n\nI can analyze patterns, predict trends, and provide deep insights from our crime database. What would you like to explore?',
+      content: '🤖 Hello! I\'m your **AI-Powered Crime Analysis Assistant** connected to OpenAI!\n\n✨ **Enhanced with GPT Technology:**\n🧠 Real-time crime data analysis\n📊 Statistical insights and patterns\n🎯 Personalized safety recommendations\n🔍 Advanced pattern recognition\n\nI can analyze our comprehensive crime database of ' + (data?.length || 0).toLocaleString() + ' records across ' + (cityStats?.length || 0) + ' cities. Ask me anything about crime trends, safety, or specific locations!',
       timestamp: new Date()
     }
   ]);
@@ -28,6 +28,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
   const [isOpen, setIsOpen] = useState(false); // floating chat state
+  const [aiError, setAiError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Quick action suggestions
@@ -163,7 +164,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
         .map(([gender, count]) => ({ gender, count, percentage: ((count / data.length) * 100).toFixed(1) }))
         .sort((a, b) => b.count - a.count);
 
-      return `�� **Demographics Deep Dive:**\n\n🎂 **Average victim age:** ${avgAge} years (peak vulnerability in prime of life!)\n\n📊 **Gender breakdown:**\n${genderStats.map(g => `${g.gender}: ${g.percentage}% (${g.count.toLocaleString()} cases)`).join('\n')}\n\n🧠 **Insight:** Crime isn't random - it follows patterns. Young adults face higher risks due to lifestyle factors (nightlife, commuting, etc.)\n\n��� **Takeaway:** Awareness peaks in your 20s-30s are crucial for prevention!`;
+      return `�� **Demographics Deep Dive:**\n\n🎂 **Average victim age:** ${avgAge} years (peak vulnerability in prime of life!)\n\n📊 **Gender breakdown:**\n${genderStats.map(g => `${g.gender}: ${g.percentage}% (${g.count.toLocaleString()} cases)`).join('\n')}\n\n🧠 **Insight:** Crime isn't random - it follows patterns. Young adults face higher risks due to lifestyle factors (nightlife, commuting, etc.)\n\n💡 **Takeaway:** Awareness peaks in your 20s-30s are crucial for prevention!`;
     }
 
     // Original comprehensive queries with enhanced responses
@@ -258,7 +259,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
 
       if (message.includes('safety rating') || message.includes('safety score')) {
         const avgRating = (cityStats.reduce((sum, city) => sum + city.safetyRating, 0) / cityStats.length).toFixed(1);
-        return `⭐ **Safety Rating System Explained:**\n\n📊 **Scale:** 1-5 stars (5 being safest)\n📈 **National average:** ${avgRating}/5\n�� **Top rated:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5)\n\n🧮 **How it's calculated:**\n• Crime volume (lower = better)\n• Case closure rates (higher = better)\n• Violence severity (less = better)\n• Weapon usage (less = better)\n\n✨ **Pro tip:** Even low-rated cities have safe neighborhoods - timing and location matter!`;
+        return `⭐ **Safety Rating System Explained:**\n\n📊 **Scale:** 1-5 stars (5 being safest)\n📈 **National average:** ${avgRating}/5\n🏆 **Top rated:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5)\n\n🧮 **How it's calculated:**\n• Crime volume (lower = better)\n• Case closure rates (higher = better)\n• Violence severity (less = better)\n• Weapon usage (less = better)\n\n✨ **Pro tip:** Even low-rated cities have safe neighborhoods - timing and location matter!`;
       }
     }
 
