@@ -273,22 +273,36 @@ Remember: You're analyzing real Indian crime data, so provide context-appropriat
   }
 
   private generateFallbackResponse(userMessage: string, data: CrimeRecord[], cityStats: CityStats[]): string {
-    const query = userMessage.toLowerCase();
-    
-    if (query.includes('safest') && query.includes('city')) {
-      const safestCity = cityStats.reduce((prev, current) =>
-        prev.safetyRating > current.safetyRating ? prev : current
-      );
-      return `🏆 Based on our analysis, **${safestCity.city}** is the safest city with a ${safestCity.safetyRating}/5 safety rating. This city has ${safestCity.totalCrimes.toLocaleString()} total crimes and a ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% case closure rate. The low crime rate and effective policing make it a relatively secure location.`;
+    try {
+      const query = userMessage.toLowerCase();
+
+      // Safety check for data availability
+      if (!data || data.length === 0) {
+        return `📊 I don't have access to crime data right now, but I'd be happy to help once the dataset is loaded. Please try refreshing the page or uploading a dataset.`;
+      }
+
+      if (!cityStats || cityStats.length === 0) {
+        return `🏙️ I can see crime data but city statistics aren't available yet. The data might still be processing. Please try again in a moment.`;
+      }
+
+      if (query.includes('safest') && query.includes('city')) {
+        const safestCity = cityStats.reduce((prev, current) =>
+          prev.safetyRating > current.safetyRating ? prev : current
+        );
+        return `🏆 Based on our analysis, **${safestCity.city}** is the safest city with a ${safestCity.safetyRating}/5 safety rating. This city has ${safestCity.totalCrimes.toLocaleString()} total crimes and a ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% case closure rate. The low crime rate and effective policing make it a relatively secure location.`;
+      }
+
+      if (query.includes('total') || query.includes('statistics')) {
+        const closedCases = data.filter(r => r.caseClosed === 'Yes').length;
+        const closureRate = ((closedCases / data.length) * 100).toFixed(1);
+        return `📊 **Crime Statistics Overview:**\n\n• Total crimes analyzed: ${data.length.toLocaleString()}\n• Cities covered: ${cityStats.length}\n• Case closure rate: ${closureRate}%\n• Average victim age: ${Math.round(data.reduce((sum, record) => sum + record.victimAge, 0) / data.length)} years\n\nThis comprehensive dataset provides valuable insights into crime patterns across Indian cities.`;
+      }
+
+      return `🤖 I understand you're asking about "${userMessage}". I can help analyze our crime dataset of ${data.length.toLocaleString()} records across ${cityStats.length} cities. Try asking about specific cities, crime types, safety statistics, or time patterns for detailed insights based on the actual data.`;
+    } catch (error) {
+      console.error('Error in fallback response generation:', error);
+      return `🤖 I'm here to help with crime data analysis! Due to a technical issue, I'm providing this basic response. Please try asking me about crime statistics, city safety, or data insights.`;
     }
-    
-    if (query.includes('total') || query.includes('statistics')) {
-      const closedCases = data.filter(r => r.caseClosed === 'Yes').length;
-      const closureRate = ((closedCases / data.length) * 100).toFixed(1);
-      return `📊 **Crime Statistics Overview:**\n\n• Total crimes analyzed: ${data.length.toLocaleString()}\n• Cities covered: ${cityStats.length}\n• Case closure rate: ${closureRate}%\n• Average victim age: ${Math.round(data.reduce((sum, record) => sum + record.victimAge, 0) / data.length)} years\n\nThis comprehensive dataset provides valuable insights into crime patterns across Indian cities.`;
-    }
-    
-    return `🤖 I understand you're asking about "${userMessage}". I can help analyze our crime dataset of ${data.length.toLocaleString()} records across ${cityStats.length} cities. Try asking about specific cities, crime types, safety statistics, or time patterns for detailed insights based on the actual data.`;
   }
 }
 
