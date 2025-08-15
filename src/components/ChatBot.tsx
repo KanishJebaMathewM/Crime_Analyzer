@@ -325,7 +325,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3);
 
-      return `⚔️ **Weapons Analysis - The Reality Check:**\n\n📊 **Armed Incidents:** ${totalWeaponCrimes.toLocaleString()} cases (${weaponRate}% of all crimes)\n😌 **Unarmed Majority:** ${(100 - parseFloat(weaponRate)).toFixed(1)}% of crimes involve NO weapons!\n\n🔍 **When weapons are involved:**\n${topWeapons.map((w, i) => `${i + 1}. **${w[0]}** - ${w[1]} cases (${((w[1] / totalWeaponCrimes) * 100).toFixed(1)}%)`).join('\n')}\n\n💡 **Reality Check:** Most crimes are opportunistic, not planned attacks. Your best weapons? Awareness, confidence, and smart choices!\n\n��️ **Defense Strategy:** Avoid confrontation, trust your instincts, and remember - most criminals want easy targets, not fights!`;
+      return `⚔️ **Weapons Analysis - The Reality Check:**\n\n📊 **Armed Incidents:** ${totalWeaponCrimes.toLocaleString()} cases (${weaponRate}% of all crimes)\n😌 **Unarmed Majority:** ${(100 - parseFloat(weaponRate)).toFixed(1)}% of crimes involve NO weapons!\n\n🔍 **When weapons are involved:**\n${topWeapons.map((w, i) => `${i + 1}. **${w[0]}** - ${w[1]} cases (${((w[1] / totalWeaponCrimes) * 100).toFixed(1)}%)`).join('\n')}\n\n💡 **Reality Check:** Most crimes are opportunistic, not planned attacks. Your best weapons? Awareness, confidence, and smart choices!\n\n🛡️ **Defense Strategy:** Avoid confrontation, trust your instincts, and remember - most criminals want easy targets, not fights!`;
     }
 
     // Enhanced case closure with police performance insights
@@ -530,7 +530,13 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
             <div className="flex items-center justify-between p-4 border-b border-blue-400 bg-blue-800 rounded-t-2xl">
               <div className="flex items-center space-x-2">
                 <Bot className="w-6 h-6 text-blue-300" />
-                <span className="font-bold text-white text-lg">AI Assistant</span>
+                <div>
+                  <span className="font-bold text-white text-lg">AI Assistant</span>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <span className="text-xs text-blue-200">Powered by OpenAI</span>
+                  </div>
+                </div>
               </div>
               <button
                 className="text-blue-300 hover:text-white p-2 rounded-lg hover:bg-blue-700 transition-colors"
