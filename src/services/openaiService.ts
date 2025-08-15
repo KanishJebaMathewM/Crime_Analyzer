@@ -252,7 +252,21 @@ Remember: You're analyzing real Indian crime data, so provide context-appropriat
 
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
-      
+
+      // Categorize error types for better debugging
+      let errorType = 'unknown';
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        errorType = 'network';
+      } else if (error instanceof Error && error.message.includes('aborted')) {
+        errorType = 'timeout';
+      } else if (error instanceof Error && error.message.includes('API key')) {
+        errorType = 'auth';
+      } else if (error instanceof Error && error.message.includes('stream')) {
+        errorType = 'stream';
+      }
+
+      console.log(`OpenAI Error Type: ${errorType}`);
+
       // Return a fallback response based on the user's message
       return this.generateFallbackResponse(userMessage, data, cityStats);
     }
