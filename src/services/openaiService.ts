@@ -182,6 +182,15 @@ Remember: You're analyzing real Indian crime data, so provide context-appropriat
 
   async generateResponse(userMessage: string, data: CrimeRecord[], cityStats: CityStats[]): Promise<string> {
     try {
+      // Validate input
+      if (!userMessage || userMessage.trim().length === 0) {
+        throw new Error('Empty user message');
+      }
+
+      if (!this.apiKey || this.apiKey.trim().length === 0) {
+        throw new Error('OpenAI API key not configured');
+      }
+
       const systemPrompt = this.generateSystemPrompt(data, cityStats);
       const dataContext = this.generateDataContext(data, cityStats, userMessage);
 
@@ -195,6 +204,8 @@ Remember: You're analyzing real Indian crime data, so provide context-appropriat
           content: userMessage
         }
       ];
+
+      console.log('Sending request to OpenAI API...');
 
       const response = await fetch(this.baseUrl, {
         method: 'POST',
