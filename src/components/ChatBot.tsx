@@ -51,7 +51,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     scrollToBottom();
   }, [messages]);
 
-  const generateResponse = (userMessage: string): string => {
+  const generateLocalResponse = (userMessage: string): string => {
     const message = userMessage.toLowerCase().trim();
 
     // Handle empty or very short messages
@@ -164,7 +164,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
         .map(([gender, count]) => ({ gender, count, percentage: ((count / data.length) * 100).toFixed(1) }))
         .sort((a, b) => b.count - a.count);
 
-      return `�� **Demographics Deep Dive:**\n\n🎂 **Average victim age:** ${avgAge} years (peak vulnerability in prime of life!)\n\n📊 **Gender breakdown:**\n${genderStats.map(g => `${g.gender}: ${g.percentage}% (${g.count.toLocaleString()} cases)`).join('\n')}\n\n🧠 **Insight:** Crime isn't random - it follows patterns. Young adults face higher risks due to lifestyle factors (nightlife, commuting, etc.)\n\n💡 **Takeaway:** Awareness peaks in your 20s-30s are crucial for prevention!`;
+      return `�� **Demographics Deep Dive:**\n\n🎂 **Average victim age:** ${avgAge} years (peak vulnerability in prime of life!)\n\n��� **Gender breakdown:**\n${genderStats.map(g => `${g.gender}: ${g.percentage}% (${g.count.toLocaleString()} cases)`).join('\n')}\n\n🧠 **Insight:** Crime isn't random - it follows patterns. Young adults face higher risks due to lifestyle factors (nightlife, commuting, etc.)\n\n💡 **Takeaway:** Awareness peaks in your 20s-30s are crucial for prevention!`;
     }
 
     // Original comprehensive queries with enhanced responses
@@ -342,7 +342,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       const topPerformer = cityClosureRates[0];
       const needsWork = cityClosureRates[cityClosureRates.length - 1];
 
-      return `���️‍♂️ **Police Performance Report Card:**\n\n📈 **National Average:** ${closureRate}% cases solved (${closedCases.toLocaleString()}/${totalCases.toLocaleString()})\n\n🏆 **MVP Award:** ${topPerformer.city} - ${topPerformer.rate}% closure rate! 👏\n📚 **Needs Tutoring:** ${needsWork.city} - ${needsWork.rate}% (room for improvement!)\n\n⭐ **Hall of Fame (Top 3):**\n${cityClosureRates.slice(0, 3).map((c, i) => `${i + 1}. ${c.city} - ${c.rate}% 🎯`).join('\n')}\n\n🧠 **Insight:** Good policing makes a HUGE difference! Cities with higher closure rates often see lower crime rates too.\n\n💪 **Citizen Power:** Report crimes promptly and provide details - you're part of the solution!`;
+      return `🕵️‍♂️ **Police Performance Report Card:**\n\n📈 **National Average:** ${closureRate}% cases solved (${closedCases.toLocaleString()}/${totalCases.toLocaleString()})\n\n🏆 **MVP Award:** ${topPerformer.city} - ${topPerformer.rate}% closure rate! 👏\n📚 **Needs Tutoring:** ${needsWork.city} - ${needsWork.rate}% (room for improvement!)\n\n⭐ **Hall of Fame (Top 3):**\n${cityClosureRates.slice(0, 3).map((c, i) => `${i + 1}. ${c.city} - ${c.rate}% 🎯`).join('\n')}\n\n🧠 **Insight:** Good policing makes a HUGE difference! Cities with higher closure rates often see lower crime rates too.\n\n💪 **Citizen Power:** Report crimes promptly and provide details - you're part of the solution!`;
     }
 
     // Enhanced safety recommendations with personality
