@@ -213,13 +213,19 @@ Remember: You're analyzing real Indian crime data, so provide context-appropriat
       });
 
       if (!response.ok) {
-        const errorData = await response.text();
-        console.error('OpenAI API Error:', response.status, errorData);
-        throw new Error(`OpenAI API request failed: ${response.status} ${response.statusText}`);
+        let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+        try {
+          const errorData = await response.text();
+          errorMessage += ` - ${errorData}`;
+        } catch (readError) {
+          console.warn('Could not read error response body:', readError);
+        }
+        console.error('OpenAI API Error:', errorMessage);
+        throw new Error(`OpenAI API request failed: ${errorMessage}`);
       }
 
       const result: OpenAIResponse = await response.json();
-      
+
       if (!result.choices || result.choices.length === 0) {
         throw new Error('No response from OpenAI API');
       }
