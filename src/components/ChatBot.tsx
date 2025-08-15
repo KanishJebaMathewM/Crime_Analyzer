@@ -101,7 +101,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           if (hour >= 0 && hour <= 23) {
             hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
           }
-        } catch (error) {
+        } catch (_error) {
           // Skip invalid times
         }
       });
@@ -140,7 +140,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           if (hour >= 0 && hour <= 23) {
             hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
           }
-        } catch (error) {
+        } catch (_error) {
           // Skip invalid times
         }
       });
@@ -285,15 +285,15 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           if (hour >= 0 && hour <= 23) {
             hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
           }
-        } catch (error) {
+        } catch (_error) {
           // Skip invalid times
         }
       });
 
-      const peakHour = Array.from(hourMap.entries()).reduce((max, current) =>
+      const [peakHour] = Array.from(hourMap.entries()).reduce((max, current) =>
         current[1] > max[1] ? current : max
       );
-      const safestHour = Array.from(hourMap.entries()).reduce((min, current) =>
+      const [safestHour] = Array.from(hourMap.entries()).reduce((min, current) =>
         current[1] < min[1] ? current : min
       );
 
