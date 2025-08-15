@@ -479,7 +479,20 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       setIsTyping(false);
     } catch (error) {
       console.error('OpenAI response generation failed:', error);
-      setAiError('AI service temporarily unavailable');
+
+      // Determine error type for better user feedback
+      let errorMessage = 'AI service temporarily unavailable';
+      if (error instanceof Error) {
+        if (error.message.includes('fetch') || error.message.includes('network')) {
+          errorMessage = 'Network connection issue';
+        } else if (error.message.includes('timeout') || error.message.includes('aborted')) {
+          errorMessage = 'Request timeout - please try again';
+        } else if (error.message.includes('API key')) {
+          errorMessage = 'API authentication issue';
+        }
+      }
+
+      setAiError(errorMessage);
 
       // Fallback to local response generation
       const fallbackResponse = generateLocalResponse(currentInput);
@@ -487,12 +500,15 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       const fallbackMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         type: 'assistant',
-        content: fallbackResponse,
+        content: fallbackResponse + '\n\n*Note: Using offline analysis due to AI service issue.*',
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, fallbackMessage]);
       setIsTyping(false);
+
+      // Clear error after 5 seconds
+      setTimeout(() => setAiError(null), 5000);
     }
   };
 
