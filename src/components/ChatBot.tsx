@@ -462,35 +462,37 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     const currentInput = inputValue;
     setInputValue('');
     setIsTyping(true);
+    setAiError(null);
 
     try {
-      // Use simplified safe response system
-      const response = generateResponse(currentInput);
+      // Use OpenAI service for enhanced responses
+      const response = await openAIService.generateResponse(currentInput, data, cityStats);
 
-      setTimeout(() => {
-        const assistantMessage: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          type: 'assistant',
-          content: response,
-          timestamp: new Date()
-        };
+      const assistantMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: response,
+        timestamp: new Date()
+      };
 
-        setMessages(prev => [...prev, assistantMessage]);
-        setIsTyping(false);
-      }, 1000 + Math.random() * 1500);
+      setMessages(prev => [...prev, assistantMessage]);
+      setIsTyping(false);
     } catch (error) {
-      console.error('Response generation failed:', error);
-      setTimeout(() => {
-        const fallbackMessage: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          type: 'assistant',
-          content: "🤖 I'm having trouble processing that request. Try asking about crime statistics or city safety!",
-          timestamp: new Date()
-        };
+      console.error('OpenAI response generation failed:', error);
+      setAiError('AI service temporarily unavailable');
 
-        setMessages(prev => [...prev, fallbackMessage]);
-        setIsTyping(false);
-      }, 1000);
+      // Fallback to local response generation
+      const fallbackResponse = generateLocalResponse(currentInput);
+
+      const fallbackMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: fallbackResponse,
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, fallbackMessage]);
+      setIsTyping(false);
     }
   };
 
