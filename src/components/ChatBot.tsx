@@ -1,64 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { CrimeRecord, CityStats, ChatMessage } from '../types/crime';
-import { MessageCircle, Send, Bot, User } from 'lucide-react';
+import { MessageCircle, Send, Bot, User, AlertCircle } from 'lucide-react';
+import { initializeOpenAI, getOpenAIService } from '../services/openaiService';
 
-interface QuickResponses {
-  [key: string]: string;
-  statistics: string;
-  cities: string;
-  safety: string;
-  weapons: string;
-  time: string;
-  police: string;
-  crime_types: string;
-}
+// API Key - should be moved to environment variables in production
+const OPENAI_API_KEY = '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';
 
-// Simplified and stable AI response system
-class CrimeDataAI {
-  private data: CrimeRecord[];
-  private cityStats: CityStats[];
-
-  constructor(data: CrimeRecord[], cityStats: CityStats[]) {
-    this.data = data || [];
-    this.cityStats = cityStats || [];
-  }
-
-  async generateEnhancedResponse(userMessage: string): Promise<string> {
-    try {
-      // Simplified response generation to avoid crashes
-      return this.generateSafeResponse(userMessage);
-    } catch (error) {
-      console.error('AI response error:', error);
-      return this.getFallbackResponse(userMessage);
-    }
-  }
-
-  private generateSafeResponse(userMessage: string): string {
-    const message = userMessage.toLowerCase();
-
-    if (!this.data || this.data.length === 0) {
-      return "📊 No data available for analysis. Please load a dataset first.";
-    }
-
-    // Safe basic responses
-    if (message.includes('total') && message.includes('crime')) {
-      return `📊 **Total Crimes:** ${this.data.length.toLocaleString()} records across ${this.cityStats.length} cities`;
-    }
-
-    if (message.includes('safest') && message.includes('city')) {
-      const safest = this.cityStats[0];
-      return safest ? `🏆 **Safest City:** ${safest.city} with safety rating ${safest.safetyRating}/5` : "No city data available";
-    }
-
-    return this.getFallbackResponse(message);
-  }
-
-  private getFallbackResponse(message: string): string {
-    return `🤖 I understand you're asking about "${message}". I can help with:\n\n📊 Crime statistics\n🏙️ City safety analysis\n⏰ Time patterns\n🔍 Data insights\n\nTry asking: "What's the safest city?" or "Show total crimes"`;
-  }
-
-
-}
+// Initialize OpenAI service
+const openAIService = initializeOpenAI(OPENAI_API_KEY);
 
 // Restore ChatBotProps interface
 interface ChatBotProps {
@@ -214,7 +163,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
         .map(([gender, count]) => ({ gender, count, percentage: ((count / data.length) * 100).toFixed(1) }))
         .sort((a, b) => b.count - a.count);
 
-      return `�� **Demographics Deep Dive:**\n\n🎂 **Average victim age:** ${avgAge} years (peak vulnerability in prime of life!)\n\n📊 **Gender breakdown:**\n${genderStats.map(g => `${g.gender}: ${g.percentage}% (${g.count.toLocaleString()} cases)`).join('\n')}\n\n🧠 **Insight:** Crime isn't random - it follows patterns. Young adults face higher risks due to lifestyle factors (nightlife, commuting, etc.)\n\n💡 **Takeaway:** Awareness peaks in your 20s-30s are crucial for prevention!`;
+      return `�� **Demographics Deep Dive:**\n\n🎂 **Average victim age:** ${avgAge} years (peak vulnerability in prime of life!)\n\n📊 **Gender breakdown:**\n${genderStats.map(g => `${g.gender}: ${g.percentage}% (${g.count.toLocaleString()} cases)`).join('\n')}\n\n🧠 **Insight:** Crime isn't random - it follows patterns. Young adults face higher risks due to lifestyle factors (nightlife, commuting, etc.)\n\n��� **Takeaway:** Awareness peaks in your 20s-30s are crucial for prevention!`;
     }
 
     // Original comprehensive queries with enhanced responses
@@ -309,7 +258,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
 
       if (message.includes('safety rating') || message.includes('safety score')) {
         const avgRating = (cityStats.reduce((sum, city) => sum + city.safetyRating, 0) / cityStats.length).toFixed(1);
-        return `⭐ **Safety Rating System Explained:**\n\n📊 **Scale:** 1-5 stars (5 being safest)\n📈 **National average:** ${avgRating}/5\n🏆 **Top rated:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5)\n\n🧮 **How it's calculated:**\n• Crime volume (lower = better)\n• Case closure rates (higher = better)\n• Violence severity (less = better)\n• Weapon usage (less = better)\n\n✨ **Pro tip:** Even low-rated cities have safe neighborhoods - timing and location matter!`;
+        return `⭐ **Safety Rating System Explained:**\n\n📊 **Scale:** 1-5 stars (5 being safest)\n📈 **National average:** ${avgRating}/5\n�� **Top rated:** ${cityStats[0].city} (${cityStats[0].safetyRating}/5)\n\n🧮 **How it's calculated:**\n• Crime volume (lower = better)\n• Case closure rates (higher = better)\n• Violence severity (less = better)\n• Weapon usage (less = better)\n\n✨ **Pro tip:** Even low-rated cities have safe neighborhoods - timing and location matter!`;
       }
     }
 
