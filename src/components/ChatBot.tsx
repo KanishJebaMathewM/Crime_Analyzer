@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { CrimeRecord, CityStats, ChatMessage } from '../types/crime';
-import { MessageCircle, Send, Bot, User, AlertCircle } from 'lucide-react';
-import { initializeOpenAI, getOpenAIService } from '../services/openaiService';
+import type { CrimeRecord, CityStats, ChatMessage } from '../types/crime';
+import { Send, Bot, AlertCircle } from 'lucide-react';
+import { initializeOpenAI } from '../services/openaiService';
 
 // API Key - should be moved to environment variables in production
 const OPENAI_API_KEY = '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';
@@ -187,7 +187,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       if (safestCity.safetyRating > 4) reasons.push('low crime frequency');
       if (safestCity.totalCrimes < data.length / cityStats.length) reasons.push('below-average crime volume');
 
-      return `🏆 **Safety Champion: ${safestCity.city}!**\n\n�� **Safety Score:** ${safestCity.safetyRating}/5 (that's impressive!)\n📈 **Success Rate:** ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% case closure\n📊 **Crime Volume:** ${safestCity.totalCrimes.toLocaleString()} incidents\n\n🎯 **Why ${safestCity.city} wins:** ${reasons.join(', ')}\n\n✨ **Bonus insight:** Even in the safest cities, staying alert is key. ${safestCity.city} proves that good policing and community awareness work!`;
+      return `🏆 **Safety Champion: ${safestCity.city}!**\n\n⭐ **Safety Score:** ${safestCity.safetyRating}/5 (that's impressive!)\n📈 **Success Rate:** ${((safestCity.closedCases / safestCity.totalCrimes) * 100).toFixed(1)}% case closure\n📊 **Crime Volume:** ${safestCity.totalCrimes.toLocaleString()} incidents\n\n🎯 **Why ${safestCity.city} wins:** ${reasons.join(', ')}\n\n✨ **Bonus insight:** Even in the safest cities, staying alert is key. ${safestCity.city} proves that good policing and community awareness work!`;
     }
 
     // Enhanced specific queries with better matching
