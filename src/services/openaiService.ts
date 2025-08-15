@@ -207,6 +207,10 @@ Remember: You're analyzing real Indian crime data, so provide context-appropriat
 
       console.log('Sending request to OpenAI API...');
 
+      // Create abort controller for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
@@ -220,8 +224,11 @@ Remember: You're analyzing real Indian crime data, so provide context-appropriat
           temperature: 0.7,
           presence_penalty: 0.1,
           frequency_penalty: 0.1
-        })
+        }),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
