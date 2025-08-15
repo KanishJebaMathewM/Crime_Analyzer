@@ -164,7 +164,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
         .map(([gender, count]) => ({ gender, count, percentage: ((count / data.length) * 100).toFixed(1) }))
         .sort((a, b) => b.count - a.count);
 
-      return `�� **Demographics Deep Dive:**\n\n🎂 **Average victim age:** ${avgAge} years (peak vulnerability in prime of life!)\n\n��� **Gender breakdown:**\n${genderStats.map(g => `${g.gender}: ${g.percentage}% (${g.count.toLocaleString()} cases)`).join('\n')}\n\n🧠 **Insight:** Crime isn't random - it follows patterns. Young adults face higher risks due to lifestyle factors (nightlife, commuting, etc.)\n\n💡 **Takeaway:** Awareness peaks in your 20s-30s are crucial for prevention!`;
+      return `�� **Demographics Deep Dive:**\n\n🎂 **Average victim age:** ${avgAge} years (peak vulnerability in prime of life!)\n\n📊 **Gender breakdown:**\n${genderStats.map(g => `${g.gender}: ${g.percentage}% (${g.count.toLocaleString()} cases)`).join('\n')}\n\n🧠 **Insight:** Crime isn't random - it follows patterns. Young adults face higher risks due to lifestyle factors (nightlife, commuting, etc.)\n\n💡 **Takeaway:** Awareness peaks in your 20s-30s are crucial for prevention!`;
     }
 
     // Original comprehensive queries with enhanced responses
@@ -325,7 +325,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3);
 
-      return `⚔️ **Weapons Analysis - The Reality Check:**\n\n📊 **Armed Incidents:** ${totalWeaponCrimes.toLocaleString()} cases (${weaponRate}% of all crimes)\n😌 **Unarmed Majority:** ${(100 - parseFloat(weaponRate)).toFixed(1)}% of crimes involve NO weapons!\n\n🔍 **When weapons are involved:**\n${topWeapons.map((w, i) => `${i + 1}. **${w[0]}** - ${w[1]} cases (${((w[1] / totalWeaponCrimes) * 100).toFixed(1)}%)`).join('\n')}\n\n💡 **Reality Check:** Most crimes are opportunistic, not planned attacks. Your best weapons? Awareness, confidence, and smart choices!\n\n🛡️ **Defense Strategy:** Avoid confrontation, trust your instincts, and remember - most criminals want easy targets, not fights!`;
+      return `⚔️ **Weapons Analysis - The Reality Check:**\n\n📊 **Armed Incidents:** ${totalWeaponCrimes.toLocaleString()} cases (${weaponRate}% of all crimes)\n😌 **Unarmed Majority:** ${(100 - parseFloat(weaponRate)).toFixed(1)}% of crimes involve NO weapons!\n\n🔍 **When weapons are involved:**\n${topWeapons.map((w, i) => `${i + 1}. **${w[0]}** - ${w[1]} cases (${((w[1] / totalWeaponCrimes) * 100).toFixed(1)}%)`).join('\n')}\n\n💡 **Reality Check:** Most crimes are opportunistic, not planned attacks. Your best weapons? Awareness, confidence, and smart choices!\n\n��️ **Defense Strategy:** Avoid confrontation, trust your instincts, and remember - most criminals want easy targets, not fights!`;
     }
 
     // Enhanced case closure with police performance insights
@@ -501,6 +501,11 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  const handleQuickAction = (action: string) => {
+    setInputValue(action);
+    setShowQuickActions(false);
   };
 
   // Floating button and chat modal
