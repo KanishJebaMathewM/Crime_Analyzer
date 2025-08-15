@@ -1,64 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { CrimeRecord, CityStats, ChatMessage } from '../types/crime';
-import { MessageCircle, Send, Bot, User } from 'lucide-react';
+import type { CrimeRecord, CityStats, ChatMessage } from '../types/crime';
+import { Send, Bot, AlertCircle } from 'lucide-react';
+import { initializeOpenAI } from '../services/openaiService';
 
-interface QuickResponses {
-  [key: string]: string;
-  statistics: string;
-  cities: string;
-  safety: string;
-  weapons: string;
-  time: string;
-  police: string;
-  crime_types: string;
-}
+// API Key - should be moved to environment variables in production
+const OPENAI_API_KEY = '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';
 
-// Simplified and stable AI response system
-class CrimeDataAI {
-  private data: CrimeRecord[];
-  private cityStats: CityStats[];
-
-  constructor(data: CrimeRecord[], cityStats: CityStats[]) {
-    this.data = data || [];
-    this.cityStats = cityStats || [];
-  }
-
-  async generateEnhancedResponse(userMessage: string): Promise<string> {
-    try {
-      // Simplified response generation to avoid crashes
-      return this.generateSafeResponse(userMessage);
-    } catch (error) {
-      console.error('AI response error:', error);
-      return this.getFallbackResponse(userMessage);
-    }
-  }
-
-  private generateSafeResponse(userMessage: string): string {
-    const message = userMessage.toLowerCase();
-
-    if (!this.data || this.data.length === 0) {
-      return "📊 No data available for analysis. Please load a dataset first.";
-    }
-
-    // Safe basic responses
-    if (message.includes('total') && message.includes('crime')) {
-      return `📊 **Total Crimes:** ${this.data.length.toLocaleString()} records across ${this.cityStats.length} cities`;
-    }
-
-    if (message.includes('safest') && message.includes('city')) {
-      const safest = this.cityStats[0];
-      return safest ? `🏆 **Safest City:** ${safest.city} with safety rating ${safest.safetyRating}/5` : "No city data available";
-    }
-
-    return this.getFallbackResponse(message);
-  }
-
-  private getFallbackResponse(message: string): string {
-    return `🤖 I understand you're asking about "${message}". I can help with:\n\n📊 Crime statistics\n🏙️ City safety analysis\n⏰ Time patterns\n🔍 Data insights\n\nTry asking: "What's the safest city?" or "Show total crimes"`;
-  }
-
-
-}
+// Initialize OpenAI service
+const openAIService = initializeOpenAI(OPENAI_API_KEY);
 
 // Restore ChatBotProps interface
 interface ChatBotProps {
@@ -71,7 +20,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     {
       id: '1',
       type: 'assistant',
-      content: '\u{1F916} Hello! I\'m your **Enhanced Crime Analysis AI Assistant** powered by advanced data processing!\n\n\u2728 **New Capabilities:**\n\u{1FAA0} AI-powered correlation analysis\n\u{1F52E} Predictive insights\n\u{1F4CA} Advanced comparative analysis\n\u{1F3AF} Context-aware responses\n\nI can analyze patterns, predict trends, and provide deep insights from our crime database. What would you like to explore?',
+      content: `🤖 Hello! I'm your **AI-Powered Crime Analysis Assistant** connected to OpenAI!\n\n✨ **Enhanced with GPT Technology:**\n🧠 Real-time crime data analysis\n📊 Statistical insights and patterns\n🎯 Personalized safety recommendations\n🔍 Advanced pattern recognition\n\nI can analyze our comprehensive crime database of ${(data?.length || 0).toLocaleString()} records across ${(cityStats?.length || 0)} cities. Ask me anything about crime trends, safety, or specific locations!`,
       timestamp: new Date()
     }
   ]);
@@ -79,18 +28,19 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
   const [isOpen, setIsOpen] = useState(false); // floating chat state
+  const [aiError, setAiError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Quick action suggestions
+  // Quick action suggestions powered by AI
   const quickActions = [
-    "🏆 Which city is safest?",
-    "📊 Show me crime statistics",
-    "⏰ When is it most dangerous?",
-    "🔍 Analyze weapon usage",
-    "📈 Predict crime trends",
-    "🏙️ Compare cities",
-    "💡 Give me safety tips",
-    "🎯 Correlation analysis"
+    "🏆 Which city is safest in India?",
+    "📊 Show comprehensive crime statistics",
+    "⏰ When do most crimes occur?",
+    "🔍 Analyze weapon usage patterns",
+    "🏙️ Compare safety between major cities",
+    "💡 Give me personalized safety tips",
+    "🎯 What are the crime trends?",
+    "🛡️ How can I stay safe while traveling?"
   ];
 
   const scrollToBottom = () => {
@@ -101,7 +51,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     scrollToBottom();
   }, [messages]);
 
-  const generateResponse = (userMessage: string): string => {
+  const generateLocalResponse = (userMessage: string): string => {
     const message = userMessage.toLowerCase().trim();
 
     // Handle empty or very short messages
@@ -151,7 +101,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           if (hour >= 0 && hour <= 23) {
             hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
           }
-        } catch (error) {
+        } catch (_error) {
           // Skip invalid times
         }
       });
@@ -190,7 +140,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           if (hour >= 0 && hour <= 23) {
             hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
           }
-        } catch (error) {
+        } catch (_error) {
           // Skip invalid times
         }
       });
@@ -335,15 +285,15 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
           if (hour >= 0 && hour <= 23) {
             hourMap.set(hour, (hourMap.get(hour) || 0) + 1);
           }
-        } catch (error) {
+        } catch (_error) {
           // Skip invalid times
         }
       });
 
-      const peakHour = Array.from(hourMap.entries()).reduce((max, current) =>
+      const [peakHour] = Array.from(hourMap.entries()).reduce((max, current) =>
         current[1] > max[1] ? current : max
       );
-      const safestHour = Array.from(hourMap.entries()).reduce((min, current) =>
+      const [safestHour] = Array.from(hourMap.entries()).reduce((min, current) =>
         current[1] < min[1] ? current : min
       );
 
@@ -512,35 +462,53 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     const currentInput = inputValue;
     setInputValue('');
     setIsTyping(true);
+    setAiError(null);
 
     try {
-      // Use simplified safe response system
-      const response = generateResponse(currentInput);
+      // Use OpenAI service for enhanced responses
+      const response = await openAIService.generateResponse(currentInput, data, cityStats);
 
-      setTimeout(() => {
-        const assistantMessage: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          type: 'assistant',
-          content: response,
-          timestamp: new Date()
-        };
+      const assistantMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: response,
+        timestamp: new Date()
+      };
 
-        setMessages(prev => [...prev, assistantMessage]);
-        setIsTyping(false);
-      }, 1000 + Math.random() * 1500);
+      setMessages(prev => [...prev, assistantMessage]);
+      setIsTyping(false);
     } catch (error) {
-      console.error('Response generation failed:', error);
-      setTimeout(() => {
-        const fallbackMessage: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          type: 'assistant',
-          content: "🤖 I'm having trouble processing that request. Try asking about crime statistics or city safety!",
-          timestamp: new Date()
-        };
+      console.error('OpenAI response generation failed:', error);
 
-        setMessages(prev => [...prev, fallbackMessage]);
-        setIsTyping(false);
-      }, 1000);
+      // Determine error type for better user feedback
+      let errorMessage = 'AI service temporarily unavailable';
+      if (error instanceof Error) {
+        if (error.message.includes('fetch') || error.message.includes('network')) {
+          errorMessage = 'Network connection issue';
+        } else if (error.message.includes('timeout') || error.message.includes('aborted')) {
+          errorMessage = 'Request timeout - please try again';
+        } else if (error.message.includes('API key')) {
+          errorMessage = 'API authentication issue';
+        }
+      }
+
+      setAiError(errorMessage);
+
+      // Fallback to local response generation
+      const fallbackResponse = generateLocalResponse(currentInput);
+
+      const fallbackMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: fallbackResponse + '\n\n*Note: Using offline analysis due to AI service issue.*',
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, fallbackMessage]);
+      setIsTyping(false);
+
+      // Clear error after 5 seconds
+      setTimeout(() => setAiError(null), 5000);
     }
   };
 
@@ -549,6 +517,11 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  const handleQuickAction = (action: string) => {
+    setInputValue(action);
+    setShowQuickActions(false);
   };
 
   // Floating button and chat modal
@@ -573,7 +546,13 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
             <div className="flex items-center justify-between p-4 border-b border-blue-400 bg-blue-800 rounded-t-2xl">
               <div className="flex items-center space-x-2">
                 <Bot className="w-6 h-6 text-blue-300" />
-                <span className="font-bold text-white text-lg">AI Assistant</span>
+                <div>
+                  <span className="font-bold text-white text-lg">AI Assistant</span>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <span className="text-xs text-blue-200">Powered by OpenAI</span>
+                  </div>
+                </div>
               </div>
               <button
                 className="text-blue-300 hover:text-white p-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -586,10 +565,61 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
             {/* Chat Content */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-blue-900">
               {messages.map((msg, idx) => (
-                <div key={msg.id || idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}> 
-                  <div className={`max-w-[80%] px-4 py-2 rounded-2xl shadow-md text-sm whitespace-pre-line ${msg.type === 'user' ? 'bg-blue-700 text-white' : 'bg-blue-800 text-blue-100'}`}>{msg.content}</div>
+                <div key={msg.id || idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] px-4 py-2 rounded-2xl shadow-md text-sm whitespace-pre-line ${msg.type === 'user' ? 'bg-blue-700 text-white' : 'bg-blue-800 text-blue-100'}`}>
+                    {msg.content}
+                    {msg.type === 'assistant' && idx === messages.length - 1 && !isTyping && (
+                      <div className="flex items-center mt-2 pt-2 border-t border-blue-600/30">
+                        <Bot className="w-3 h-3 text-blue-400 mr-1" />
+                        <span className="text-xs text-blue-400">Powered by OpenAI GPT</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
+
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="bg-blue-800 text-blue-100 px-4 py-2 rounded-2xl shadow-md text-sm">
+                    <div className="flex items-center space-x-2">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:0.1s]"></div>
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                      </div>
+                      <span>AI is thinking...</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {aiError && (
+                <div className="flex justify-center">
+                  <div className="bg-red-600/20 border border-red-500/30 text-red-200 px-3 py-2 rounded-lg text-xs flex items-center">
+                    <AlertCircle className="w-3 h-3 mr-1" />
+                    {aiError} - Using fallback responses
+                  </div>
+                </div>
+              )}
+
+              {/* Quick Actions */}
+              {showQuickActions && messages.length === 1 && (
+                <div className="space-y-2">
+                  <div className="text-xs text-blue-300 text-center">Quick questions to get started:</div>
+                  <div className="grid grid-cols-1 gap-2">
+                    {quickActions.slice(0, 4).map((action, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleQuickAction(action)}
+                        className="text-left bg-blue-700/50 hover:bg-blue-600/60 text-blue-100 px-3 py-2 rounded-lg text-xs transition-colors border border-blue-600/30"
+                      >
+                        {action}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div ref={messagesEndRef} />
             </div>
             {/* Input */}
