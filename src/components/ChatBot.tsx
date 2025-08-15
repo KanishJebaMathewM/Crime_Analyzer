@@ -20,7 +20,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
     {
       id: '1',
       type: 'assistant',
-      content: '🤖 Hello! I\'m your **AI-Powered Crime Analysis Assistant** connected to OpenAI!\n\n✨ **Enhanced with GPT Technology:**\n🧠 Real-time crime data analysis\n📊 Statistical insights and patterns\n🎯 Personalized safety recommendations\n🔍 Advanced pattern recognition\n\nI can analyze our comprehensive crime database of ' + (data?.length || 0).toLocaleString() + ' records across ' + (cityStats?.length || 0) + ' cities. Ask me anything about crime trends, safety, or specific locations!',
+      content: `🤖 Hello! I'm your **AI-Powered Crime Analysis Assistant** connected to OpenAI!\n\n✨ **Enhanced with GPT Technology:**\n🧠 Real-time crime data analysis\n📊 Statistical insights and patterns\n🎯 Personalized safety recommendations\n🔍 Advanced pattern recognition\n\nI can analyze our comprehensive crime database of ${(data?.length || 0).toLocaleString()} records across ${(cityStats?.length || 0)} cities. Ask me anything about crime trends, safety, or specific locations!`,
       timestamp: new Date()
     }
   ]);
