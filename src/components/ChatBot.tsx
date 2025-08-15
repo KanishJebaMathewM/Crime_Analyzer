@@ -31,16 +31,16 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
   const [aiError, setAiError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Quick action suggestions
+  // Quick action suggestions powered by AI
   const quickActions = [
-    "🏆 Which city is safest?",
-    "📊 Show me crime statistics",
-    "⏰ When is it most dangerous?",
-    "🔍 Analyze weapon usage",
-    "📈 Predict crime trends",
-    "🏙️ Compare cities",
-    "💡 Give me safety tips",
-    "🎯 Correlation analysis"
+    "🏆 Which city is safest in India?",
+    "📊 Show comprehensive crime statistics",
+    "⏰ When do most crimes occur?",
+    "🔍 Analyze weapon usage patterns",
+    "🏙️ Compare safety between major cities",
+    "💡 Give me personalized safety tips",
+    "🎯 What are the crime trends?",
+    "🛡️ How can I stay safe while traveling?"
   ];
 
   const scrollToBottom = () => {
@@ -342,7 +342,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ data, cityStats }) => {
       const topPerformer = cityClosureRates[0];
       const needsWork = cityClosureRates[cityClosureRates.length - 1];
 
-      return `🕵️‍♂️ **Police Performance Report Card:**\n\n📈 **National Average:** ${closureRate}% cases solved (${closedCases.toLocaleString()}/${totalCases.toLocaleString()})\n\n🏆 **MVP Award:** ${topPerformer.city} - ${topPerformer.rate}% closure rate! 👏\n📚 **Needs Tutoring:** ${needsWork.city} - ${needsWork.rate}% (room for improvement!)\n\n⭐ **Hall of Fame (Top 3):**\n${cityClosureRates.slice(0, 3).map((c, i) => `${i + 1}. ${c.city} - ${c.rate}% 🎯`).join('\n')}\n\n🧠 **Insight:** Good policing makes a HUGE difference! Cities with higher closure rates often see lower crime rates too.\n\n💪 **Citizen Power:** Report crimes promptly and provide details - you're part of the solution!`;
+      return `���️‍♂️ **Police Performance Report Card:**\n\n📈 **National Average:** ${closureRate}% cases solved (${closedCases.toLocaleString()}/${totalCases.toLocaleString()})\n\n🏆 **MVP Award:** ${topPerformer.city} - ${topPerformer.rate}% closure rate! 👏\n📚 **Needs Tutoring:** ${needsWork.city} - ${needsWork.rate}% (room for improvement!)\n\n⭐ **Hall of Fame (Top 3):**\n${cityClosureRates.slice(0, 3).map((c, i) => `${i + 1}. ${c.city} - ${c.rate}% 🎯`).join('\n')}\n\n🧠 **Insight:** Good policing makes a HUGE difference! Cities with higher closure rates often see lower crime rates too.\n\n💪 **Citizen Power:** Report crimes promptly and provide details - you're part of the solution!`;
     }
 
     // Enhanced safety recommendations with personality
